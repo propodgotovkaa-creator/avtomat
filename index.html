@@ -1,7 +1,1142 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Поймай игрушку</title>
+
+<style>
+
+/* =====================================================
+   ОБЩЕЕ
+===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  place-items: center;
+
+  background: #eee5df;
+
+  font-family: "Trebuchet MS", Arial, sans-serif;
+
+  user-select: none;
+}
+
+button {
+  font: inherit;
+
+  -webkit-tap-highlight-color: transparent;
+
+  touch-action: manipulation;
+}
+
+
+/* =====================================================
+   ИГРОВОЕ ПОЛЕ
+===================================================== */
+
+#viewport {
+  position: relative;
+  overflow: hidden;
+}
+
+#game {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 1920px;
+  height: 1080px;
+
+  overflow: hidden;
+
+  transform-origin: top left;
+
+  background:
+    url("fon.png")
+    center / cover
+    no-repeat;
+}
+
+
+/* =====================================================
+   ЗАДАНИЕ
+===================================================== */
+
+.task {
+  position: absolute;
+
+  left: 115px;
+  top: 145px;
+
+  width: 520px;
+
+  padding: 30px 35px;
+
+  border-radius: 34px;
+
+  background:
+    rgba(255,255,255,.93);
+
+  box-shadow:
+    0 15px 40px
+    rgba(77,67,72,.13);
+
+  text-align: center;
+
+  color: #40506a;
+
+  z-index: 20;
+}
+
+.task-small {
+  font-size: 24px;
+  font-weight: 800;
+
+  opacity: .72;
+}
+
+.task-main {
+  margin-top: 8px;
+
+  font-size: 42px;
+  line-height: 1.08;
+
+  font-weight: 900;
+}
+
+.task-main b {
+  color: #ed5573;
+}
+
+
+/* =====================================================
+   РАУНД
+===================================================== */
+
+.progress {
+  position: absolute;
+
+  left: 165px;
+  top: 390px;
+
+  width: 420px;
+
+  padding: 20px;
+
+  border-radius: 28px;
+
+  background:
+    rgba(255,255,255,.91);
+
+  box-shadow:
+    0 12px 30px
+    rgba(77,67,72,.10);
+
+  text-align: center;
+
+  color: #4c5870;
+
+  font-size: 27px;
+  font-weight: 900;
+
+  z-index: 20;
+}
+
+
+/* =====================================================
+   АВТОМАТ
+===================================================== */
+
+#machine {
+  position: absolute;
+
+  left: 780px;
+  top: 25px;
+
+  width: 735px;
+  height: 1030px;
+
+  z-index: 10;
+}
+
+
+/* =====================================================
+   ВНУТРЕННЯЯ КАМЕРА
+===================================================== */
+
+#machineInside {
+  position: absolute;
+
+  left: 84px;
+  top: 195px;
+
+  width: 567px;
+  height: 570px;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  background:
+
+    radial-gradient(
+      ellipse at 50% 12%,
+      rgba(255,249,211,.95) 0%,
+      rgba(255,255,255,0) 37%
+    ),
+
+    linear-gradient(
+      180deg,
+      #e9fbf8 0%,
+      #f7fffd 42%,
+      #fffdf7 78%,
+      #fff4ea 100%
+    );
+
+  box-shadow:
+
+    inset 0 18px 35px
+    rgba(93,194,188,.10),
+
+    inset 0 -20px 35px
+    rgba(245,170,181,.08);
+
+  z-index: 1;
+}
+
+
+/* =====================================================
+   СВЕТ ВНУТРИ
+===================================================== */
+
+.inside-light {
+  position: absolute;
+
+  left: 55px;
+  top: 18px;
+
+  width: 457px;
+  height: 12px;
+
+  border-radius: 20px;
+
+  background: #fff7ca;
+
+  box-shadow:
+
+    0 0 10px
+    rgba(255,239,150,.75),
+
+    0 0 25px
+    rgba(255,239,150,.45);
+
+  z-index: 2;
+}
+
+
+/* =====================================================
+   ПОЛ
+===================================================== */
+
+.inside-floor {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 92px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf5 0%,
+      #fff3e9 100%
+    );
+
+  border-top:
+    4px solid
+    rgba(239,170,183,.55);
+
+  box-shadow:
+    inset 0 14px 18px
+    rgba(255,255,255,.85);
+
+  z-index: 3;
+}
+
+
+/* =====================================================
+   РЕЛЬС
+===================================================== */
+
+#rail {
+  position: absolute;
+
+  left: 42px;
+  top: 45px;
+
+  width: 483px;
+  height: 14px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #dce4e6 24%,
+      #8d989d 55%,
+      #687277 76%,
+      #dce3e5 100%
+    );
+
+  border:
+    2px solid
+    rgba(88,98,103,.45);
+
+  box-shadow:
+
+    0 4px 6px
+    rgba(0,0,0,.14),
+
+    inset 0 2px 2px
+    rgba(255,255,255,.9);
+
+  z-index: 10;
+}
+
+
+/* =====================================================
+   ВСЯ СИСТЕМА КЛЕШНИ
+===================================================== */
+
+#clawSystem {
+  position: absolute;
+
+  left: 195px;
+  top: 17px;
+
+  width: 190px;
+  height: 535px;
+
+  z-index: 30;
+
+  transition:
+    left .70s
+    cubic-bezier(.4,0,.2,1);
+}
+
+
+/* =====================================================
+   КАРЕТКА
+===================================================== */
+
+#clawCart {
+  position: absolute;
+
+  left: 34px;
+  top: 0;
+
+  width: 122px;
+  height: 83px;
+
+  object-fit: contain;
+
+  z-index: 35;
+
+  pointer-events: none;
+}
+
+
+/* =====================================================
+   ТРОС
+===================================================== */
+
+#cable {
+  position: absolute;
+
+  left: 92px;
+  top: 62px;
+
+  width: 6px;
+  height: 78px;
+
+  border-radius: 5px;
+
+  background:
+    repeating-linear-gradient(
+      135deg,
+
+      #f7f7f7 0px,
+      #f7f7f7 3px,
+
+      #879196 3px,
+      #879196 6px
+    );
+
+  box-shadow:
+    1px 0 2px
+    rgba(0,0,0,.18);
+
+  z-index: 20;
+
+  transition:
+    height .80s
+    cubic-bezier(.45,0,.25,1);
+}
+
+
+/* =====================================================
+   САМА КЛЕШНЯ
+===================================================== */
+
+#claw {
+  position: absolute;
+
+  left: 18px;
+  top: 132px;
+
+  width: 154px;
+  height: 180px;
+
+  z-index: 40;
+
+  transition:
+    top .80s
+    cubic-bezier(.45,0,.25,1);
+}
+
+
+/* =====================================================
+   ЦЕНТРАЛЬНЫЙ КОРПУС
+
+   Опущен ближе к шарнирам лапок.
+===================================================== */
+
+#clawBody {
+  position: absolute;
+
+  left: 50px;
+  top: 10px;
+
+  width: 54px;
+  height: 75px;
+
+  object-fit: contain;
+
+  z-index: 46;
+
+  pointer-events: none;
+}
+
+
+/* =====================================================
+   ЛЕВАЯ ЛАПКА
+===================================================== */
+
+#clawLeft {
+  position: absolute;
+
+  left: 10px;
+  top: 45px;
+
+  width: 82px;
+  height: 132px;
+
+  object-fit: contain;
+
+  transform-origin:
+    66px 16px;
+
+  /*
+     Исходное положение:
+     слегка собрана.
+  */
+
+  transform:
+    rotate(18deg);
+
+  transition:
+    transform .40s
+    cubic-bezier(.4,0,.2,1);
+
+  z-index: 44;
+
+  pointer-events: none;
+}
+
+
+/* =====================================================
+   ПРАВАЯ ЛАПКА
+===================================================== */
+
+#clawRight {
+  position: absolute;
+
+  right: 10px;
+  top: 45px;
+
+  width: 82px;
+  height: 132px;
+
+  object-fit: contain;
+
+  transform-origin:
+    16px 16px;
+
+  transform:
+    rotate(-18deg);
+
+  transition:
+    transform .40s
+    cubic-bezier(.4,0,.2,1);
+
+  z-index: 44;
+
+  pointer-events: none;
+}
+
+
+/* =====================================================
+   ОТКРЫТАЯ КЛЕШНЯ
+===================================================== */
+
+#claw.open #clawLeft {
+  transform:
+    rotate(-16deg);
+}
+
+#claw.open #clawRight {
+  transform:
+    rotate(16deg);
+}
+
+
+/* =====================================================
+   ЗАКРЫТАЯ КЛЕШНЯ
+===================================================== */
+
+#claw.closed #clawLeft {
+  transform:
+    rotate(31deg);
+}
+
+#claw.closed #clawRight {
+  transform:
+    rotate(-31deg);
+}
+
+
+/* =====================================================
+   ИГРУШКИ
+
+   Все три стоят под безопасными
+   позициями клешни.
+===================================================== */
+
+.toy {
+  position: absolute;
+
+  bottom: 54px;
+
+  width: 110px;
+  height: 130px;
+
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: center;
+
+  font-size: 88px;
+
+  z-index: 15;
+
+  transform-origin:
+    center center;
+
+  transition:
+
+    left .70s
+    cubic-bezier(.4,0,.2,1),
+
+    top .80s
+    cubic-bezier(.45,0,.25,1),
+
+    bottom .60s ease,
+
+    opacity .25s ease,
+
+    transform .30s ease;
+}
+
+
+/* ЛЕВАЯ */
+
+#toy0 {
+  left: 86px;
+}
+
+
+/* ЦЕНТР */
+
+#toy1 {
+  left: 228px;
+}
+
+
+/* ПРАВАЯ */
+
+#toy2 {
+  left: 370px;
+}
+
+
+/* =====================================================
+   ТЕНЬ ИГРУШКИ
+===================================================== */
+
+.toy::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: -7px;
+
+  width: 78px;
+  height: 16px;
+
+  transform:
+    translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    rgba(62,58,70,.13);
+
+  filter:
+    blur(5px);
+
+  z-index: -1;
+}
+
+
+/* =====================================================
+   ИГРУШКА В КЛЕШНЕ
+===================================================== */
+
+.toy.caught {
+  z-index: 38;
+}
+
+.toy.caught::after {
+  opacity: 0;
+}
+
+
+/* =====================================================
+   НЕПРАВИЛЬНАЯ ИГРУШКА ПАДАЕТ
+===================================================== */
+
+.toy.drop-wobble {
+  animation:
+    toyWobble .60s ease;
+}
+
+@keyframes toyWobble {
+
+  0% {
+    transform:
+      translateY(-15px)
+      rotate(0deg);
+  }
+
+  35% {
+    transform:
+      translateY(4px)
+      rotate(-7deg);
+  }
+
+  65% {
+    transform:
+      translateY(-4px)
+      rotate(5deg);
+  }
+
+  100% {
+    transform:
+      translateY(0)
+      rotate(0deg);
+  }
+}
+
+
+/* =====================================================
+   СТЕКЛО
+===================================================== */
+
+#glass {
+  position: absolute;
+
+  left: 84px;
+  top: 195px;
+
+  width: 567px;
+  height: 570px;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  z-index: 80;
+}
+
+#glass::before {
+  content: "";
+
+  position: absolute;
+
+  left: 45px;
+  top: -100px;
+
+  width: 70px;
+  height: 800px;
+
+  transform:
+    rotate(18deg);
+
+  background:
+    linear-gradient(
+      90deg,
+
+      transparent,
+
+      rgba(255,255,255,.22),
+
+      transparent
+    );
+}
+
+#glass::after {
+  content: "";
+
+  position: absolute;
+
+  right: 75px;
+  top: -100px;
+
+  width: 35px;
+  height: 800px;
+
+  transform:
+    rotate(18deg);
+
+  background:
+    linear-gradient(
+      90deg,
+
+      transparent,
+
+      rgba(255,255,255,.12),
+
+      transparent
+    );
+}
+
+
+/* =====================================================
+   ПЕРЕДНИЙ КОРПУС
+===================================================== */
+
+#machineFront {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  pointer-events: none;
+
+  z-index: 100;
+}
+
+
+/* =====================================================
+   КЛИКАБЕЛЬНЫЕ ЗОНЫ
+===================================================== */
+
+.control {
+  position: absolute;
+
+  z-index: 150;
+
+  border: 0;
+
+  padding: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+}
+
+
+/* ВЛЕВО */
+
+#leftButton {
+  left: 105px;
+  top: 826px;
+
+  width: 112px;
+  height: 100px;
+
+  border-radius: 50%;
+}
+
+
+/* ВПРАВО */
+
+#rightButton {
+  left: 225px;
+  top: 826px;
+
+  width: 112px;
+  height: 100px;
+
+  border-radius: 50%;
+}
+
+
+/* КРАСНАЯ */
+
+#grabButton {
+  left: 400px;
+  top: 810px;
+
+  width: 128px;
+  height: 128px;
+
+  border-radius: 50%;
+}
+
+
+/* =====================================================
+   НАЖАТИЕ КНОПКИ
+===================================================== */
+
+.control::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 5px;
+
+  border-radius: inherit;
+
+  transition:
+    background .1s,
+    transform .1s;
+}
+
+.control:active::after {
+  background:
+    rgba(0,0,0,.09);
+
+  transform:
+    scale(.88);
+}
+
+
+/* =====================================================
+   ИГРУШКА В ОКНЕ ПРИЗА
+===================================================== */
+
+#prizeToy {
+  position: absolute;
+
+  left: 493px;
+  top: 855px;
+
+  width: 95px;
+  height: 95px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 70px;
+
+  opacity: 0;
+
+  transform:
+    translateY(-30px)
+    scale(.6);
+
+  transition:
+
+    opacity .30s ease,
+
+    transform .55s
+    cubic-bezier(.2,.9,.3,1.25);
+
+  z-index: 125;
+
+  pointer-events: none;
+}
+
+#prizeToy.show {
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div id="viewport">
+
+<div id="game">
+
+
+  <!-- =================================================
+       ЗАДАНИЕ
+  ================================================== -->
+
+  <div class="task">
+
+    <div class="task-small">
+      Поймай нужную игрушку
+    </div>
+
+    <div class="task-main">
+      Найди звук <b>С</b><br>
+      В СЕРЕДИНЕ слова
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       РАУНД
+  ================================================== -->
+
+  <div class="progress">
+    🧸 Раунд 1 из 10
+  </div>
+
+
+  <!-- =================================================
+       АВТОМАТ
+  ================================================== -->
+
+  <div id="machine">
+
+
+    <!-- ===============================================
+         ВНУТРЕННЯЯ КАМЕРА
+    ================================================ -->
+
+    <div id="machineInside">
+
+
+      <!-- СВЕТ -->
+
+      <div class="inside-light"></div>
+
+
+      <!-- ПОЛ -->
+
+      <div class="inside-floor"></div>
+
+
+      <!-- РЕЛЬС -->
+
+      <div id="rail"></div>
+
+
+      <!-- =============================================
+           КЛЕШНЯ
+      ============================================== -->
+
+      <div id="clawSystem">
+
+
+        <!-- КАРЕТКА -->
+
+        <img
+          id="clawCart"
+          src="claw-cart.png"
+          alt=""
+          draggable="false"
+        >
+
+
+        <!-- ТРОС -->
+
+        <div id="cable"></div>
+
+
+        <!-- КЛЕШНЯ -->
+
+        <div id="claw">
+
+
+          <img
+            id="clawBody"
+            src="claw-body.png"
+            alt=""
+            draggable="false"
+          >
+
+
+          <img
+            id="clawLeft"
+            src="claw-left.png"
+            alt=""
+            draggable="false"
+          >
+
+
+          <img
+            id="clawRight"
+            src="claw-right.png"
+            alt=""
+            draggable="false"
+          >
+
+
+        </div>
+
+      </div>
+
+
+      <!-- =============================================
+           ИГРУШКИ
+
+           ПОКА:
+           СОВА = НЕПРАВИЛЬНО
+           ЛИСА = ПРАВИЛЬНО
+           АНАНАС = НЕПРАВИЛЬНО
+      ============================================== -->
+
+      <div
+        class="toy"
+        id="toy0"
+        data-correct="false"
+      >
+        🦉
+      </div>
+
+
+      <div
+        class="toy"
+        id="toy1"
+        data-correct="true"
+      >
+        🦊
+      </div>
+
+
+      <div
+        class="toy"
+        id="toy2"
+        data-correct="false"
+      >
+        🍍
+      </div>
+
+
+    </div>
+
+
+    <!-- ===============================================
+         БЛИКИ СТЕКЛА
+    ================================================ -->
+
+    <div id="glass"></div>
+
+
+    <!-- ===============================================
+         ПЕРЕДНЯЯ РАМА
+    ================================================ -->
+
+    <img
+      id="machineFront"
+      src="machine-front.png"
+      alt=""
+      draggable="false"
+    >
+
+
+    <!-- ===============================================
+         ИГРУШКА В ПРИЗОВОМ ОКНЕ
+    ================================================ -->
+
+    <div id="prizeToy"></div>
+
+
+    <!-- ===============================================
+         НЕВИДИМЫЕ КНОПКИ
+    ================================================ -->
+
+    <button
+      id="leftButton"
+      class="control"
+      aria-label="Влево"
+    ></button>
+
+
+    <button
+      id="rightButton"
+      class="control"
+      aria-label="Вправо"
+    ></button>
+
+
+    <button
+      id="grabButton"
+      class="control"
+      aria-label="Поймать"
+    ></button>
+
+
+  </div>
+
+</div>
+
+</div>
+
+
 <script>
 
 /* =====================================================
-   МАСШТАБ
+   МАСШТАБ 1920 × 1080
 ===================================================== */
 
 const GAME_WIDTH = 1920;
@@ -12,6 +1147,7 @@ const viewport =
 
 const game =
   document.getElementById("game");
+
 
 function resizeGame() {
 
@@ -31,10 +1167,12 @@ function resizeGame() {
     `scale(${scale})`;
 }
 
+
 window.addEventListener(
   "resize",
   resizeGame
 );
+
 
 resizeGame();
 
@@ -64,15 +1202,20 @@ const grabButton =
 const prizeToy =
   document.getElementById("prizeToy");
 
+
 const toys = [
+
   document.getElementById("toy0"),
+
   document.getElementById("toy1"),
+
   document.getElementById("toy2")
+
 ];
 
 
 /* =====================================================
-   ТРИ ПОЗИЦИИ ИГРУШЕК
+   ТРИ БЕЗОПАСНЫЕ ПОЗИЦИИ
 ===================================================== */
 
 const SLOT_X = [
@@ -81,38 +1224,43 @@ const SLOT_X = [
   337
 ];
 
+
 const TOY_X = [
   86,
   228,
   370
 ];
 
+
 let currentSlot = 1;
+
 let busy = false;
 
 
 /* =====================================================
-   ПОЛОЖЕНИЯ КЛЕШНИ
+   КООРДИНАТЫ
 ===================================================== */
 
-/* наверху */
+/* НАВЕРХУ */
 
 const CLAW_HOME_TOP = 132;
+
 const CABLE_HOME = 78;
 
 
-/* у игрушки */
+/* У ИГРУШКИ */
 
 const CLAW_GRAB_TOP = 350;
+
 const CABLE_GRAB = 296;
 
 
 /*
-   Позиция сброса справа.
+   ПРАВАЯ ПОЗИЦИЯ СБРОСА.
 
-   Важно:
-   клешня всё равно остаётся
-   ВНУТРИ витрины.
+   Она остаётся внутри витрины,
+   поэтому клешня не вылезает
+   через правую стенку.
 */
 
 const DROP_X = 337;
@@ -132,7 +1280,7 @@ function wait(ms) {
 
 
 /* =====================================================
-   ПЕРЕДВИЖЕНИЕ ПО РЕЛЬСУ
+   ОБНОВИТЬ ГОРИЗОНТАЛЬНУЮ ПОЗИЦИЮ
 ===================================================== */
 
 function updateClawPosition() {
@@ -141,11 +1289,12 @@ function updateClawPosition() {
     SLOT_X[currentSlot] + "px";
 }
 
+
 updateClawPosition();
 
 
 /* =====================================================
-   ВЛЕВО
+   СТРЕЛКА ВЛЕВО
 ===================================================== */
 
 leftButton.addEventListener(
@@ -154,18 +1303,20 @@ leftButton.addEventListener(
 
     if (busy) return;
 
+
     if (currentSlot > 0) {
 
       currentSlot--;
 
       updateClawPosition();
     }
+
   }
 );
 
 
 /* =====================================================
-   ВПРАВО
+   СТРЕЛКА ВПРАВО
 ===================================================== */
 
 rightButton.addEventListener(
@@ -174,12 +1325,14 @@ rightButton.addEventListener(
 
     if (busy) return;
 
+
     if (currentSlot < 2) {
 
       currentSlot++;
 
       updateClawPosition();
     }
+
   }
 );
 
@@ -190,9 +1343,13 @@ rightButton.addEventListener(
 
 async function openClaw() {
 
-  claw.classList.remove("closed");
+  claw.classList.remove(
+    "closed"
+  );
 
-  claw.classList.add("open");
+  claw.classList.add(
+    "open"
+  );
 
   await wait(450);
 }
@@ -204,16 +1361,26 @@ async function openClaw() {
 
 async function closeClaw() {
 
-  claw.classList.remove("open");
+  claw.classList.remove(
+    "open"
+  );
 
-  claw.classList.add("closed");
+  claw.classList.add(
+    "closed"
+  );
 
   await wait(450);
 }
 
 
 /* =====================================================
-   ОПУСТИТЬ
+   ОПУСТИТЬ КЛЕШНЮ
+
+   Она опускается В ТОМ СОСТОЯНИИ,
+   в котором находится.
+
+   Поэтому после openClaw()
+   вниз идёт именно ОТКРЫТАЯ клешня.
 ===================================================== */
 
 async function lowerClaw() {
@@ -229,7 +1396,7 @@ async function lowerClaw() {
 
 
 /* =====================================================
-   ПОДНЯТЬ
+   ПОДНЯТЬ КЛЕШНЮ
 ===================================================== */
 
 async function raiseClaw() {
@@ -245,57 +1412,74 @@ async function raiseClaw() {
 
 
 /* =====================================================
-   ПРИКРЕПЛЯЕМ ИГРУШКУ К ЗАХВАТУ
+   ПРИКРЕПИТЬ ИГРУШКУ К КЛЕШНЕ
 ===================================================== */
 
 function attachToy(toy) {
 
-  toy.classList.add("caught");
+  toy.classList.add(
+    "caught"
+  );
 
-  toy.style.bottom = "auto";
+
+  toy.style.bottom =
+    "auto";
+
 
   /*
-    Центрируем игрушку непосредственно
-    под клешнёй.
+    Ставим игрушку непосредственно
+    между лапками.
   */
 
   toy.style.left =
-    (SLOT_X[currentSlot] + 40) + "px";
+    (SLOT_X[currentSlot] + 40) +
+    "px";
+
 
   toy.style.top =
-    (CLAW_GRAB_TOP + 80) + "px";
+    (CLAW_GRAB_TOP + 78) +
+    "px";
 }
 
 
 /* =====================================================
-   ИГРУШКА ПОДНИМАЕТСЯ
+   ПОДНЯТЬ ИГРУШКУ ВМЕСТЕ С КЛЕШНЕЙ
 ===================================================== */
 
 function liftToy(toy) {
 
   toy.style.top =
-    (CLAW_HOME_TOP + 80) + "px";
+    (CLAW_HOME_TOP + 78) +
+    "px";
 }
 
 
 /* =====================================================
-   КЛЕШНЯ + ИГРУШКА ЕДУТ ВПРАВО
+   ПЕРЕМЕЩЕНИЕ С ИГРУШКОЙ ВПРАВО
 ===================================================== */
 
 async function moveCaughtToyRight(toy) {
 
+  /*
+    Клешня и игрушка получают
+    одинаковое горизонтальное смещение.
+  */
+
   clawSystem.style.left =
     DROP_X + "px";
 
+
   toy.style.left =
-    (DROP_X + 40) + "px";
+    (DROP_X + 40) +
+    "px";
+
 
   await wait(850);
 }
 
 
 /* =====================================================
-   ОПУСКАЕМСЯ В ПРАВОЙ ЧАСТИ
+   ОПУСТИТЬСЯ У ЗОНЫ СБРОСА
 ===================================================== */
 
 async function lowerAtPrize(toy) {
@@ -303,81 +1487,91 @@ async function lowerAtPrize(toy) {
   cable.style.height =
     "245px";
 
+
   claw.style.top =
     "299px";
 
+
   toy.style.top =
-    "379px";
+    "377px";
+
 
   await wait(750);
 }
 
 
 /* =====================================================
-   ПАДЕНИЕ ИГРУШКИ В ПРИЗ
+   ОТПУСТИТЬ ПРАВИЛЬНУЮ ИГРУШКУ
 ===================================================== */
 
-async function dropToyIntoPrize(toy) {
+async function releaseCorrectToy(toy) {
 
   /*
-    ВАЖНО:
-
-    Сначала раскрываются лапки.
+    СНАЧАЛА лапки раскрываются.
   */
 
   await openClaw();
 
 
   /*
-    Только ПОСЛЕ раскрытия
-    игрушка начинает падать.
+    И только ПОСЛЕ раскрытия
+    игрушка падает.
   */
 
-  toy.style.top = "535px";
+  toy.style.top =
+    "525px";
+
 
   await wait(450);
 
-  toy.style.opacity = "0";
+
+  toy.style.opacity =
+    "0";
+
 
   await wait(250);
 
 
-  /*
-    Убираем из витрины.
-  */
-
-  toy.style.display = "none";
+  toy.style.display =
+    "none";
 
 
   /*
-    Показываем ту же игрушку
+    Та же игрушка появляется
     в окне ПРИЗ.
   */
 
   prizeToy.textContent =
     toy.textContent.trim();
 
-  prizeToy.classList.add("show");
 
-  await wait(700);
+  prizeToy.classList.add(
+    "show"
+  );
+
+
+  await wait(650);
 }
 
 
 /* =====================================================
-   ПРАВИЛЬНЫЙ ЦИКЛ
+   ПРАВИЛЬНЫЙ ОТВЕТ
 ===================================================== */
 
 async function correctCycle(toy) {
 
   /*
-    В ЭТОТ МОМЕНТ КЛЕШНЯ УЖЕ:
+    Мы попадаем сюда ПОСЛЕ:
 
-    - раскрылась
-    - спустилась
-    - закрылась
-
-    Теперь игрушка считается захваченной.
+    1. клешня открылась
+    2. открытой спустилась
+    3. закрылась на игрушке
   */
+
+
+  /* =============================================
+     ПРИКРЕПЛЯЕМ ИГРУШКУ
+  ============================================== */
 
   attachToy(toy);
 
@@ -385,50 +1579,57 @@ async function correctCycle(toy) {
 
 
   /* =============================================
-     ПОДНИМАЕМ ИГРУШКУ
+     ПОДНИМАЕМ
+
+     КЛЕШНЯ ОСТАЁТСЯ ЗАКРЫТОЙ.
   ============================================== */
 
   cable.style.height =
     CABLE_HOME + "px";
 
+
   claw.style.top =
     CLAW_HOME_TOP + "px";
 
+
   liftToy(toy);
+
 
   await wait(900);
 
 
   /* =============================================
-     НЕСЁМ ВПРАВО
+     ВЕЗЁМ ИГРУШКУ ВПРАВО
   ============================================== */
 
   await moveCaughtToyRight(toy);
 
 
   /* =============================================
-     ОПУСКАЕМСЯ У СБРОСА
+     ОПУСКАЕМ У СБРОСА
   ============================================== */
 
   await lowerAtPrize(toy);
 
 
   /* =============================================
-     РАСКРЫВАЕМ И ОТПУСКАЕМ
+     ОТКРЫВАЕМ И ОТПУСКАЕМ
   ============================================== */
 
-  await dropToyIntoPrize(toy);
+  await releaseCorrectToy(toy);
 
 
   /* =============================================
-     ПУСТАЯ КЛЕШНЯ ПОДНИМАЕТСЯ
+     ПУСТАЯ ОТКРЫТАЯ КЛЕШНЯ
+     ПОДНИМАЕТСЯ
   ============================================== */
 
   await raiseClaw();
 
 
   /* =============================================
-     ЛАПКИ В НЕЙТРАЛЬ
+     ВОЗВРАЩАЕМ ЛАПКИ
+     В НЕЙТРАЛЬ
   ============================================== */
 
   claw.classList.remove(
@@ -436,16 +1637,19 @@ async function correctCycle(toy) {
     "closed"
   );
 
+
   await wait(250);
 
 
   /* =============================================
-     ВОЗВРАЩАЕМСЯ В ЦЕНТР
+     ВОЗВРАЩАЕМ КАРЕТКУ В ЦЕНТР
   ============================================== */
 
   currentSlot = 1;
 
+
   updateClawPosition();
+
 
   await wait(750);
 }
@@ -462,35 +1666,39 @@ async function wrongCycle(toy) {
 
 
   /*
-    Даже неправильную игрушку
-    клешня действительно хватает.
+    Игрушка действительно
+    оказывается между лапками.
   */
 
   attachToy(toy);
+
 
   await wait(150);
 
 
   /* =============================================
-     НАЧИНАЕМ ПОДНИМАТЬ
+     КЛЕШНЯ НАЧИНАЕТ ЕЁ ПОДНИМАТЬ
   ============================================== */
 
   cable.style.height =
     "205px";
 
+
   claw.style.top =
     "260px";
 
+
   toy.style.top =
-    "340px";
+    "338px";
+
 
   await wait(600);
 
 
   /* =============================================
-     КЛЕШНЯ РАСКРЫВАЕТСЯ
+     ИГРУШКА ВЫСКАЛЬЗЫВАЕТ
 
-     Игрушка выскальзывает.
+     Поэтому лапки открываются.
   ============================================== */
 
   await openClaw();
@@ -503,30 +1711,39 @@ async function wrongCycle(toy) {
   toy.style.top =
     "425px";
 
+
   await wait(300);
 
 
-  /*
-    Возвращаем игрушку
-    на исходное место.
-  */
+  /* =============================================
+     ВОЗВРАЩАЕМ ЕЁ НА ПОЛ
+  ============================================== */
 
-  toy.classList.remove("caught");
+  toy.classList.remove(
+    "caught"
+  );
 
-  toy.style.top = "";
+
+  toy.style.top =
+    "";
+
 
   toy.style.bottom =
     "54px";
 
+
   toy.style.left =
-    TOY_X[originalSlot] + "px";
+    TOY_X[originalSlot] +
+    "px";
 
 
   toy.classList.add(
     "drop-wobble"
   );
 
+
   await wait(600);
+
 
   toy.classList.remove(
     "drop-wobble"
@@ -541,13 +1758,14 @@ async function wrongCycle(toy) {
 
 
   /* =============================================
-     В НЕЙТРАЛЬ
+     ВОЗВРАЩАЕМ В НЕЙТРАЛЬ
   ============================================== */
 
   claw.classList.remove(
     "open",
     "closed"
   );
+
 
   await wait(250);
 }
@@ -556,12 +1774,16 @@ async function wrongCycle(toy) {
 /* =====================================================
    КРАСНАЯ КНОПКА
 
-   ВОТ ЗДЕСЬ ГЛАВНАЯ МЕХАНИКА.
+   ВАЖНО:
+
+   ОДНО НАЖАТИЕ ЗАПУСКАЕТ
+   ВЕСЬ ЦИКЛ.
 ===================================================== */
 
 grabButton.addEventListener(
   "click",
   async () => {
+
 
     if (busy) return;
 
@@ -570,9 +1792,12 @@ grabButton.addEventListener(
       toys[currentSlot];
 
 
+    if (!toy) return;
+
+
     if (
-      !toy ||
-      toy.style.display === "none"
+      toy.style.display ===
+      "none"
     ) {
       return;
     }
@@ -582,44 +1807,48 @@ grabButton.addEventListener(
 
 
     /* =============================================
-       ШАГ 1
+       1.
 
        НАЖАЛИ КРАСНУЮ КНОПКУ.
 
-       КЛЕШНЯ СНАЧАЛА ОТКРЫВАЕТСЯ.
+       КЛЕШНЯ ОТКРЫВАЕТСЯ.
     ============================================== */
 
     await openClaw();
 
 
     /* =============================================
-       ШАГ 2
+       2.
 
        ОТКРЫТАЯ КЛЕШНЯ
        СПУСКАЕТСЯ К ИГРУШКЕ.
+
+       ЛАПКИ ЗДЕСЬ НЕ ЗАКРЫВАЮТСЯ.
     ============================================== */
 
     await lowerClaw();
 
 
     /* =============================================
-       ШАГ 3
+       3.
 
-       ТОЛЬКО У ИГРУШКИ
-       КЛЕШНЯ ЗАКРЫВАЕТСЯ.
+       КЛЕШНЯ ДОШЛА ДО ИГРУШКИ.
+
+       ТОЛЬКО ТЕПЕРЬ ЗАКРЫВАЕМ.
     ============================================== */
 
     await closeClaw();
 
 
     /* =============================================
-       ШАГ 4
+       4.
 
-       ТЕПЕРЬ ОНА ЕЁ СХВАТИЛА.
+       ТЕПЕРЬ ИГРУШКА СХВАЧЕНА.
     ============================================== */
 
     const correct =
-      toy.dataset.correct === "true";
+      toy.dataset.correct ===
+      "true";
 
 
     if (correct) {
@@ -629,39 +1858,64 @@ grabButton.addEventListener(
     } else {
 
       await wrongCycle(toy);
+
     }
 
 
     busy = false;
+
   }
 );
 
 
 /* =====================================================
    КЛАВИАТУРА
+
+   ← →
+   SPACE = красная кнопка
 ===================================================== */
 
 document.addEventListener(
   "keydown",
   event => {
 
-    if (event.key === "ArrowLeft") {
+
+    if (
+      event.key ===
+      "ArrowLeft"
+    ) {
 
       leftButton.click();
+
     }
 
-    if (event.key === "ArrowRight") {
+
+    if (
+      event.key ===
+      "ArrowRight"
+    ) {
 
       rightButton.click();
+
     }
 
-    if (event.code === "Space") {
+
+    if (
+      event.code ===
+      "Space"
+    ) {
 
       event.preventDefault();
 
       grabButton.click();
+
     }
+
   }
 );
 
 </script>
+
+</body>
+
+</html>
