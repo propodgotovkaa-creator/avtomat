@@ -1,52 +1,1266 @@
-<!-- 🎮 Витрина карточек игр -->
-<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
+<!DOCTYPE html>
+<html lang="ru">
 
-  <!-- 🔹 Игра 1 -->
-  <div onclick="openGame('games/DifSSH/genially6aa6b4/index.html')" style="flex: 1 1 22%; max-width: 260px; min-width: 200px; cursor: pointer; background: #fff; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)'">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <img src="https://logolend.online/games/DifSSH/genially6aa6b4/01.png" alt="Игра 1" style="width: 100%; height: auto;">
-    <div style="padding: 12px;">
-      <h3 style="margin: 0 0 10px; font-size: 18px; text-align: center;">Рыбалка</h3>
-      <p style="font-size: 13px; color: #555;">.</p>
-      <div style="margin-top: 12px; text-align: center;">
-        <div style="display: inline-block; background: #FFD600; color: black; padding: 8px 16px; border-radius: 8px; font-size: 16px;">Играть</div>
+<title>Поймай игрушку</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  background: #36205c;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  user-select: none;
+}
+
+/* =====================================================
+   VIEWPORT
+===================================================== */
+
+#viewport {
+  position: relative;
+  overflow: hidden;
+}
+
+#game {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 1920px;
+  height: 1080px;
+
+  transform-origin: top left;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 50% 20%, #8de8ff 0%, #57c9ed 40%, #349acb 100%);
+}
+
+/* =====================================================
+   ЗАГОЛОВОК
+===================================================== */
+
+.title {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  width: 100%;
+
+  text-align: center;
+
+  font-size: 55px;
+  font-weight: 900;
+
+  color: white;
+
+  text-shadow:
+    0 4px 0 #315a9a,
+    0 7px 12px rgba(0,0,0,.25);
+}
+
+.task {
+  position: absolute;
+  top: 105px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: 18px 45px;
+
+  background: white;
+  border-radius: 30px;
+
+  font-size: 31px;
+  font-weight: 800;
+
+  color: #315a9a;
+
+  box-shadow: 0 8px 0 rgba(49,90,154,.25);
+
+  white-space: nowrap;
+}
+
+/* =====================================================
+   АВТОМАТ
+===================================================== */
+
+.machine {
+  position: absolute;
+
+  left: 280px;
+  top: 180px;
+
+  width: 1360px;
+  height: 850px;
+
+  border-radius: 55px 55px 25px 25px;
+
+  background: #ffcf43;
+
+  border: 18px solid #f59c26;
+
+  box-shadow:
+    0 20px 0 #c76b23,
+    0 35px 45px rgba(0,0,0,.25);
+}
+
+/* =====================================================
+   СТЕКЛО
+===================================================== */
+
+.glass {
+  position: absolute;
+
+  left: 55px;
+  top: 55px;
+
+  width: 1250px;
+  height: 520px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  border: 13px solid #ef8f28;
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255,255,255,.42) 0%,
+      rgba(255,255,255,.08) 22%,
+      rgba(255,255,255,.18) 23%,
+      rgba(255,255,255,.03) 50%
+    ),
+    #d9f6ff;
+
+  box-shadow:
+    inset 0 0 30px rgba(46,111,154,.25);
+}
+
+/* =====================================================
+   РЕЛЬС
+===================================================== */
+
+.rail {
+  position: absolute;
+
+  left: 75px;
+  right: 75px;
+  top: 34px;
+
+  height: 20px;
+
+  border-radius: 20px;
+
+  background: #596875;
+
+  box-shadow: inset 0 -5px 0 rgba(0,0,0,.25);
+}
+
+/* =====================================================
+   КЛЕШНЯ
+===================================================== */
+
+#clawAssembly {
+  position: absolute;
+
+  left: 530px;
+  top: 38px;
+
+  width: 130px;
+  height: 360px;
+
+  z-index: 20;
+
+  transition: left .16s linear;
+}
+
+.claw-cart {
+  position: absolute;
+
+  top: -10px;
+  left: 30px;
+
+  width: 70px;
+  height: 48px;
+
+  border-radius: 13px;
+
+  background: #687785;
+
+  border: 6px solid #46535e;
+}
+
+#cable {
+  position: absolute;
+
+  top: 35px;
+  left: 62px;
+
+  width: 7px;
+  height: 95px;
+
+  background: #444d56;
+
+  border-radius: 5px;
+}
+
+#clawHead {
+  position: absolute;
+
+  left: 21px;
+  top: 122px;
+
+  width: 90px;
+  height: 65px;
+
+  transition: top .65s ease-in-out;
+}
+
+.claw-center {
+  position: absolute;
+
+  left: 27px;
+  top: 0;
+
+  width: 36px;
+  height: 34px;
+
+  border-radius: 10px 10px 16px 16px;
+
+  background: #737f89;
+
+  border: 5px solid #47535c;
+}
+
+.arm {
+  position: absolute;
+
+  top: 25px;
+
+  width: 13px;
+  height: 75px;
+
+  background: #697780;
+
+  border-radius: 10px;
+
+  transform-origin: top center;
+
+  transition: transform .25s;
+}
+
+.arm.left {
+  left: 25px;
+  transform: rotate(30deg);
+}
+
+.arm.right {
+  right: 25px;
+  transform: rotate(-30deg);
+}
+
+.claw.closed .arm.left {
+  transform: rotate(10deg);
+}
+
+.claw.closed .arm.right {
+  transform: rotate(-10deg);
+}
+
+.claw-foot {
+  position: absolute;
+
+  bottom: -7px;
+
+  width: 30px;
+  height: 12px;
+
+  border-radius: 12px;
+
+  background: #697780;
+}
+
+.arm.left .claw-foot {
+  left: -15px;
+  transform: rotate(25deg);
+}
+
+.arm.right .claw-foot {
+  right: -15px;
+  transform: rotate(-25deg);
+}
+
+/* =====================================================
+   ИГРУШКИ
+===================================================== */
+
+.toy {
+  position: absolute;
+
+  width: 155px;
+  height: 155px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  border-radius: 50px;
+
+  background: #ff91ad;
+
+  border: 8px solid white;
+
+  box-shadow:
+    0 10px 0 rgba(155,67,98,.25),
+    0 15px 20px rgba(0,0,0,.15);
+
+  font-size: 70px;
+
+  transition:
+    left .6s ease,
+    top .6s ease,
+    transform .4s ease;
+}
+
+.toy span {
+  margin-top: 3px;
+  font-size: 25px;
+  font-weight: 900;
+  color: #713d60;
+}
+
+.toy:nth-child(even) {
+  background: #9de17c;
+}
+
+.toy:nth-child(3n) {
+  background: #9ac9ff;
+}
+
+.toy:nth-child(4n) {
+  background: #d5a8ff;
+}
+
+/* =====================================================
+   НИЗ КУЧИ
+===================================================== */
+
+.toy-floor {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 85px;
+
+  background: #ffc94e;
+
+  border-top: 10px solid #ef9d2e;
+}
+
+/* =====================================================
+   ПАНЕЛЬ
+===================================================== */
+
+.controls {
+  position: absolute;
+
+  left: 70px;
+  right: 70px;
+  bottom: 35px;
+
+  height: 185px;
+
+  border-radius: 35px;
+
+  background: #f9b62d;
+
+  border: 10px solid #e58725;
+
+  box-shadow: inset 0 8px 0 rgba(255,255,255,.22);
+}
+
+/* =====================================================
+   СТРЕЛКИ
+===================================================== */
+
+.arrows {
+  position: absolute;
+
+  left: 120px;
+  top: 38px;
+
+  display: flex;
+  gap: 35px;
+}
+
+.arrow-button {
+  width: 125px;
+  height: 105px;
+
+  border: 0;
+  border-radius: 25px;
+
+  background: #58a9df;
+
+  box-shadow:
+    0 10px 0 #2874ac,
+    0 14px 20px rgba(0,0,0,.18);
+
+  color: white;
+
+  font-size: 64px;
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+.arrow-button:active {
+  transform: translateY(8px);
+  box-shadow:
+    0 2px 0 #2874ac;
+}
+
+/* =====================================================
+   КРАСНАЯ КНОПКА
+===================================================== */
+
+.red-button-base {
+  position: absolute;
+
+  right: 165px;
+  top: 25px;
+
+  width: 150px;
+  height: 135px;
+
+  border-radius: 50%;
+
+  background: #8f3131;
+
+  box-shadow:
+    0 10px 0 #63302c;
+}
+
+#grabButton {
+  position: absolute;
+
+  left: 10px;
+  top: 0;
+
+  width: 130px;
+  height: 110px;
+
+  border: 0;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  background:
+    radial-gradient(circle at 38% 28%, #ff7979 0%, #f32929 38%, #bb1111 75%);
+
+  box-shadow:
+    inset 0 7px 9px rgba(255,255,255,.45),
+    inset 0 -8px 10px rgba(100,0,0,.3),
+    0 9px 0 #8e0d0d,
+    0 12px 15px rgba(0,0,0,.3);
+}
+
+#grabButton:active {
+  top: 8px;
+
+  box-shadow:
+    inset 0 5px 8px rgba(255,255,255,.35),
+    inset 0 -5px 8px rgba(100,0,0,.3),
+    0 2px 0 #8e0d0d;
+}
+
+/* =====================================================
+   ВЫДАЧА
+===================================================== */
+
+.prize-door {
+  position: absolute;
+
+  left: 560px;
+  bottom: 42px;
+
+  width: 260px;
+  height: 130px;
+
+  border-radius: 25px;
+
+  background: #453b55;
+
+  border: 10px solid #7b596c;
+
+  box-shadow: inset 0 10px 20px rgba(0,0,0,.45);
+}
+
+.prize-door::after {
+  content: "ЗАБЕРИ ИГРУШКУ";
+
+  position: absolute;
+
+  width: 100%;
+  bottom: -35px;
+
+  text-align: center;
+
+  font-size: 18px;
+  font-weight: 900;
+
+  color: #7a4727;
+}
+
+/* =====================================================
+   ВЫЛЕТАЮЩИЙ ПРИЗ
+===================================================== */
+
+#prizeOverlay {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 100;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(46,40,86,.35);
+}
+
+.prize-card {
+  width: 440px;
+  height: 480px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 70px;
+
+  background: white;
+
+  border: 15px solid #ffd54f;
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.3);
+
+  animation: prizePop .55s cubic-bezier(.2,1.6,.4,1);
+}
+
+.prize-emoji {
+  font-size: 210px;
+}
+
+#prizeWord {
+  font-size: 58px;
+  font-weight: 900;
+  color: #594276;
+}
+
+#nextButton {
+  margin-top: 30px;
+
+  padding: 20px 55px;
+
+  border: 0;
+  border-radius: 30px;
+
+  background: #ff5757;
+
+  color: white;
+
+  font-size: 30px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow: 0 8px 0 #bb3030;
+}
+
+@keyframes prizePop {
+
+  from {
+    transform: scale(.2) rotate(-15deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+
+}
+
+/* =====================================================
+   СООБЩЕНИЕ
+===================================================== */
+
+#message {
+  position: absolute;
+
+  left: 50%;
+  top: 350px;
+
+  transform: translateX(-50%);
+
+  z-index: 80;
+
+  padding: 18px 40px;
+
+  border-radius: 30px;
+
+  background: white;
+
+  font-size: 32px;
+  font-weight: 900;
+
+  color: #765385;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition: opacity .25s;
+}
+
+#message.show {
+  opacity: 1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="viewport">
+
+<div id="game">
+
+  <div class="title">
+    🧸 ПОЙМАЙ ИГРУШКУ!
+  </div>
+
+  <div class="task">
+    Найди слово, где звук С находится В СЕРЕДИНЕ
+  </div>
+
+  <div class="machine">
+
+    <div class="glass" id="glass">
+
+      <div class="rail"></div>
+
+      <div id="clawAssembly">
+
+        <div class="claw-cart"></div>
+
+        <div id="cable"></div>
+
+        <div id="clawHead" class="claw">
+
+          <div class="claw-center"></div>
+
+          <div class="arm left">
+            <div class="claw-foot"></div>
+          </div>
+
+          <div class="arm right">
+            <div class="claw-foot"></div>
+          </div>
+
+        </div>
+
       </div>
+
+      <div class="toy-floor"></div>
+
+      <div
+        class="toy"
+        data-correct="false"
+        data-word="СОВА"
+        data-emoji="🦉"
+        style="left:90px; top:330px;"
+      >
+        🦉
+        <span>СОВА</span>
+      </div>
+
+      <div
+        class="toy"
+        data-correct="true"
+        data-word="ЛИСА"
+        data-emoji="🦊"
+        style="left:300px; top:320px;"
+      >
+        🦊
+        <span>ЛИСА</span>
+      </div>
+
+      <div
+        class="toy"
+        data-correct="false"
+        data-word="СЫР"
+        data-emoji="🧀"
+        style="left:520px; top:335px;"
+      >
+        🧀
+        <span>СЫР</span>
+      </div>
+
+      <div
+        class="toy"
+        data-correct="false"
+        data-word="СУМКА"
+        data-emoji="👜"
+        style="left:750px; top:315px;"
+      >
+        👜
+        <span>СУМКА</span>
+      </div>
+
+      <div
+        class="toy"
+        data-correct="false"
+        data-word="СОК"
+        data-emoji="🧃"
+        style="left:980px; top:330px;"
+      >
+        🧃
+        <span>СОК</span>
+      </div>
+
     </div>
+
+    <div class="controls">
+
+      <div class="arrows">
+
+        <button
+          class="arrow-button"
+          id="leftButton"
+        >
+          ←
+        </button>
+
+        <button
+          class="arrow-button"
+          id="rightButton"
+        >
+          →
+        </button>
+
+      </div>
+
+      <div class="prize-door"></div>
+
+      <div class="red-button-base">
+        <button id="grabButton"></button>
+      </div>
+
+    </div>
+
   </div>
 
-  
+  <div id="message"></div>
 
+  <div id="prizeOverlay">
+
+    <div class="prize-card">
+
+      <div
+        class="prize-emoji"
+        id="prizeEmoji"
+      >
+        🦊
+      </div>
+
+      <div id="prizeWord">
+        ЛИСА
+      </div>
+
+      <button id="nextButton">
+        ДАЛЬШЕ
+      </button>
+
+    </div>
+
+  </div>
 
 </div>
 
-<!-- 🪟 Модальное окно -->
-<div id="gameModal" onclick="backgroundClick(event)" style="display:none; position: fixed; top: 0; left: 26%; width: 70vw; height: 90vh; background: white; z-index: 9999; box-shadow: 0 0 20px rgba(0,0,0,0.4); border-radius: 10px; overflow: hidden;">
-
-  <!-- 🎮 Игра в iframe -->
-  <iframe id="gameFrame" src="" style="width: 100%; height: 100%; border: none;"></iframe>
-
-  <!-- ❌ Кнопка-крестик -->
-  <div onclick="closeGame()" style="position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; background: #333; color: white; border-radius: 50%; font-size: 22px; line-height: 36px; text-align: center; cursor: pointer; box-shadow: 0 0 6px rgba(0,0,0,0.3); transition: background 0.2s;">
-    ✕
-  </div>
 </div>
 
-<!-- 🔧 Скрипт -->
 <script>
-  function openGame(gamePath) {
-    document.getElementById('gameFrame').src = '/' + gamePath;
-    document.getElementById('gameModal').style.display = 'block';
-  }
 
-  function closeGame() {
-    document.getElementById('gameModal').style.display = 'none';
-    document.getElementById('gameFrame').src = '';
-  }
+/* =====================================================
+   МАСШТАБИРОВАНИЕ 1920 × 1080
+===================================================== */
 
-  function backgroundClick(event) {
-    const iframe = document.getElementById('gameFrame');
-    if (!iframe.contains(event.target)) {
-      closeGame();
+const GAME_W = 1920;
+const GAME_H = 1080;
+
+const viewport =
+  document.getElementById("viewport");
+
+const game =
+  document.getElementById("game");
+
+function resizeGame() {
+
+  const scale = Math.min(
+    window.innerWidth / GAME_W,
+    window.innerHeight / GAME_H
+  );
+
+  viewport.style.width =
+    GAME_W * scale + "px";
+
+  viewport.style.height =
+    GAME_H * scale + "px";
+
+  game.style.transform =
+    `scale(${scale})`;
+
+}
+
+window.addEventListener(
+  "resize",
+  resizeGame
+);
+
+resizeGame();
+
+/* =====================================================
+   ЭЛЕМЕНТЫ
+===================================================== */
+
+const clawAssembly =
+  document.getElementById("clawAssembly");
+
+const clawHead =
+  document.getElementById("clawHead");
+
+const cable =
+  document.getElementById("cable");
+
+const leftButton =
+  document.getElementById("leftButton");
+
+const rightButton =
+  document.getElementById("rightButton");
+
+const grabButton =
+  document.getElementById("grabButton");
+
+const message =
+  document.getElementById("message");
+
+const prizeOverlay =
+  document.getElementById("prizeOverlay");
+
+const prizeEmoji =
+  document.getElementById("prizeEmoji");
+
+const prizeWord =
+  document.getElementById("prizeWord");
+
+const nextButton =
+  document.getElementById("nextButton");
+
+/* =====================================================
+   СОСТОЯНИЕ
+===================================================== */
+
+let clawX = 530;
+
+const MIN_X = 25;
+const MAX_X = 1095;
+const MOVE_STEP = 55;
+
+let busy = false;
+
+/* =====================================================
+   ДВИЖЕНИЕ КЛЕШНИ
+===================================================== */
+
+function updateClaw() {
+
+  clawAssembly.style.left =
+    clawX + "px";
+
+}
+
+leftButton.addEventListener(
+  "click",
+  () => {
+
+    if (busy) return;
+
+    clawX -= MOVE_STEP;
+
+    if (clawX < MIN_X) {
+      clawX = MIN_X;
     }
+
+    updateClaw();
+
   }
+);
+
+rightButton.addEventListener(
+  "click",
+  () => {
+
+    if (busy) return;
+
+    clawX += MOVE_STEP;
+
+    if (clawX > MAX_X) {
+      clawX = MAX_X;
+    }
+
+    updateClaw();
+
+  }
+);
+
+/* =====================================================
+   ПОИСК ИГРУШКИ ПОД КЛЕШНЁЙ
+===================================================== */
+
+function findToyUnderClaw() {
+
+  const toys =
+    [...document.querySelectorAll(".toy")];
+
+  const clawCenter =
+    clawX + 65;
+
+  let nearest = null;
+  let nearestDistance = Infinity;
+
+  toys.forEach(toy => {
+
+    if (toy.dataset.removed === "true") {
+      return;
+    }
+
+    const toyCenter =
+      toy.offsetLeft +
+      toy.offsetWidth / 2;
+
+    const distance =
+      Math.abs(
+        toyCenter - clawCenter
+      );
+
+    if (distance < nearestDistance) {
+
+      nearestDistance = distance;
+      nearest = toy;
+
+    }
+
+  });
+
+  if (nearestDistance > 105) {
+    return null;
+  }
+
+  return nearest;
+
+}
+
+/* =====================================================
+   ВСПОМОГАТЕЛЬНАЯ ЗАДЕРЖКА
+===================================================== */
+
+function wait(ms) {
+
+  return new Promise(
+    resolve =>
+      setTimeout(resolve, ms)
+  );
+
+}
+
+/* =====================================================
+   СООБЩЕНИЕ
+===================================================== */
+
+async function showMessage(text) {
+
+  message.textContent = text;
+
+  message.classList.add("show");
+
+  await wait(1100);
+
+  message.classList.remove("show");
+
+}
+
+/* =====================================================
+   ОПУСКАНИЕ КЛЕШНИ
+===================================================== */
+
+async function lowerClaw() {
+
+  clawHead.style.top = "325px";
+  cable.style.height = "300px";
+
+  await wait(700);
+
+}
+
+/* =====================================================
+   ПОДЪЁМ
+===================================================== */
+
+async function raiseClaw() {
+
+  clawHead.style.top = "122px";
+  cable.style.height = "95px";
+
+  await wait(700);
+
+}
+
+/* =====================================================
+   ЗАХВАТ
+===================================================== */
+
+grabButton.addEventListener(
+  "click",
+  async () => {
+
+    if (busy) return;
+
+    busy = true;
+
+    const toy =
+      findToyUnderClaw();
+
+    /* раскрываем лапки */
+
+    clawHead.classList.remove(
+      "closed"
+    );
+
+    await lowerClaw();
+
+    /* закрываем */
+
+    clawHead.classList.add(
+      "closed"
+    );
+
+    await wait(300);
+
+    if (!toy) {
+
+      await raiseClaw();
+
+      clawHead.classList.remove(
+        "closed"
+      );
+
+      await showMessage(
+        "Ничего не поймалось!"
+      );
+
+      busy = false;
+
+      return;
+    }
+
+    const correct =
+      toy.dataset.correct === "true";
+
+    /* =================================================
+       ПОДНИМАЕМ ИГРУШКУ ВМЕСТЕ С КЛЕШНЁЙ
+    ================================================= */
+
+    const originalLeft =
+      toy.offsetLeft;
+
+    const originalTop =
+      toy.offsetTop;
+
+    toy.style.zIndex = "19";
+
+    toy.style.left =
+      clawX - 12 + "px";
+
+    toy.style.top =
+      "270px";
+
+    await wait(350);
+
+    clawHead.style.top =
+      "122px";
+
+    cable.style.height =
+      "95px";
+
+    toy.style.top =
+      "70px";
+
+    await wait(750);
+
+    /* =================================================
+       НЕПРАВИЛЬНАЯ ИГРУШКА
+    ================================================= */
+
+    if (!correct) {
+
+      /* лапки предательски раскрываются */
+
+      clawHead.classList.remove(
+        "closed"
+      );
+
+      await wait(200);
+
+      /* игрушка падает обратно */
+
+      toy.style.top =
+        originalTop + "px";
+
+      toy.style.left =
+        originalLeft + "px";
+
+      toy.style.transform =
+        "rotate(12deg)";
+
+      await wait(600);
+
+      toy.style.transform =
+        "rotate(0deg)";
+
+      await showMessage(
+        "Попробуй ещё!"
+      );
+
+      toy.style.zIndex = "";
+
+      busy = false;
+
+      return;
+    }
+
+    /* =================================================
+       ПРАВИЛЬНЫЙ ОТВЕТ
+    ================================================= */
+
+    /*
+       Перемещаем клешню к зоне выдачи.
+       Внутри стекла выдача примерно
+       находится в центре.
+    */
+
+    clawX = 570;
+
+    updateClaw();
+
+    toy.style.left =
+      clawX - 12 + "px";
+
+    await wait(850);
+
+    /*
+       Игрушка падает вниз.
+    */
+
+    clawHead.classList.remove(
+      "closed"
+    );
+
+    toy.style.top =
+      "500px";
+
+    toy.style.transform =
+      "scale(.65) rotate(10deg)";
+
+    await wait(650);
+
+    toy.style.opacity = "0";
+
+    toy.dataset.removed = "true";
+
+    await wait(350);
+
+    /* =================================================
+       ПОКАЗ ПРИЗА
+    ================================================= */
+
+    prizeEmoji.textContent =
+      toy.dataset.emoji;
+
+    prizeWord.textContent =
+      toy.dataset.word;
+
+    prizeOverlay.style.display =
+      "flex";
+
+  }
+);
+
+/* =====================================================
+   ДАЛЬШЕ
+===================================================== */
+
+nextButton.addEventListener(
+  "click",
+  () => {
+
+    prizeOverlay.style.display =
+      "none";
+
+    /*
+      Пока это только тестовый раунд.
+
+      Позже здесь будет:
+      currentRound++;
+      createRound();
+    */
+
+    showMessage(
+      "Первый тестовый раунд пройден! 🎉"
+    );
+
+    busy = false;
+
+  }
+);
+
 </script>
+
+</body>
+</html>
