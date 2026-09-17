@@ -29,7 +29,7 @@ body {
   display: grid;
   place-items: center;
 
-  background: #263c67;
+  background: #f6e5dc;
 
   font-family: "Trebuchet MS", Arial, sans-serif;
 
@@ -64,41 +64,11 @@ button {
 
   transform-origin: top left;
 
-  background:
-    radial-gradient(
-      circle at 50% 20%,
-      #fff4b8 0%,
-      #ffd98b 32%,
-      #ffb86b 68%,
-      #ee8458 100%
-    );
-}
-
-/* =====================================================
-   ФОН
-===================================================== */
-
-.bg-circle {
-  position: absolute;
-
-  width: 800px;
-  height: 800px;
-
-  border-radius: 50%;
-
-  background: rgba(255,255,255,.12);
-
-  left: -250px;
-  top: 300px;
-}
-
-.bg-circle.two {
-  width: 650px;
-  height: 650px;
-
-  left: auto;
-  right: -200px;
-  top: -180px;
+  /* НАШ НОВЫЙ ФОН */
+  background-image: url("fon.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* =====================================================
@@ -117,15 +87,17 @@ button {
 
   border-radius: 35px;
 
-  background: rgba(255,255,255,.95);
+  background: rgba(255,255,255,.92);
 
   box-shadow:
-    0 12px 0 rgba(157,83,66,.18),
-    0 20px 35px rgba(79,46,51,.14);
+    0 12px 0 rgba(157,83,66,.12),
+    0 20px 35px rgba(79,46,51,.12);
 
   text-align: center;
 
   color: #5b3e67;
+
+  backdrop-filter: blur(4px);
 }
 
 .task-small {
@@ -164,7 +136,7 @@ button {
 
   border-radius: 28px;
 
-  background: rgba(255,255,255,.78);
+  background: rgba(255,255,255,.82);
 
   text-align: center;
 
@@ -172,6 +144,11 @@ button {
   font-weight: 900;
 
   color: #6d4b6f;
+
+  box-shadow:
+    0 10px 25px rgba(80,50,60,.08);
+
+  backdrop-filter: blur(4px);
 }
 
 /* =====================================================
@@ -182,10 +159,10 @@ button {
   position: absolute;
 
   left: 670px;
-  top: 35px;
+  top: 20px;
 
   width: 790px;
-  height: 1010px;
+  height: 1040px;
 
   border-radius: 28px 28px 18px 18px;
 
@@ -243,12 +220,18 @@ button {
   top: 140px;
 
   width: 682px;
-  height: 575px;
+  height: 625px;
 
   overflow: hidden;
 
   border: 11px solid #b52e49;
   border-radius: 14px;
+
+  /*
+    Пока сохраняем нынешнее стекло.
+    На следующем этапе сделаем его
+    действительно прозрачным.
+  */
 
   background:
     linear-gradient(
@@ -259,17 +242,13 @@ button {
       rgba(255,255,255,.22) 35%,
       rgba(255,255,255,.03) 36%
     ),
-    linear-gradient(
-      #c9f4ff,
-      #edfaff 72%,
-      #d2ecf2
-    );
+    rgba(218,247,255,.88);
 
   box-shadow:
     inset 0 0 28px rgba(38,103,130,.18);
 }
 
-/* блик */
+/* БЛИК */
 
 .glass::after {
   content: "";
@@ -280,7 +259,7 @@ button {
   top: -100px;
 
   width: 70px;
-  height: 800px;
+  height: 850px;
 
   transform: rotate(19deg);
 
@@ -292,7 +271,7 @@ button {
 }
 
 /* =====================================================
-   ЗАДНЯЯ СТЕНКА / ПОЛ
+   ПОЛ ВНУТРИ АВТОМАТА
 ===================================================== */
 
 .toy-floor {
@@ -355,7 +334,7 @@ button {
   top: 26px;
 
   width: 110px;
-  height: 430px;
+  height: 480px;
 
   z-index: 30;
 
@@ -497,7 +476,7 @@ button {
 .toy {
   position: absolute;
 
-  top: 340px;
+  top: 390px;
 
   width: 155px;
   height: 180px;
@@ -554,8 +533,6 @@ button {
   background: #e6b5ff;
 }
 
-/* ножки */
-
 .toy-body::before,
 .toy-body::after {
   content: "";
@@ -587,7 +564,7 @@ button {
 }
 
 /* =====================================================
-   ТРИ ФИКСИРОВАННЫЕ ПОЗИЦИИ
+   ТРИ ПОЗИЦИИ
 ===================================================== */
 
 .toy[data-slot="0"] {
@@ -610,7 +587,7 @@ button {
   position: absolute;
 
   left: 42px;
-  top: 735px;
+  top: 785px;
 
   width: 682px;
   height: 225px;
@@ -756,6 +733,22 @@ button {
     0 2px 0 #8e0a20;
 }
 
+.button-hint {
+  position: absolute;
+
+  left: 355px;
+  top: 155px;
+
+  width: 125px;
+
+  text-align: center;
+
+  color: #8e3040;
+
+  font-size: 14px;
+  font-weight: 900;
+}
+
 /* =====================================================
    ОКНО ВЫДАЧИ
 ===================================================== */
@@ -774,6 +767,7 @@ button {
   position: absolute;
 
   top: 0;
+
   width: 100%;
 
   text-align: center;
@@ -817,7 +811,9 @@ button {
   left: 50%;
   top: 50%;
 
-  transform: translate(-50%,-42%) scale(.65);
+  transform:
+    translate(-50%,-42%)
+    scale(.65);
 
   font-size: 85px;
 
@@ -841,27 +837,7 @@ button {
 }
 
 /* =====================================================
-   ПОДСКАЗКА КНОПКИ
-===================================================== */
-
-.button-hint {
-  position: absolute;
-
-  left: 355px;
-  top: 155px;
-
-  width: 125px;
-
-  text-align: center;
-
-  color: #8e3040;
-
-  font-size: 14px;
-  font-weight: 900;
-}
-
-/* =====================================================
-   ВЫЛЕТАЮЩАЯ ИГРУШКА
+   ВЫЛЕТАЮЩИЙ ПРИЗ
 ===================================================== */
 
 #prizeOverlay {
@@ -954,6 +930,7 @@ button {
 
   0% {
     opacity: 0;
+
     transform:
       scale(.15)
       rotate(-15deg);
@@ -961,6 +938,7 @@ button {
 
   100% {
     opacity: 1;
+
     transform:
       scale(1)
       rotate(0);
@@ -990,6 +968,7 @@ button {
 
   from {
     opacity: 1;
+
     transform:
       translate(0,0)
       rotate(0);
@@ -997,6 +976,7 @@ button {
 
   to {
     opacity: 0;
+
     transform:
       translate(
         var(--x),
@@ -1008,7 +988,7 @@ button {
 }
 
 /* =====================================================
-   МАЛЕНЬКОЕ СООБЩЕНИЕ
+   СООБЩЕНИЕ
 ===================================================== */
 
 #message {
@@ -1053,10 +1033,9 @@ button {
 
 <div id="game">
 
-  <div class="bg-circle"></div>
-  <div class="bg-circle two"></div>
-
-  <!-- ЗАДАНИЕ -->
+  <!-- =================================================
+       ЗАДАНИЕ
+  ================================================== -->
 
   <div class="task">
 
@@ -1075,7 +1054,9 @@ button {
     🧸 Раунд 1 из 10
   </div>
 
-  <!-- АВТОМАТ -->
+  <!-- =================================================
+       АВТОМАТ
+  ================================================== -->
 
   <div class="machine">
 
@@ -1097,9 +1078,7 @@ button {
 
         <div id="cable"></div>
 
-        <div
-          id="clawHead"
-        >
+        <div id="clawHead">
 
           <div class="claw-center"></div>
 
@@ -1144,12 +1123,12 @@ button {
       <div
         class="toy"
         data-slot="2"
-        data-word="НОС"
-        data-emoji="👃"
+        data-word="АНАНАС"
+        data-emoji="🍍"
         data-correct="false"
       >
         <div class="toy-body">
-          👃
+          🍍
         </div>
       </div>
 
@@ -1157,7 +1136,9 @@ button {
 
     </div>
 
-    <!-- НИЖНЯЯ ПАНЕЛЬ -->
+    <!-- =================================================
+         НИЖНЯЯ ЧАСТЬ
+    ================================================== -->
 
     <div class="lower-machine">
 
@@ -1213,7 +1194,9 @@ button {
 
   <div id="message"></div>
 
-  <!-- БОЛЬШОЙ ПРИЗ -->
+  <!-- =================================================
+       БОЛЬШОЙ ПРИЗ
+  ================================================== -->
 
   <div id="prizeOverlay">
 
@@ -1242,7 +1225,7 @@ button {
 <script>
 
 /* =====================================================
-   МАСШТАБИРОВАНИЕ
+   МАСШТАБИРОВАНИЕ 1920 × 1080
 ===================================================== */
 
 const GAME_W = 1920;
@@ -1350,8 +1333,6 @@ const message =
 
 /* =====================================================
    ПОЗИЦИИ КЛЕШНИ
-
-   Это центры трёх игрушек.
 ===================================================== */
 
 const SLOT_X = [
@@ -1363,9 +1344,7 @@ const SLOT_X = [
 let currentSlot = 1;
 
 let busy = false;
-
 let prizeReady = false;
-
 let currentPrize = null;
 
 /* =====================================================
@@ -1461,23 +1440,23 @@ function getCurrentToy() {
 }
 
 /* =====================================================
-   ОПУСКАНИЕ
+   ОПУСКАНИЕ КЛЕШНИ
 ===================================================== */
 
 async function lowerClaw() {
 
   clawHead.style.top =
-    "330px";
+    "380px";
 
   cable.style.height =
-    "300px";
+    "350px";
 
   await wait(680);
 
 }
 
 /* =====================================================
-   ПОДЪЁМ БЕЗ ИГРУШКИ
+   ПОДЪЁМ
 ===================================================== */
 
 async function raiseEmptyClaw() {
@@ -1517,11 +1496,8 @@ grabButton.addEventListener(
     const correct =
       toy.dataset.correct === "true";
 
-    const originalSlot =
-      Number(toy.dataset.slot);
-
     /* ---------------------------------------------
-       1. Клешня раскрыта и едет вниз
+       КЛЕШНЯ ЕДЕТ ВНИЗ
     --------------------------------------------- */
 
     clawHead.classList.remove(
@@ -1531,7 +1507,7 @@ grabButton.addEventListener(
     await lowerClaw();
 
     /* ---------------------------------------------
-       2. Закрываем лапки
+       ЗАКРЫВАЕМ ЛАПКИ
     --------------------------------------------- */
 
     clawHead.classList.add(
@@ -1541,17 +1517,17 @@ grabButton.addEventListener(
     await wait(300);
 
     /* ---------------------------------------------
-       3. Игрушка цепляется за клешню
+       ЦЕПЛЯЕМ ИГРУШКУ
     --------------------------------------------- */
 
     toy.style.zIndex = "29";
 
-    toy.style.top = "285px";
+    toy.style.top = "335px";
 
     await wait(300);
 
     /* ---------------------------------------------
-       4. Поднимаем
+       ПОДНИМАЕМ
     --------------------------------------------- */
 
     clawHead.style.top =
@@ -1566,20 +1542,14 @@ grabButton.addEventListener(
     await wait(720);
 
     /* =================================================
-       ОШИБКА
+       НЕПРАВИЛЬНЫЙ ОТВЕТ
     ================================================= */
 
     if (!correct) {
 
-      /*
-        Сначала игрушка действительно
-        поднялась.
-
-        Потом лапки раскрываются,
-        как в настоящем автомате.
-      */
-
       await wait(250);
+
+      /* клешня раскрывается */
 
       clawHead.classList.remove(
         "closed"
@@ -1587,12 +1557,10 @@ grabButton.addEventListener(
 
       await wait(130);
 
-      /*
-        Игрушка падает обратно.
-      */
+      /* игрушка падает обратно */
 
       toy.style.top =
-        "340px";
+        "390px";
 
       toy.style.transform =
         "rotate(11deg)";
@@ -1625,10 +1593,8 @@ grabButton.addEventListener(
     ================================================= */
 
     /*
-      В настоящем автомате клешня
-      отвозит приз к зоне сброса.
-
-      Сделаем точку сброса справа.
+      Перемещаем клешню
+      к зоне сброса справа.
     */
 
     const dropX = 500;
@@ -1642,7 +1608,7 @@ grabButton.addEventListener(
     await wait(800);
 
     /* ---------------------------------------------
-       Отпускаем игрушку
+       ОТПУСКАЕМ
     --------------------------------------------- */
 
     clawHead.classList.remove(
@@ -1652,7 +1618,7 @@ grabButton.addEventListener(
     await wait(130);
 
     toy.style.top =
-      "520px";
+      "570px";
 
     toy.style.transform =
       "rotate(14deg) scale(.72)";
@@ -1664,7 +1630,7 @@ grabButton.addEventListener(
     await wait(250);
 
     /* ---------------------------------------------
-       Игрушка появляется в выдаче
+       ПРИЗ ПОЯВЛЯЕТСЯ В ОКНЕ
     --------------------------------------------- */
 
     currentPrize = {
@@ -1681,10 +1647,9 @@ grabButton.addEventListener(
 
     prizeReady = true;
 
-    /*
-      Возвращаем клешню наверх
-      и к центру.
-    */
+    /* ---------------------------------------------
+       КЛЕШНЯ ВОЗВРАЩАЕТСЯ
+    --------------------------------------------- */
 
     currentSlot = 1;
 
@@ -1699,7 +1664,7 @@ grabButton.addEventListener(
 );
 
 /* =====================================================
-   ЗАБРАТЬ ИГРУШКУ ИЗ ОКНА
+   ЗАБИРАЕМ ПРИЗ
 ===================================================== */
 
 prizeDoor.addEventListener(
@@ -1745,10 +1710,10 @@ function createSparks() {
     spark.className = "spark";
 
     spark.style.left =
-      240 + "px";
+      "240px";
 
     spark.style.top =
-      260 + "px";
+      "260px";
 
     const angle =
       Math.random() *
@@ -1803,10 +1768,8 @@ nextButton.addEventListener(
     prizeReady = false;
 
     /*
-      Пока оставляем первый раунд.
-
-      На следующем этапе сюда
-      подключим массив из 10 раундов.
+      Пока оставляем один тестовый раунд.
+      10 раундов подключим позже.
     */
 
     await showMessage(
