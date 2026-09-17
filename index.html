@@ -24,7 +24,7 @@ body {
 body {
   display: grid;
   place-items: center;
-  background: #eee3dc;
+  background: #eee5df;
   font-family: "Trebuchet MS", Arial, sans-serif;
   user-select: none;
 }
@@ -74,33 +74,26 @@ button {
 
   width: 520px;
 
-  padding: 31px 38px;
+  padding: 30px 35px;
 
   border-radius: 34px;
 
-  background:
-    rgba(255,255,255,.92);
-
-  border:
-    3px solid
-    rgba(255,255,255,.8);
+  background: rgba(255,255,255,.93);
 
   box-shadow:
-    0 14px 35px
-    rgba(87,68,71,.13);
+    0 15px 40px rgba(77,67,72,.13);
 
   text-align: center;
 
   color: #40506a;
 
-  backdrop-filter:
-    blur(7px);
+  z-index: 20;
 }
 
 .task-small {
   font-size: 24px;
   font-weight: 800;
-  opacity: .75;
+  opacity: .72;
 }
 
 .task-main {
@@ -128,16 +121,14 @@ button {
 
   width: 420px;
 
-  padding: 20px 30px;
+  padding: 20px;
 
   border-radius: 28px;
 
-  background:
-    rgba(255,255,255,.90);
+  background: rgba(255,255,255,.91);
 
   box-shadow:
-    0 12px 30px
-    rgba(87,68,71,.10);
+    0 12px 30px rgba(77,67,72,.10);
 
   text-align: center;
 
@@ -145,81 +136,125 @@ button {
 
   font-size: 27px;
   font-weight: 900;
+
+  z-index: 20;
 }
 
 /* =====================================================
    АВТОМАТ
+
+   ВСЁ НИЖЕ ЖИВЁТ ВНУТРИ ЭТОГО БЛОКА.
 ===================================================== */
 
 #machine {
   position: absolute;
 
-  left: 790px;
-  top: 30px;
+  left: 780px;
+  top: 25px;
 
-  width: 730px;
-  height: 1020px;
+  width: 735px;
+  height: 1030px;
 
   z-index: 10;
 }
 
 /* =====================================================
-   ВНУТРЕННЯЯ ВИТРИНА
+   ВНУТРЕННЯЯ КАМЕРА
 
-   ВСЁ ВНУТРИ НЕЁ НАХОДИТСЯ
-   ЗА PNG-КОРПУСОМ.
+   ЭТО НЕ КАРТИНКА.
+   Это настоящий фон внутренности автомата.
 ===================================================== */
 
-#glassArea {
+#machineInside {
   position: absolute;
 
   /*
-     Эти размеры соответствуют
-     прозрачной области machine.png.
+     Эти координаты под прозрачную витрину.
+     После скрина можем подогнать на несколько px.
   */
 
-  left: 78px;
-  top: 168px;
+  left: 84px;
+  top: 195px;
 
-  width: 574px;
-  height: 600px;
+  width: 567px;
+  height: 570px;
 
   overflow: hidden;
 
-  z-index: 10;
+  border-radius: 10px;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 12%,
+      rgba(255,249,211,.95) 0%,
+      rgba(255,255,255,0) 37%
+    ),
+    linear-gradient(
+      180deg,
+      #e9fbf8 0%,
+      #f7fffd 42%,
+      #fffdf7 78%,
+      #fff4ea 100%
+    );
+
+  box-shadow:
+    inset 0 18px 35px rgba(93,194,188,.10),
+    inset 0 -20px 35px rgba(245,170,181,.08);
+
+  z-index: 1;
 }
 
 /* =====================================================
-   ЛЁГКОЕ СТЕКЛО
+   ВЕРХНЯЯ ПОДСВЕТКА ВНУТРИ
 ===================================================== */
 
-#glassArea::after {
-  content: "";
-
+.inside-light {
   position: absolute;
-  inset: 0;
 
-  z-index: 90;
+  left: 55px;
+  top: 18px;
 
-  pointer-events: none;
+  width: 457px;
+  height: 12px;
+
+  border-radius: 20px;
+
+  background: #fff7ca;
+
+  box-shadow:
+    0 0 10px rgba(255,239,150,.75),
+    0 0 25px rgba(255,239,150,.45);
+
+  z-index: 2;
+}
+
+/* =====================================================
+   ПОЛ ВНУТРИ АВТОМАТА
+===================================================== */
+
+.inside-floor {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 96px;
 
   background:
     linear-gradient(
-      112deg,
-
-      transparent 0%,
-      transparent 10%,
-
-      rgba(255,255,255,.13) 17%,
-
-      transparent 24%,
-
-      transparent 65%,
-
-      rgba(255,255,255,.07) 71%,
-
-      transparent 77%
+      180deg,
+      #fffdf5 0%,
+      #fff3e9 100%
     );
+
+  border-top:
+    4px solid rgba(239,170,183,.55);
+
+  box-shadow:
+    inset 0 14px 18px rgba(255,255,255,.85);
+
+  z-index: 3;
 }
 
 /* =====================================================
@@ -229,10 +264,10 @@ button {
 #rail {
   position: absolute;
 
-  left: 38px;
-  top: 28px;
+  left: 42px;
+  top: 45px;
 
-  width: 498px;
+  width: 483px;
   height: 14px;
 
   border-radius: 20px;
@@ -241,44 +276,39 @@ button {
     linear-gradient(
       180deg,
       #ffffff 0%,
-      #e9edef 18%,
-      #a6b0b4 45%,
-      #677176 72%,
-      #e1e6e8 100%
+      #dce4e6 24%,
+      #8d989d 55%,
+      #687277 76%,
+      #dce3e5 100%
     );
 
   border:
-    2px solid
-    rgba(90,100,105,.45);
+    2px solid rgba(88,98,103,.45);
 
   box-shadow:
-    0 4px 6px
-    rgba(0,0,0,.13),
+    0 4px 6px rgba(0,0,0,.14),
+    inset 0 2px 2px rgba(255,255,255,.9);
 
-    inset 0 2px 2px
-    rgba(255,255,255,.9);
-
-  z-index: 15;
+  z-index: 10;
 }
 
 /* =====================================================
-   ПОДВИЖНАЯ СИСТЕМА КЛЕШНИ
+   ПОДВИЖНАЯ СИСТЕМА
 ===================================================== */
 
 #clawSystem {
   position: absolute;
 
-  left: 192px;
-  top: 0;
+  left: 189px;
+  top: 17px;
 
   width: 190px;
-  height: 580px;
+  height: 520px;
 
-  z-index: 30;
+  z-index: 20;
 
   transition:
-    left .34s
-    cubic-bezier(.4,0,.2,1);
+    left .35s cubic-bezier(.4,0,.2,1);
 }
 
 /* =====================================================
@@ -288,15 +318,15 @@ button {
 #clawCart {
   position: absolute;
 
-  left: 32px;
+  left: 34px;
   top: 0;
 
-  width: 126px;
-  height: 82px;
+  width: 122px;
+  height: 83px;
 
   object-fit: contain;
 
-  z-index: 35;
+  z-index: 25;
 
   pointer-events: none;
 }
@@ -308,58 +338,53 @@ button {
 #cable {
   position: absolute;
 
-  left: 91px;
-  top: 55px;
+  left: 92px;
+  top: 62px;
 
-  width: 7px;
-  height: 85px;
+  width: 6px;
+  height: 78px;
 
   border-radius: 5px;
 
   background:
     repeating-linear-gradient(
       135deg,
-
-      #f5f5f5 0px,
-      #f5f5f5 3px,
-
-      #858f94 3px,
-      #858f94 6px
+      #f7f7f7 0px,
+      #f7f7f7 3px,
+      #879196 3px,
+      #879196 6px
     );
 
   box-shadow:
-    1px 0 2px
-    rgba(0,0,0,.20);
+    1px 0 2px rgba(0,0,0,.18);
 
-  z-index: 20;
+  z-index: 15;
 
   transition:
-    height .78s
-    cubic-bezier(.45,0,.25,1);
+    height .78s cubic-bezier(.45,0,.25,1);
 }
 
 /* =====================================================
-   КЛЕШНЯ
+   САМА КЛЕШНЯ
 ===================================================== */
 
 #claw {
   position: absolute;
 
   left: 18px;
-  top: 130px;
+  top: 132px;
 
   width: 154px;
-  height: 190px;
+  height: 185px;
 
-  z-index: 40;
+  z-index: 30;
 
   transition:
-    top .78s
-    cubic-bezier(.45,0,.25,1);
+    top .78s cubic-bezier(.45,0,.25,1);
 }
 
 /* =====================================================
-   КОРПУС КЛЕШНИ
+   ЦЕНТР КЛЕШНИ
 ===================================================== */
 
 #clawBody {
@@ -373,7 +398,7 @@ button {
 
   object-fit: contain;
 
-  z-index: 45;
+  z-index: 35;
 
   pointer-events: none;
 }
@@ -389,23 +414,20 @@ button {
   top: 42px;
 
   width: 90px;
-  height: 148px;
+  height: 145px;
 
   object-fit: contain;
 
-  z-index: 42;
+  transform-origin: 73px 18px;
 
-  pointer-events: none;
-
-  transform-origin:
-    73px 18px;
-
-  transform:
-    rotate(0deg);
+  transform: rotate(0deg);
 
   transition:
-    transform .38s
-    cubic-bezier(.4,0,.2,1);
+    transform .4s cubic-bezier(.4,0,.2,1);
+
+  z-index: 32;
+
+  pointer-events: none;
 }
 
 /* =====================================================
@@ -419,101 +441,82 @@ button {
   top: 42px;
 
   width: 90px;
-  height: 148px;
+  height: 145px;
 
   object-fit: contain;
 
-  z-index: 42;
+  transform-origin: 17px 18px;
 
-  pointer-events: none;
-
-  transform-origin:
-    17px 18px;
-
-  transform:
-    rotate(0deg);
+  transform: rotate(0deg);
 
   transition:
-    transform .38s
-    cubic-bezier(.4,0,.2,1);
+    transform .4s cubic-bezier(.4,0,.2,1);
+
+  z-index: 32;
+
+  pointer-events: none;
 }
 
 /* =====================================================
-   ОТКРЫТА
+   ОТКРЫТИЕ
 ===================================================== */
 
 #claw.open #clawLeft {
-  transform:
-    rotate(-22deg);
+  transform: rotate(-23deg);
 }
 
 #claw.open #clawRight {
-  transform:
-    rotate(22deg);
+  transform: rotate(23deg);
 }
 
 /* =====================================================
-   ЗАКРЫТА
+   ЗАКРЫТИЕ
 ===================================================== */
 
 #claw.closed #clawLeft {
-  transform:
-    rotate(30deg);
+  transform: rotate(31deg);
 }
 
 #claw.closed #clawRight {
-  transform:
-    rotate(-30deg);
+  transform: rotate(-31deg);
 }
 
 /* =====================================================
-   ИГРУШКИ
-
-   ПОКА ТЕСТОВЫЕ.
-   ОНИ ТОЖЕ НАХОДЯТСЯ ВНУТРИ glassArea.
+   ТЕСТОВЫЕ ИГРУШКИ
 ===================================================== */
 
 .toy {
   position: absolute;
 
-  bottom: 25px;
+  bottom: 58px;
 
   width: 135px;
-  height: 155px;
+  height: 150px;
 
   display: flex;
   align-items: flex-end;
   justify-content: center;
 
-  font-size: 95px;
+  font-size: 94px;
 
-  z-index: 25;
+  z-index: 12;
 
-  transform-origin:
-    center bottom;
-
-  transition:
-    transform .35s ease,
-    bottom .65s ease,
-    left .65s ease,
-    opacity .3s ease;
+  transform-origin: center bottom;
 }
 
-.toy[data-slot="0"] {
-  left: 30px;
+.toy-1 {
+  left: 28px;
 }
 
-.toy[data-slot="1"] {
-  left: 220px;
+.toy-2 {
+  left: 216px;
 }
 
-.toy[data-slot="2"] {
-  left: 410px;
+.toy-3 {
+  left: 404px;
 }
 
-/* =====================================================
-   ТЕНЬ ИГРУШЕК
-===================================================== */
+/* тень */
 
 .toy::after {
   content: "";
@@ -521,33 +524,95 @@ button {
   position: absolute;
 
   left: 50%;
-  bottom: 0;
-
-  transform:
-    translateX(-50%);
+  bottom: -5px;
 
   width: 90px;
-  height: 17px;
+  height: 18px;
+
+  transform: translateX(-50%);
 
   border-radius: 50%;
 
-  background:
-    rgba(60,50,60,.13);
+  background: rgba(62,58,70,.12);
 
-  filter:
-    blur(5px);
+  filter: blur(5px);
 
   z-index: -1;
 }
 
 /* =====================================================
-   PNG КОРПУС
+   СТЕКЛО
 
-   ВАЖНО:
-   ОН ЛЕЖИТ ПОВЕРХ ВСЕЙ ВНУТРЕННОСТИ.
+   ЭТО ОТДЕЛЬНЫЙ СЛОЙ.
 ===================================================== */
 
-.machine-image {
+#glass {
+  position: absolute;
+
+  left: 84px;
+  top: 195px;
+
+  width: 567px;
+  height: 570px;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  z-index: 80;
+}
+
+#glass::before {
+  content: "";
+
+  position: absolute;
+
+  left: 45px;
+  top: -100px;
+
+  width: 70px;
+  height: 800px;
+
+  transform: rotate(18deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.24),
+      transparent
+    );
+}
+
+#glass::after {
+  content: "";
+
+  position: absolute;
+
+  right: 75px;
+  top: -100px;
+
+  width: 35px;
+  height: 800px;
+
+  transform: rotate(18deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.13),
+      transparent
+    );
+}
+
+/* =====================================================
+   ПЕРЕДНЯЯ РАМА
+
+   САМЫЙ ВАЖНЫЙ СЛОЙ.
+===================================================== */
+
+#machineFront {
   position: absolute;
 
   left: 0;
@@ -558,53 +623,48 @@ button {
 
   object-fit: contain;
 
-  z-index: 100;
-
   pointer-events: none;
+
+  z-index: 100;
 }
 
 /* =====================================================
-   КЛИКАБЕЛЬНЫЕ ЗОНЫ КНОПОК
-
-   ЛЕЖАТ ПОВЕРХ machine.png
+   НЕВИДИМЫЕ КНОПКИ
 ===================================================== */
 
-.hotspot {
+.control {
   position: absolute;
 
   z-index: 150;
 
+  border: 0;
   padding: 0;
-  margin: 0;
 
-  border: none;
-
-  background:
-    transparent;
+  background: transparent;
 
   cursor: pointer;
 }
 
-/* ЛЕВАЯ */
+/* ВЛЕВО */
 
 #leftButton {
-  left: 103px;
-  top: 824px;
+  left: 105px;
+  top: 826px;
 
-  width: 110px;
-  height: 95px;
+  width: 112px;
+  height: 100px;
 
   border-radius: 50%;
 }
 
-/* ПРАВАЯ */
+/* ВПРАВО */
 
 #rightButton {
-  left: 222px;
-  top: 824px;
+  left: 225px;
+  top: 826px;
 
-  width: 110px;
-  height: 95px;
+  width: 112px;
+  height: 100px;
 
   border-radius: 50%;
 }
@@ -613,69 +673,34 @@ button {
 
 #grabButton {
   left: 400px;
-  top: 807px;
+  top: 810px;
 
-  width: 125px;
-  height: 125px;
+  width: 128px;
+  height: 128px;
 
   border-radius: 50%;
 }
 
 /* =====================================================
-   ЭФФЕКТ НАЖАТИЯ
+   НАЖАТИЕ
 ===================================================== */
 
-.hotspot::after {
+.control::after {
   content: "";
 
   position: absolute;
-
   inset: 5px;
 
   border-radius: inherit;
-
-  background:
-    transparent;
 
   transition:
     background .1s,
     transform .1s;
 }
 
-.hotspot:active::after {
-  background:
-    rgba(0,0,0,.10);
-
-  transform:
-    scale(.88);
-}
-
-/* =====================================================
-   ТЕСТОВАЯ ПОДПИСЬ
-===================================================== */
-
-.test-label {
-  position: absolute;
-
-  right: 75px;
-  bottom: 45px;
-
-  padding:
-    12px 20px;
-
-  border-radius: 20px;
-
-  background:
-    rgba(255,255,255,.65);
-
-  color:
-    rgba(70,70,80,.62);
-
-  font-size: 17px;
-  font-weight: 800;
-
-  backdrop-filter:
-    blur(5px);
+.control:active::after {
+  background: rgba(0,0,0,.09);
+  transform: scale(.88);
 }
 
 </style>
@@ -685,171 +710,158 @@ button {
 
 <div id="viewport">
 
-<div id="game">
-
-  <!-- =================================================
-       ЗАДАНИЕ
-  ================================================== -->
-
-  <div class="task">
-
-    <div class="task-small">
-      Поймай нужную игрушку
-    </div>
-
-    <div class="task-main">
-      Найди звук <b>С</b><br>
-      В СЕРЕДИНЕ слова
-    </div>
-
-  </div>
-
-  <!-- =================================================
-       РАУНД
-  ================================================== -->
-
-  <div class="progress">
-    🧸 Раунд 1 из 10
-  </div>
-
-  <!-- =================================================
-       АВТОМАТ
-  ================================================== -->
-
-  <div id="machine">
+  <div id="game">
 
     <!-- ===============================================
-         ВНУТРЕННЯЯ ЧАСТЬ АВТОМАТА
+         ЗАДАНИЕ
     ================================================ -->
 
-    <div id="glassArea">
+    <div class="task">
 
-      <!-- РЕЛЬС -->
+      <div class="task-small">
+        Поймай нужную игрушку
+      </div>
 
-      <div id="rail"></div>
+      <div class="task-main">
+        Найди звук <b>С</b><br>
+        В СЕРЕДИНЕ слова
+      </div>
+
+    </div>
+
+    <div class="progress">
+      🧸 Раунд 1 из 10
+    </div>
+
+    <!-- ===============================================
+         АВТОМАТ
+    ================================================ -->
+
+    <div id="machine">
 
       <!-- =============================================
-           КЛЕШНЯ
+           ВНУТРЕННЯЯ КАМЕРА
       ============================================== -->
 
-      <div id="clawSystem">
+      <div id="machineInside">
 
-        <!-- КАРЕТКА -->
+        <div class="inside-light"></div>
 
-        <img
-          id="clawCart"
-          src="claw-cart.png"
-          alt=""
-          draggable="false"
-        >
+        <div class="inside-floor"></div>
 
-        <!-- ТРОС -->
+        <!-- РЕЛЬС -->
 
-        <div id="cable"></div>
+        <div id="rail"></div>
 
-        <!-- ЛАПКИ -->
+        <!-- ===========================================
+             КЛЕШНЯ
+        ============================================ -->
 
-        <div id="claw">
+        <div id="clawSystem">
 
           <img
-            id="clawBody"
-            src="claw-body.png"
+            id="clawCart"
+            src="claw-cart.png"
             alt=""
             draggable="false"
           >
 
-          <img
-            id="clawLeft"
-            src="claw-left.png"
-            alt=""
-            draggable="false"
-          >
+          <div id="cable"></div>
 
-          <img
-            id="clawRight"
-            src="claw-right.png"
-            alt=""
-            draggable="false"
-          >
+          <div id="claw">
 
+            <img
+              id="clawBody"
+              src="claw-body.png"
+              alt=""
+              draggable="false"
+            >
+
+            <img
+              id="clawLeft"
+              src="claw-left.png"
+              alt=""
+              draggable="false"
+            >
+
+            <img
+              id="clawRight"
+              src="claw-right.png"
+              alt=""
+              draggable="false"
+            >
+
+          </div>
+
+        </div>
+
+        <!-- ===========================================
+             ИГРУШКИ
+        ============================================ -->
+
+        <div class="toy toy-1">
+          🦉
+        </div>
+
+        <div class="toy toy-2">
+          🦊
+        </div>
+
+        <div class="toy toy-3">
+          🍍
         </div>
 
       </div>
 
       <!-- =============================================
-           ТЕСТОВЫЕ ИГРУШКИ
+           БЛИКИ СТЕКЛА
       ============================================== -->
 
-      <div
-        class="toy"
-        data-slot="0"
-      >
-        🦉
-      </div>
+      <div id="glass"></div>
 
-      <div
-        class="toy"
-        data-slot="1"
-      >
-        🦊
-      </div>
+      <!-- =============================================
+           КОРПУС
+      ============================================== -->
 
-      <div
-        class="toy"
-        data-slot="2"
+      <img
+        id="machineFront"
+        src="machine-front.png"
+        alt=""
+        draggable="false"
       >
-        🍍
-      </div>
+
+      <!-- =============================================
+           КНОПКИ
+      ============================================== -->
+
+      <button
+        id="leftButton"
+        class="control"
+        aria-label="Влево"
+      ></button>
+
+      <button
+        id="rightButton"
+        class="control"
+        aria-label="Вправо"
+      ></button>
+
+      <button
+        id="grabButton"
+        class="control"
+        aria-label="Поймать"
+      ></button>
 
     </div>
 
-    <!-- ===============================================
-         ПЕРЕДНЯЯ РАМА АВТОМАТА
-    ================================================ -->
-
-    <img
-      class="machine-image"
-      src="machine.png"
-      alt=""
-      draggable="false"
-    >
-
-    <!-- ===============================================
-         НЕВИДИМЫЕ КНОПКИ
-    ================================================ -->
-
-    <button
-      id="leftButton"
-      class="hotspot"
-      aria-label="Влево"
-    ></button>
-
-    <button
-      id="rightButton"
-      class="hotspot"
-      aria-label="Вправо"
-    ></button>
-
-    <button
-      id="grabButton"
-      class="hotspot"
-      aria-label="Поймать игрушку"
-    ></button>
-
   </div>
-
-  <div class="test-label">
-    Тест механизма клешни
-  </div>
-
-</div>
 
 </div>
 
 <script>
 
 /* =====================================================
-   МАСШТАБ 1920 × 1080
+   МАСШТАБ
 ===================================================== */
 
 const GAME_WIDTH = 1920;
@@ -877,7 +889,6 @@ function resizeGame() {
 
   game.style.transform =
     `scale(${scale})`;
-
 }
 
 window.addEventListener(
@@ -892,43 +903,31 @@ resizeGame();
 ===================================================== */
 
 const clawSystem =
-  document.getElementById(
-    "clawSystem"
-  );
+  document.getElementById("clawSystem");
 
 const claw =
-  document.getElementById(
-    "claw"
-  );
+  document.getElementById("claw");
 
 const cable =
-  document.getElementById(
-    "cable"
-  );
+  document.getElementById("cable");
 
 const leftButton =
-  document.getElementById(
-    "leftButton"
-  );
+  document.getElementById("leftButton");
 
 const rightButton =
-  document.getElementById(
-    "rightButton"
-  );
+  document.getElementById("rightButton");
 
 const grabButton =
-  document.getElementById(
-    "grabButton"
-  );
+  document.getElementById("grabButton");
 
 /* =====================================================
-   ТРИ ПОЗИЦИИ КЛЕШНИ
+   ПОЗИЦИИ ТРЁХ ИГРУШЕК
 ===================================================== */
 
 const SLOT_X = [
-  4,
-  192,
-  380
+  3,
+  191,
+  379
 ];
 
 let currentSlot = 1;
@@ -943,24 +942,18 @@ function wait(ms) {
 
   return new Promise(
     resolve =>
-      setTimeout(
-        resolve,
-        ms
-      )
+      setTimeout(resolve, ms)
   );
-
 }
 
 /* =====================================================
-   ПЕРЕМЕЩЕНИЕ КЛЕШНИ
+   ПЕРЕДВИЖЕНИЕ
 ===================================================== */
 
 function updateClawPosition() {
 
   clawSystem.style.left =
-    SLOT_X[currentSlot] +
-    "px";
-
+    SLOT_X[currentSlot] + "px";
 }
 
 updateClawPosition();
@@ -980,9 +973,7 @@ leftButton.addEventListener(
       currentSlot--;
 
       updateClawPosition();
-
     }
-
   }
 );
 
@@ -1001,21 +992,21 @@ rightButton.addEventListener(
       currentSlot++;
 
       updateClawPosition();
-
     }
-
   }
 );
 
 /* =====================================================
-   ЗАХВАТ
+   КРАСНАЯ КНОПКА
 
    ОДНО НАЖАТИЕ:
-
-   1. раскрывается
-   2. опускается
-   3. закрывается
-   4. поднимается
+   ОТКРЫЛАСЬ
+   ↓
+   СПУСТИЛАСЬ
+   ↓
+   ЗАКРЫЛАСЬ
+   ↓
+   ПОДНЯЛАСЬ
 ===================================================== */
 
 grabButton.addEventListener(
@@ -1026,117 +1017,72 @@ grabButton.addEventListener(
 
     busy = true;
 
-    /* =============================================
-       1. РАСКРЫВАЕМ
-    ============================================== */
+    /* 1. ОТКРЫВАЕМ */
 
-    claw.classList.remove(
-      "closed"
-    );
-
-    claw.classList.add(
-      "open"
-    );
+    claw.classList.remove("closed");
+    claw.classList.add("open");
 
     await wait(450);
 
-    /* =============================================
-       2. ОПУСКАЕМ
-    ============================================== */
+    /* 2. ОПУСКАЕМ */
 
-    cable.style.height =
-      "315px";
+    cable.style.height = "300px";
 
-    claw.style.top =
-      "360px";
+    claw.style.top = "354px";
 
     await wait(850);
 
-    /* =============================================
-       3. ЗАКРЫВАЕМ
-    ============================================== */
+    /* 3. ЗАКРЫВАЕМ */
 
-    claw.classList.remove(
-      "open"
-    );
-
-    claw.classList.add(
-      "closed"
-    );
+    claw.classList.remove("open");
+    claw.classList.add("closed");
 
     await wait(550);
 
-    /* =============================================
-       4. ПОДНИМАЕМ
-    ============================================== */
+    /* 4. ПОДНИМАЕМ */
 
-    cable.style.height =
-      "85px";
+    cable.style.height = "78px";
 
-    claw.style.top =
-      "130px";
+    claw.style.top = "132px";
 
     await wait(850);
 
-    /* =============================================
-       ПОКА ОСТАВЛЯЕМ ЗАКРЫТОЙ
-       НА КОРОТКИЙ МОМЕНТ
-    ============================================== */
+    /* ПОКА ОСТАВЛЯЕМ ЗАКРЫТОЙ */
 
-    await wait(350);
+    await wait(450);
 
-    /* =============================================
-       ВОЗВРАЩАЕМ В ОБЫЧНОЕ СОСТОЯНИЕ
-    ============================================== */
+    /* ВОЗВРАЩАЕМ */
 
-    claw.classList.remove(
-      "closed"
-    );
+    claw.classList.remove("closed");
 
     await wait(300);
 
     busy = false;
-
   }
 );
 
 /* =====================================================
-   КЛАВИАТУРА ДЛЯ ТЕСТА
+   КЛАВИАТУРА
 ===================================================== */
 
 document.addEventListener(
   "keydown",
   event => {
 
-    if (
-      event.key ===
-      "ArrowLeft"
-    ) {
-
+    if (event.key === "ArrowLeft") {
       leftButton.click();
-
     }
 
-    if (
-      event.key ===
-      "ArrowRight"
-    ) {
-
+    if (event.key === "ArrowRight") {
       rightButton.click();
-
     }
 
-    if (
-      event.code ===
-      "Space"
-    ) {
+    if (event.code === "Space") {
 
       event.preventDefault();
 
       grabButton.click();
-
     }
-
   }
 );
 
