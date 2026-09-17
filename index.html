@@ -9,6 +9,10 @@
 
 <style>
 
+/* =====================================================
+   ОСНОВА
+===================================================== */
+
 * {
   box-sizing: border-box;
 }
@@ -24,13 +28,23 @@ body {
 body {
   display: grid;
   place-items: center;
-  background: #36205c;
+
+  background: #263c67;
+
   font-family: "Trebuchet MS", Arial, sans-serif;
+
   user-select: none;
+  -webkit-user-select: none;
+}
+
+button {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* =====================================================
-   VIEWPORT
+   МАСШТАБИРУЕМОЕ ПОЛЕ
 ===================================================== */
 
 #viewport {
@@ -46,54 +60,118 @@ body {
   width: 1920px;
   height: 1080px;
 
-  transform-origin: top left;
   overflow: hidden;
 
+  transform-origin: top left;
+
   background:
-    radial-gradient(circle at 50% 20%, #8de8ff 0%, #57c9ed 40%, #349acb 100%);
+    radial-gradient(
+      circle at 50% 20%,
+      #fff4b8 0%,
+      #ffd98b 32%,
+      #ffb86b 68%,
+      #ee8458 100%
+    );
 }
 
 /* =====================================================
-   ЗАГОЛОВОК
+   ФОН
 ===================================================== */
 
-.title {
+.bg-circle {
   position: absolute;
-  top: 28px;
-  left: 0;
-  width: 100%;
 
-  text-align: center;
+  width: 800px;
+  height: 800px;
 
-  font-size: 55px;
-  font-weight: 900;
+  border-radius: 50%;
 
-  color: white;
+  background: rgba(255,255,255,.12);
 
-  text-shadow:
-    0 4px 0 #315a9a,
-    0 7px 12px rgba(0,0,0,.25);
+  left: -250px;
+  top: 300px;
 }
+
+.bg-circle.two {
+  width: 650px;
+  height: 650px;
+
+  left: auto;
+  right: -200px;
+  top: -180px;
+}
+
+/* =====================================================
+   ЗАДАНИЕ
+===================================================== */
 
 .task {
   position: absolute;
-  top: 105px;
-  left: 50%;
-  transform: translateX(-50%);
 
-  padding: 18px 45px;
+  left: 80px;
+  top: 80px;
 
-  background: white;
-  border-radius: 30px;
+  width: 520px;
 
-  font-size: 31px;
+  padding: 30px 35px;
+
+  border-radius: 35px;
+
+  background: rgba(255,255,255,.95);
+
+  box-shadow:
+    0 12px 0 rgba(157,83,66,.18),
+    0 20px 35px rgba(79,46,51,.14);
+
+  text-align: center;
+
+  color: #5b3e67;
+}
+
+.task-small {
+  font-size: 25px;
   font-weight: 800;
 
-  color: #315a9a;
+  opacity: .72;
+}
 
-  box-shadow: 0 8px 0 rgba(49,90,154,.25);
+.task-main {
+  margin-top: 8px;
 
-  white-space: nowrap;
+  font-size: 42px;
+  line-height: 1.08;
+
+  font-weight: 900;
+}
+
+.task-main b {
+  color: #ef4c5c;
+}
+
+/* =====================================================
+   ПРОГРЕСС
+===================================================== */
+
+.progress {
+  position: absolute;
+
+  left: 120px;
+  top: 315px;
+
+  width: 440px;
+
+  padding: 22px 30px;
+
+  border-radius: 28px;
+
+  background: rgba(255,255,255,.78);
+
+  text-align: center;
+
+  font-size: 27px;
+  font-weight: 900;
+
+  color: #6d4b6f;
 }
 
 /* =====================================================
@@ -103,21 +181,55 @@ body {
 .machine {
   position: absolute;
 
-  left: 280px;
-  top: 180px;
+  left: 670px;
+  top: 35px;
 
-  width: 1360px;
-  height: 850px;
+  width: 790px;
+  height: 1010px;
 
-  border-radius: 55px 55px 25px 25px;
+  border-radius: 28px 28px 18px 18px;
 
-  background: #ffcf43;
+  background: #f55262;
 
-  border: 18px solid #f59c26;
+  border: 12px solid #c93750;
 
   box-shadow:
-    0 20px 0 #c76b23,
-    0 35px 45px rgba(0,0,0,.25);
+    0 18px 0 #9f3046,
+    0 35px 55px rgba(78,35,50,.28);
+}
+
+/* =====================================================
+   ВЕРХНЯЯ ВЫВЕСКА
+===================================================== */
+
+.machine-sign {
+  position: absolute;
+
+  left: 25px;
+  right: 25px;
+  top: 20px;
+
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background: #fff2a8;
+
+  border: 7px solid #ffcc55;
+
+  box-shadow:
+    inset 0 -8px 0 rgba(222,158,55,.14);
+
+  color: #df4259;
+
+  font-size: 41px;
+  font-weight: 900;
+
+  letter-spacing: 2px;
 }
 
 /* =====================================================
@@ -127,241 +239,60 @@ body {
 .glass {
   position: absolute;
 
-  left: 55px;
-  top: 55px;
+  left: 42px;
+  top: 140px;
 
-  width: 1250px;
-  height: 520px;
+  width: 682px;
+  height: 575px;
 
   overflow: hidden;
 
-  border-radius: 30px;
-
-  border: 13px solid #ef8f28;
+  border: 11px solid #b52e49;
+  border-radius: 14px;
 
   background:
     linear-gradient(
-      115deg,
-      rgba(255,255,255,.42) 0%,
-      rgba(255,255,255,.08) 22%,
-      rgba(255,255,255,.18) 23%,
-      rgba(255,255,255,.03) 50%
+      118deg,
+      rgba(255,255,255,.55) 0%,
+      rgba(255,255,255,.12) 18%,
+      rgba(255,255,255,.06) 19%,
+      rgba(255,255,255,.22) 35%,
+      rgba(255,255,255,.03) 36%
     ),
-    #d9f6ff;
+    linear-gradient(
+      #c9f4ff,
+      #edfaff 72%,
+      #d2ecf2
+    );
 
   box-shadow:
-    inset 0 0 30px rgba(46,111,154,.25);
+    inset 0 0 28px rgba(38,103,130,.18);
 }
 
-/* =====================================================
-   РЕЛЬС
-===================================================== */
+/* блик */
 
-.rail {
+.glass::after {
+  content: "";
+
   position: absolute;
 
-  left: 75px;
-  right: 75px;
-  top: 34px;
-
-  height: 20px;
-
-  border-radius: 20px;
-
-  background: #596875;
-
-  box-shadow: inset 0 -5px 0 rgba(0,0,0,.25);
-}
-
-/* =====================================================
-   КЛЕШНЯ
-===================================================== */
-
-#clawAssembly {
-  position: absolute;
-
-  left: 530px;
-  top: 38px;
-
-  width: 130px;
-  height: 360px;
-
-  z-index: 20;
-
-  transition: left .16s linear;
-}
-
-.claw-cart {
-  position: absolute;
-
-  top: -10px;
-  left: 30px;
+  left: 45px;
+  top: -100px;
 
   width: 70px;
-  height: 48px;
+  height: 800px;
 
-  border-radius: 13px;
+  transform: rotate(19deg);
 
-  background: #687785;
+  background: rgba(255,255,255,.17);
 
-  border: 6px solid #46535e;
-}
+  pointer-events: none;
 
-#cable {
-  position: absolute;
-
-  top: 35px;
-  left: 62px;
-
-  width: 7px;
-  height: 95px;
-
-  background: #444d56;
-
-  border-radius: 5px;
-}
-
-#clawHead {
-  position: absolute;
-
-  left: 21px;
-  top: 122px;
-
-  width: 90px;
-  height: 65px;
-
-  transition: top .65s ease-in-out;
-}
-
-.claw-center {
-  position: absolute;
-
-  left: 27px;
-  top: 0;
-
-  width: 36px;
-  height: 34px;
-
-  border-radius: 10px 10px 16px 16px;
-
-  background: #737f89;
-
-  border: 5px solid #47535c;
-}
-
-.arm {
-  position: absolute;
-
-  top: 25px;
-
-  width: 13px;
-  height: 75px;
-
-  background: #697780;
-
-  border-radius: 10px;
-
-  transform-origin: top center;
-
-  transition: transform .25s;
-}
-
-.arm.left {
-  left: 25px;
-  transform: rotate(30deg);
-}
-
-.arm.right {
-  right: 25px;
-  transform: rotate(-30deg);
-}
-
-.claw.closed .arm.left {
-  transform: rotate(10deg);
-}
-
-.claw.closed .arm.right {
-  transform: rotate(-10deg);
-}
-
-.claw-foot {
-  position: absolute;
-
-  bottom: -7px;
-
-  width: 30px;
-  height: 12px;
-
-  border-radius: 12px;
-
-  background: #697780;
-}
-
-.arm.left .claw-foot {
-  left: -15px;
-  transform: rotate(25deg);
-}
-
-.arm.right .claw-foot {
-  right: -15px;
-  transform: rotate(-25deg);
+  z-index: 50;
 }
 
 /* =====================================================
-   ИГРУШКИ
-===================================================== */
-
-.toy {
-  position: absolute;
-
-  width: 155px;
-  height: 155px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-direction: column;
-
-  border-radius: 50px;
-
-  background: #ff91ad;
-
-  border: 8px solid white;
-
-  box-shadow:
-    0 10px 0 rgba(155,67,98,.25),
-    0 15px 20px rgba(0,0,0,.15);
-
-  font-size: 70px;
-
-  transition:
-    left .6s ease,
-    top .6s ease,
-    transform .4s ease;
-}
-
-.toy span {
-  margin-top: 3px;
-  font-size: 25px;
-  font-weight: 900;
-  color: #713d60;
-}
-
-.toy:nth-child(even) {
-  background: #9de17c;
-}
-
-.toy:nth-child(3n) {
-  background: #9ac9ff;
-}
-
-.toy:nth-child(4n) {
-  background: #d5a8ff;
-}
-
-/* =====================================================
-   НИЗ КУЧИ
+   ЗАДНЯЯ СТЕНКА / ПОЛ
 ===================================================== */
 
 .toy-floor {
@@ -371,105 +302,429 @@ body {
   bottom: 0;
 
   width: 100%;
-  height: 85px;
+  height: 112px;
 
-  background: #ffc94e;
+  background:
+    linear-gradient(
+      #f8cad2,
+      #e8a9b8
+    );
 
-  border-top: 10px solid #ef9d2e;
+  border-top: 7px solid #cf7f92;
+
+  z-index: 1;
 }
 
 /* =====================================================
-   ПАНЕЛЬ
+   РЕЛЬС
 ===================================================== */
 
-.controls {
+.rail {
   position: absolute;
 
-  left: 70px;
-  right: 70px;
-  bottom: 35px;
+  left: 38px;
+  right: 38px;
+  top: 32px;
 
-  height: 185px;
+  height: 18px;
 
-  border-radius: 35px;
+  border-radius: 20px;
 
-  background: #f9b62d;
+  background:
+    linear-gradient(
+      #86939e,
+      #46515b
+    );
 
-  border: 10px solid #e58725;
+  border: 3px solid #39434c;
 
-  box-shadow: inset 0 8px 0 rgba(255,255,255,.22);
+  box-shadow:
+    0 5px 8px rgba(0,0,0,.16);
+
+  z-index: 20;
 }
 
 /* =====================================================
-   СТРЕЛКИ
+   КЛЕШНЯ
 ===================================================== */
+
+#clawAssembly {
+  position: absolute;
+
+  left: 276px;
+  top: 26px;
+
+  width: 110px;
+  height: 430px;
+
+  z-index: 30;
+
+  transition: left .18s linear;
+}
+
+.claw-cart {
+  position: absolute;
+
+  left: 24px;
+  top: -5px;
+
+  width: 62px;
+  height: 43px;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      #929da5,
+      #56616a
+    );
+
+  border: 4px solid #414b54;
+
+  z-index: 4;
+}
+
+#cable {
+  position: absolute;
+
+  left: 52px;
+  top: 35px;
+
+  width: 6px;
+  height: 75px;
+
+  border-radius: 10px;
+
+  background: #343b42;
+
+  transition: height .62s ease-in-out;
+}
+
+#clawHead {
+  position: absolute;
+
+  left: 5px;
+  top: 105px;
+
+  width: 100px;
+  height: 100px;
+
+  transition: top .62s ease-in-out;
+}
+
+.claw-center {
+  position: absolute;
+
+  left: 33px;
+  top: 0;
+
+  width: 34px;
+  height: 33px;
+
+  border-radius: 8px 8px 15px 15px;
+
+  background:
+    linear-gradient(
+      #aeb6bc,
+      #65717a
+    );
+
+  border: 4px solid #4a555e;
+}
+
+.claw-arm {
+  position: absolute;
+
+  top: 25px;
+
+  width: 10px;
+  height: 72px;
+
+  border-radius: 10px;
+
+  background: #66737c;
+
+  transform-origin: top center;
+
+  transition: transform .22s ease;
+}
+
+.claw-arm.left {
+  left: 32px;
+  transform: rotate(32deg);
+}
+
+.claw-arm.right {
+  right: 32px;
+  transform: rotate(-32deg);
+}
+
+#clawHead.closed .claw-arm.left {
+  transform: rotate(11deg);
+}
+
+#clawHead.closed .claw-arm.right {
+  transform: rotate(-11deg);
+}
+
+.claw-tip {
+  position: absolute;
+
+  bottom: -2px;
+
+  width: 27px;
+  height: 10px;
+
+  border-radius: 10px;
+
+  background: #66737c;
+}
+
+.left .claw-tip {
+  left: -16px;
+  transform: rotate(24deg);
+}
+
+.right .claw-tip {
+  right: -16px;
+  transform: rotate(-24deg);
+}
+
+/* =====================================================
+   ИГРУШКИ
+===================================================== */
+
+.toy {
+  position: absolute;
+
+  top: 340px;
+
+  width: 155px;
+  height: 180px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  z-index: 10;
+
+  transition:
+    left .55s ease,
+    top .55s ease,
+    transform .45s ease,
+    opacity .3s ease;
+
+  transform-origin: center bottom;
+}
+
+.toy-body {
+  position: relative;
+
+  width: 140px;
+  height: 140px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 48% 48% 42% 42%;
+
+  background: #f0a9b8;
+
+  border: 7px solid rgba(255,255,255,.88);
+
+  box-shadow:
+    0 10px 0 rgba(115,65,82,.13),
+    0 14px 18px rgba(76,59,72,.12);
+
+  font-size: 82px;
+}
+
+.toy:nth-of-type(5) .toy-body {
+  background: #a8d8ff;
+}
+
+.toy:nth-of-type(6) .toy-body {
+  background: #b8e5a3;
+}
+
+.toy:nth-of-type(7) .toy-body {
+  background: #e6b5ff;
+}
+
+/* ножки */
+
+.toy-body::before,
+.toy-body::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: -19px;
+
+  width: 38px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  background: inherit;
+
+  border: 5px solid rgba(255,255,255,.82);
+
+  z-index: -1;
+}
+
+.toy-body::before {
+  left: 18px;
+  transform: rotate(17deg);
+}
+
+.toy-body::after {
+  right: 18px;
+  transform: rotate(-17deg);
+}
+
+/* =====================================================
+   ТРИ ФИКСИРОВАННЫЕ ПОЗИЦИИ
+===================================================== */
+
+.toy[data-slot="0"] {
+  left: 48px;
+}
+
+.toy[data-slot="1"] {
+  left: 255px;
+}
+
+.toy[data-slot="2"] {
+  left: 462px;
+}
+
+/* =====================================================
+   НИЖНЯЯ ЧАСТЬ АВТОМАТА
+===================================================== */
+
+.lower-machine {
+  position: absolute;
+
+  left: 42px;
+  top: 735px;
+
+  width: 682px;
+  height: 225px;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      #ff6978,
+      #e84b62
+    );
+
+  border: 8px solid #b52e49;
+
+  box-shadow:
+    inset 0 8px 0 rgba(255,255,255,.12);
+}
+
+/* =====================================================
+   ПАНЕЛЬ СТРЕЛОК
+===================================================== */
+
+.control-panel {
+  position: absolute;
+
+  left: 28px;
+  top: 28px;
+
+  width: 300px;
+  height: 150px;
+
+  border-radius: 20px;
+
+  background: #ffd86a;
+
+  border: 6px solid #e9a83d;
+
+  box-shadow:
+    0 7px 0 #bc7432;
+}
 
 .arrows {
   position: absolute;
 
-  left: 120px;
-  top: 38px;
+  left: 20px;
+  top: 26px;
 
   display: flex;
-  gap: 35px;
+  gap: 18px;
 }
 
 .arrow-button {
-  width: 125px;
-  height: 105px;
+  width: 105px;
+  height: 88px;
 
   border: 0;
-  border-radius: 25px;
+  border-radius: 18px;
 
-  background: #58a9df;
-
-  box-shadow:
-    0 10px 0 #2874ac,
-    0 14px 20px rgba(0,0,0,.18);
+  background:
+    linear-gradient(
+      #66c5f1,
+      #398fc7
+    );
 
   color: white;
 
-  font-size: 64px;
+  font-size: 57px;
+  line-height: 1;
+
   font-weight: 900;
 
   cursor: pointer;
+
+  box-shadow:
+    0 8px 0 #23689a,
+    0 11px 15px rgba(0,0,0,.18);
 }
 
 .arrow-button:active {
-  transform: translateY(8px);
+  transform: translateY(6px);
+
   box-shadow:
-    0 2px 0 #2874ac;
+    0 2px 0 #23689a;
 }
 
 /* =====================================================
    КРАСНАЯ КНОПКА
 ===================================================== */
 
-.red-button-base {
+.red-base {
   position: absolute;
 
-  right: 165px;
-  top: 25px;
+  left: 355px;
+  top: 47px;
 
-  width: 150px;
-  height: 135px;
+  width: 125px;
+  height: 112px;
 
   border-radius: 50%;
 
-  background: #8f3131;
+  background: #852b37;
 
   box-shadow:
-    0 10px 0 #63302c;
+    0 8px 0 #64222c;
 }
 
 #grabButton {
   position: absolute;
 
-  left: 10px;
-  top: 0;
+  left: 8px;
+  top: -7px;
 
-  width: 130px;
-  height: 110px;
+  width: 109px;
+  height: 94px;
 
   border: 0;
   border-radius: 50%;
@@ -477,64 +732,136 @@ body {
   cursor: pointer;
 
   background:
-    radial-gradient(circle at 38% 28%, #ff7979 0%, #f32929 38%, #bb1111 75%);
+    radial-gradient(
+      circle at 35% 25%,
+      #ff9999 0%,
+      #ff414d 28%,
+      #df142c 65%,
+      #a50920 100%
+    );
 
   box-shadow:
-    inset 0 7px 9px rgba(255,255,255,.45),
-    inset 0 -8px 10px rgba(100,0,0,.3),
-    0 9px 0 #8e0d0d,
-    0 12px 15px rgba(0,0,0,.3);
+    inset 0 7px 8px rgba(255,255,255,.42),
+    inset 0 -8px 10px rgba(90,0,10,.28),
+    0 9px 0 #8e0a20,
+    0 13px 17px rgba(0,0,0,.25);
 }
 
 #grabButton:active {
-  top: 8px;
+  top: 1px;
 
   box-shadow:
-    inset 0 5px 8px rgba(255,255,255,.35),
-    inset 0 -5px 8px rgba(100,0,0,.3),
-    0 2px 0 #8e0d0d;
+    inset 0 4px 7px rgba(255,255,255,.3),
+    inset 0 -5px 8px rgba(90,0,10,.25),
+    0 2px 0 #8e0a20;
 }
 
 /* =====================================================
-   ВЫДАЧА
+   ОКНО ВЫДАЧИ
 ===================================================== */
 
-.prize-door {
+.prize-section {
   position: absolute;
 
-  left: 560px;
-  bottom: 42px;
+  right: 25px;
+  top: 24px;
 
-  width: 260px;
-  height: 130px;
-
-  border-radius: 25px;
-
-  background: #453b55;
-
-  border: 10px solid #7b596c;
-
-  box-shadow: inset 0 10px 20px rgba(0,0,0,.45);
+  width: 145px;
+  height: 165px;
 }
 
-.prize-door::after {
-  content: "ЗАБЕРИ ИГРУШКУ";
-
+.prize-label {
   position: absolute;
 
+  top: 0;
   width: 100%;
-  bottom: -35px;
 
   text-align: center;
 
-  font-size: 18px;
-  font-weight: 900;
+  color: white;
 
-  color: #7a4727;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+#prizeDoor {
+  position: absolute;
+
+  left: 4px;
+  top: 30px;
+
+  width: 137px;
+  height: 116px;
+
+  overflow: hidden;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      #312a3b,
+      #17151d
+    );
+
+  border: 8px solid #982e45;
+
+  box-shadow:
+    inset 0 12px 25px rgba(0,0,0,.7);
+
+  cursor: default;
+}
+
+#doorToy {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%,-42%) scale(.65);
+
+  font-size: 85px;
+
+  opacity: 0;
+
+  transition:
+    opacity .3s,
+    transform .35s;
+}
+
+#prizeDoor.ready {
+  cursor: pointer;
+}
+
+#prizeDoor.ready #doorToy {
+  opacity: 1;
+
+  transform:
+    translate(-50%,-50%)
+    scale(1);
 }
 
 /* =====================================================
-   ВЫЛЕТАЮЩИЙ ПРИЗ
+   ПОДСКАЗКА КНОПКИ
+===================================================== */
+
+.button-hint {
+  position: absolute;
+
+  left: 355px;
+  top: 155px;
+
+  width: 125px;
+
+  text-align: center;
+
+  color: #8e3040;
+
+  font-size: 14px;
+  font-weight: 900;
+}
+
+/* =====================================================
+   ВЫЛЕТАЮЩАЯ ИГРУШКА
 ===================================================== */
 
 #prizeOverlay {
@@ -542,111 +869,175 @@ body {
 
   inset: 0;
 
-  z-index: 100;
+  z-index: 200;
 
   display: none;
 
   align-items: center;
   justify-content: center;
 
-  background: rgba(46,40,86,.35);
+  background: rgba(71,47,79,.3);
 }
 
 .prize-card {
-  width: 440px;
-  height: 480px;
+  position: relative;
+
+  width: 500px;
+  height: 560px;
 
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  border-radius: 70px;
+  flex-direction: column;
 
-  background: white;
+  border-radius: 65px;
 
-  border: 15px solid #ffd54f;
+  background:
+    linear-gradient(
+      #fffdf7,
+      #fff4da
+    );
+
+  border: 13px solid #ffd65c;
 
   box-shadow:
-    0 25px 60px rgba(0,0,0,.3);
+    0 28px 65px rgba(73,40,58,.32);
 
-  animation: prizePop .55s cubic-bezier(.2,1.6,.4,1);
+  animation:
+    prizePop .55s
+    cubic-bezier(.2,1.55,.35,1);
 }
 
-.prize-emoji {
-  font-size: 210px;
+#bigPrizeEmoji {
+  font-size: 245px;
 }
 
-#prizeWord {
-  font-size: 58px;
+#bigPrizeWord {
+  margin-top: 5px;
+
+  font-size: 60px;
   font-weight: 900;
-  color: #594276;
+
+  color: #67446d;
 }
 
 #nextButton {
-  margin-top: 30px;
+  margin-top: 25px;
 
-  padding: 20px 55px;
+  padding: 18px 58px;
 
   border: 0;
-  border-radius: 30px;
+  border-radius: 28px;
 
-  background: #ff5757;
+  background: #f24d60;
 
   color: white;
 
-  font-size: 30px;
+  font-size: 29px;
   font-weight: 900;
 
   cursor: pointer;
 
-  box-shadow: 0 8px 0 #bb3030;
+  box-shadow:
+    0 8px 0 #b52d43;
+}
+
+#nextButton:active {
+  transform: translateY(6px);
+
+  box-shadow:
+    0 2px 0 #b52d43;
 }
 
 @keyframes prizePop {
 
-  from {
-    transform: scale(.2) rotate(-15deg);
+  0% {
     opacity: 0;
+    transform:
+      scale(.15)
+      rotate(-15deg);
   }
 
-  to {
-    transform: scale(1) rotate(0);
+  100% {
     opacity: 1;
+    transform:
+      scale(1)
+      rotate(0);
   }
 
 }
 
 /* =====================================================
-   СООБЩЕНИЕ
+   КОНФЕТТИ
+===================================================== */
+
+.spark {
+  position: absolute;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 5px;
+
+  background: #ffd84d;
+
+  animation:
+    sparkFly .8s ease-out forwards;
+}
+
+@keyframes sparkFly {
+
+  from {
+    opacity: 1;
+    transform:
+      translate(0,0)
+      rotate(0);
+  }
+
+  to {
+    opacity: 0;
+    transform:
+      translate(
+        var(--x),
+        var(--y)
+      )
+      rotate(360deg);
+  }
+
+}
+
+/* =====================================================
+   МАЛЕНЬКОЕ СООБЩЕНИЕ
 ===================================================== */
 
 #message {
   position: absolute;
 
-  left: 50%;
-  top: 350px;
+  left: 270px;
+  top: 440px;
 
   transform: translateX(-50%);
 
-  z-index: 80;
+  padding: 20px 38px;
 
-  padding: 18px 40px;
-
-  border-radius: 30px;
+  border-radius: 28px;
 
   background: white;
 
-  font-size: 32px;
+  color: #68466d;
+
+  font-size: 29px;
   font-weight: 900;
 
-  color: #765385;
+  box-shadow:
+    0 10px 25px rgba(78,43,58,.18);
 
   opacity: 0;
 
-  pointer-events: none;
-
   transition: opacity .25s;
+
+  pointer-events: none;
 }
 
 #message.show {
@@ -662,19 +1053,43 @@ body {
 
 <div id="game">
 
-  <div class="title">
-    🧸 ПОЙМАЙ ИГРУШКУ!
-  </div>
+  <div class="bg-circle"></div>
+  <div class="bg-circle two"></div>
+
+  <!-- ЗАДАНИЕ -->
 
   <div class="task">
-    Найди слово, где звук С находится В СЕРЕДИНЕ
+
+    <div class="task-small">
+      Поймай нужную игрушку
+    </div>
+
+    <div class="task-main">
+      Найди звук <b>С</b><br>
+      В СЕРЕДИНЕ слова
+    </div>
+
   </div>
+
+  <div class="progress">
+    🧸 Раунд 1 из 10
+  </div>
+
+  <!-- АВТОМАТ -->
 
   <div class="machine">
 
-    <div class="glass" id="glass">
+    <div class="machine-sign">
+      ✦ ИГРУШКИ ✦
+    </div>
+
+    <!-- СТЕКЛО -->
+
+    <div class="glass">
 
       <div class="rail"></div>
+
+      <!-- КЛЕШНЯ -->
 
       <div id="clawAssembly">
 
@@ -682,105 +1097,114 @@ body {
 
         <div id="cable"></div>
 
-        <div id="clawHead" class="claw">
+        <div
+          id="clawHead"
+        >
 
           <div class="claw-center"></div>
 
-          <div class="arm left">
-            <div class="claw-foot"></div>
+          <div class="claw-arm left">
+            <div class="claw-tip"></div>
           </div>
 
-          <div class="arm right">
-            <div class="claw-foot"></div>
+          <div class="claw-arm right">
+            <div class="claw-tip"></div>
           </div>
 
         </div>
 
       </div>
 
-      <div class="toy-floor"></div>
+      <!-- ТРИ ИГРУШКИ -->
 
       <div
         class="toy"
-        data-correct="false"
+        data-slot="0"
         data-word="СОВА"
         data-emoji="🦉"
-        style="left:90px; top:330px;"
+        data-correct="false"
       >
-        🦉
-        <span>СОВА</span>
+        <div class="toy-body">
+          🦉
+        </div>
       </div>
 
       <div
         class="toy"
-        data-correct="true"
+        data-slot="1"
         data-word="ЛИСА"
         data-emoji="🦊"
-        style="left:300px; top:320px;"
+        data-correct="true"
       >
-        🦊
-        <span>ЛИСА</span>
+        <div class="toy-body">
+          🦊
+        </div>
       </div>
 
       <div
         class="toy"
+        data-slot="2"
+        data-word="НОС"
+        data-emoji="👃"
         data-correct="false"
-        data-word="СЫР"
-        data-emoji="🧀"
-        style="left:520px; top:335px;"
       >
-        🧀
-        <span>СЫР</span>
+        <div class="toy-body">
+          👃
+        </div>
       </div>
 
-      <div
-        class="toy"
-        data-correct="false"
-        data-word="СУМКА"
-        data-emoji="👜"
-        style="left:750px; top:315px;"
-      >
-        👜
-        <span>СУМКА</span>
-      </div>
-
-      <div
-        class="toy"
-        data-correct="false"
-        data-word="СОК"
-        data-emoji="🧃"
-        style="left:980px; top:330px;"
-      >
-        🧃
-        <span>СОК</span>
-      </div>
+      <div class="toy-floor"></div>
 
     </div>
 
-    <div class="controls">
+    <!-- НИЖНЯЯ ПАНЕЛЬ -->
 
-      <div class="arrows">
+    <div class="lower-machine">
 
-        <button
-          class="arrow-button"
-          id="leftButton"
-        >
-          ←
-        </button>
+      <div class="control-panel">
 
-        <button
-          class="arrow-button"
-          id="rightButton"
-        >
-          →
-        </button>
+        <div class="arrows">
+
+          <button
+            class="arrow-button"
+            id="leftButton"
+          >
+            ←
+          </button>
+
+          <button
+            class="arrow-button"
+            id="rightButton"
+          >
+            →
+          </button>
+
+        </div>
 
       </div>
 
-      <div class="prize-door"></div>
+      <!-- КРАСНАЯ КНОПКА -->
 
-      <div class="red-button-base">
+      <div class="red-base">
         <button id="grabButton"></button>
+      </div>
+
+      <div class="button-hint">
+        ЛОВИ!
+      </div>
+
+      <!-- ВЫДАЧА -->
+
+      <div class="prize-section">
+
+        <div class="prize-label">
+          ПРИЗ
+        </div>
+
+        <div id="prizeDoor">
+          <div id="doorToy"></div>
+        </div>
+
       </div>
 
     </div>
@@ -789,18 +1213,17 @@ body {
 
   <div id="message"></div>
 
+  <!-- БОЛЬШОЙ ПРИЗ -->
+
   <div id="prizeOverlay">
 
     <div class="prize-card">
 
-      <div
-        class="prize-emoji"
-        id="prizeEmoji"
-      >
+      <div id="bigPrizeEmoji">
         🦊
       </div>
 
-      <div id="prizeWord">
+      <div id="bigPrizeWord">
         ЛИСА
       </div>
 
@@ -819,7 +1242,7 @@ body {
 <script>
 
 /* =====================================================
-   МАСШТАБИРОВАНИЕ 1920 × 1080
+   МАСШТАБИРОВАНИЕ
 ===================================================== */
 
 const GAME_W = 1920;
@@ -861,74 +1284,120 @@ resizeGame();
 ===================================================== */
 
 const clawAssembly =
-  document.getElementById("clawAssembly");
+  document.getElementById(
+    "clawAssembly"
+  );
 
 const clawHead =
-  document.getElementById("clawHead");
+  document.getElementById(
+    "clawHead"
+  );
 
 const cable =
-  document.getElementById("cable");
+  document.getElementById(
+    "cable"
+  );
 
 const leftButton =
-  document.getElementById("leftButton");
+  document.getElementById(
+    "leftButton"
+  );
 
 const rightButton =
-  document.getElementById("rightButton");
+  document.getElementById(
+    "rightButton"
+  );
 
 const grabButton =
-  document.getElementById("grabButton");
+  document.getElementById(
+    "grabButton"
+  );
 
-const message =
-  document.getElementById("message");
+const prizeDoor =
+  document.getElementById(
+    "prizeDoor"
+  );
+
+const doorToy =
+  document.getElementById(
+    "doorToy"
+  );
 
 const prizeOverlay =
-  document.getElementById("prizeOverlay");
+  document.getElementById(
+    "prizeOverlay"
+  );
 
-const prizeEmoji =
-  document.getElementById("prizeEmoji");
+const bigPrizeEmoji =
+  document.getElementById(
+    "bigPrizeEmoji"
+  );
 
-const prizeWord =
-  document.getElementById("prizeWord");
+const bigPrizeWord =
+  document.getElementById(
+    "bigPrizeWord"
+  );
 
 const nextButton =
-  document.getElementById("nextButton");
+  document.getElementById(
+    "nextButton"
+  );
+
+const message =
+  document.getElementById(
+    "message"
+  );
 
 /* =====================================================
-   СОСТОЯНИЕ
+   ПОЗИЦИИ КЛЕШНИ
+
+   Это центры трёх игрушек.
 ===================================================== */
 
-let clawX = 530;
+const SLOT_X = [
+  70,
+  277,
+  484
+];
 
-const MIN_X = 25;
-const MAX_X = 1095;
-const MOVE_STEP = 55;
+let currentSlot = 1;
 
 let busy = false;
 
+let prizeReady = false;
+
+let currentPrize = null;
+
 /* =====================================================
-   ДВИЖЕНИЕ КЛЕШНИ
+   ОБНОВЛЕНИЕ КЛЕШНИ
 ===================================================== */
 
-function updateClaw() {
+function updateClawPosition() {
 
   clawAssembly.style.left =
-    clawX + "px";
+    SLOT_X[currentSlot] + "px";
 
 }
+
+updateClawPosition();
+
+/* =====================================================
+   СТРЕЛКИ
+===================================================== */
 
 leftButton.addEventListener(
   "click",
   () => {
 
-    if (busy) return;
+    if (busy || prizeReady) return;
 
-    clawX -= MOVE_STEP;
+    if (currentSlot > 0) {
 
-    if (clawX < MIN_X) {
-      clawX = MIN_X;
+      currentSlot--;
+
+      updateClawPosition();
+
     }
-
-    updateClaw();
 
   }
 );
@@ -937,68 +1406,21 @@ rightButton.addEventListener(
   "click",
   () => {
 
-    if (busy) return;
+    if (busy || prizeReady) return;
 
-    clawX += MOVE_STEP;
+    if (currentSlot < 2) {
 
-    if (clawX > MAX_X) {
-      clawX = MAX_X;
+      currentSlot++;
+
+      updateClawPosition();
+
     }
-
-    updateClaw();
 
   }
 );
 
 /* =====================================================
-   ПОИСК ИГРУШКИ ПОД КЛЕШНЁЙ
-===================================================== */
-
-function findToyUnderClaw() {
-
-  const toys =
-    [...document.querySelectorAll(".toy")];
-
-  const clawCenter =
-    clawX + 65;
-
-  let nearest = null;
-  let nearestDistance = Infinity;
-
-  toys.forEach(toy => {
-
-    if (toy.dataset.removed === "true") {
-      return;
-    }
-
-    const toyCenter =
-      toy.offsetLeft +
-      toy.offsetWidth / 2;
-
-    const distance =
-      Math.abs(
-        toyCenter - clawCenter
-      );
-
-    if (distance < nearestDistance) {
-
-      nearestDistance = distance;
-      nearest = toy;
-
-    }
-
-  });
-
-  if (nearestDistance > 105) {
-    return null;
-  }
-
-  return nearest;
-
-}
-
-/* =====================================================
-   ВСПОМОГАТЕЛЬНАЯ ЗАДЕРЖКА
+   ЗАДЕРЖКА
 ===================================================== */
 
 function wait(ms) {
@@ -1020,54 +1442,87 @@ async function showMessage(text) {
 
   message.classList.add("show");
 
-  await wait(1100);
+  await wait(950);
 
   message.classList.remove("show");
 
 }
 
 /* =====================================================
-   ОПУСКАНИЕ КЛЕШНИ
+   ИГРУШКА ТЕКУЩЕГО СЛОТА
+===================================================== */
+
+function getCurrentToy() {
+
+  return document.querySelector(
+    `.toy[data-slot="${currentSlot}"]`
+  );
+
+}
+
+/* =====================================================
+   ОПУСКАНИЕ
 ===================================================== */
 
 async function lowerClaw() {
 
-  clawHead.style.top = "325px";
-  cable.style.height = "300px";
+  clawHead.style.top =
+    "330px";
 
-  await wait(700);
+  cable.style.height =
+    "300px";
+
+  await wait(680);
 
 }
 
 /* =====================================================
-   ПОДЪЁМ
+   ПОДЪЁМ БЕЗ ИГРУШКИ
 ===================================================== */
 
-async function raiseClaw() {
+async function raiseEmptyClaw() {
 
-  clawHead.style.top = "122px";
-  cable.style.height = "95px";
+  clawHead.style.top =
+    "105px";
 
-  await wait(700);
+  cable.style.height =
+    "75px";
+
+  await wait(680);
 
 }
 
 /* =====================================================
-   ЗАХВАТ
+   КРАСНАЯ КНОПКА
 ===================================================== */
 
 grabButton.addEventListener(
   "click",
   async () => {
 
-    if (busy) return;
+    if (busy || prizeReady) return;
 
     busy = true;
 
     const toy =
-      findToyUnderClaw();
+      getCurrentToy();
 
-    /* раскрываем лапки */
+    if (!toy) {
+
+      busy = false;
+      return;
+
+    }
+
+    const correct =
+      toy.dataset.correct === "true";
+
+    const originalSlot =
+      Number(toy.dataset.slot);
+
+    /* ---------------------------------------------
+       1. Клешня раскрыта и едет вниз
+    --------------------------------------------- */
 
     clawHead.classList.remove(
       "closed"
@@ -1075,7 +1530,9 @@ grabButton.addEventListener(
 
     await lowerClaw();
 
-    /* закрываем */
+    /* ---------------------------------------------
+       2. Закрываем лапки
+    --------------------------------------------- */
 
     clawHead.classList.add(
       "closed"
@@ -1083,154 +1540,248 @@ grabButton.addEventListener(
 
     await wait(300);
 
-    if (!toy) {
+    /* ---------------------------------------------
+       3. Игрушка цепляется за клешню
+    --------------------------------------------- */
 
-      await raiseClaw();
+    toy.style.zIndex = "29";
 
-      clawHead.classList.remove(
-        "closed"
-      );
+    toy.style.top = "285px";
 
-      await showMessage(
-        "Ничего не поймалось!"
-      );
+    await wait(300);
 
-      busy = false;
-
-      return;
-    }
-
-    const correct =
-      toy.dataset.correct === "true";
-
-    /* =================================================
-       ПОДНИМАЕМ ИГРУШКУ ВМЕСТЕ С КЛЕШНЁЙ
-    ================================================= */
-
-    const originalLeft =
-      toy.offsetLeft;
-
-    const originalTop =
-      toy.offsetTop;
-
-    toy.style.zIndex = "19";
-
-    toy.style.left =
-      clawX - 12 + "px";
-
-    toy.style.top =
-      "270px";
-
-    await wait(350);
+    /* ---------------------------------------------
+       4. Поднимаем
+    --------------------------------------------- */
 
     clawHead.style.top =
-      "122px";
+      "105px";
 
     cable.style.height =
-      "95px";
+      "75px";
 
     toy.style.top =
-      "70px";
+      "65px";
 
-    await wait(750);
+    await wait(720);
 
     /* =================================================
-       НЕПРАВИЛЬНАЯ ИГРУШКА
+       ОШИБКА
     ================================================= */
 
     if (!correct) {
 
-      /* лапки предательски раскрываются */
+      /*
+        Сначала игрушка действительно
+        поднялась.
+
+        Потом лапки раскрываются,
+        как в настоящем автомате.
+      */
+
+      await wait(250);
 
       clawHead.classList.remove(
         "closed"
       );
 
-      await wait(200);
+      await wait(130);
 
-      /* игрушка падает обратно */
+      /*
+        Игрушка падает обратно.
+      */
 
       toy.style.top =
-        originalTop + "px";
-
-      toy.style.left =
-        originalLeft + "px";
+        "340px";
 
       toy.style.transform =
-        "rotate(12deg)";
+        "rotate(11deg)";
 
-      await wait(600);
+      await wait(430);
+
+      toy.style.transform =
+        "rotate(-5deg)";
+
+      await wait(130);
 
       toy.style.transform =
         "rotate(0deg)";
+
+      await wait(180);
+
+      toy.style.zIndex = "10";
 
       await showMessage(
         "Попробуй ещё!"
       );
 
-      toy.style.zIndex = "";
-
       busy = false;
 
       return;
     }
 
     /* =================================================
-       ПРАВИЛЬНЫЙ ОТВЕТ
+       ПРАВИЛЬНАЯ ИГРУШКА
     ================================================= */
 
     /*
-       Перемещаем клешню к зоне выдачи.
-       Внутри стекла выдача примерно
-       находится в центре.
+      В настоящем автомате клешня
+      отвозит приз к зоне сброса.
+
+      Сделаем точку сброса справа.
     */
 
-    clawX = 570;
+    const dropX = 500;
 
-    updateClaw();
+    clawAssembly.style.left =
+      dropX + "px";
 
     toy.style.left =
-      clawX - 12 + "px";
+      dropX + 20 + "px";
 
-    await wait(850);
+    await wait(800);
 
-    /*
-       Игрушка падает вниз.
-    */
+    /* ---------------------------------------------
+       Отпускаем игрушку
+    --------------------------------------------- */
 
     clawHead.classList.remove(
       "closed"
     );
 
+    await wait(130);
+
     toy.style.top =
-      "500px";
+      "520px";
 
     toy.style.transform =
-      "scale(.65) rotate(10deg)";
+      "rotate(14deg) scale(.72)";
 
-    await wait(650);
+    await wait(500);
 
     toy.style.opacity = "0";
 
-    toy.dataset.removed = "true";
+    await wait(250);
 
-    await wait(350);
+    /* ---------------------------------------------
+       Игрушка появляется в выдаче
+    --------------------------------------------- */
 
-    /* =================================================
-       ПОКАЗ ПРИЗА
-    ================================================= */
+    currentPrize = {
+      word: toy.dataset.word,
+      emoji: toy.dataset.emoji
+    };
 
-    prizeEmoji.textContent =
-      toy.dataset.emoji;
+    doorToy.textContent =
+      currentPrize.emoji;
 
-    prizeWord.textContent =
-      toy.dataset.word;
+    prizeDoor.classList.add(
+      "ready"
+    );
+
+    prizeReady = true;
+
+    /*
+      Возвращаем клешню наверх
+      и к центру.
+    */
+
+    currentSlot = 1;
+
+    clawAssembly.style.left =
+      SLOT_X[currentSlot] + "px";
+
+    await wait(500);
+
+    busy = false;
+
+  }
+);
+
+/* =====================================================
+   ЗАБРАТЬ ИГРУШКУ ИЗ ОКНА
+===================================================== */
+
+prizeDoor.addEventListener(
+  "click",
+  () => {
+
+    if (!prizeReady) return;
+
+    bigPrizeEmoji.textContent =
+      currentPrize.emoji;
+
+    bigPrizeWord.textContent =
+      currentPrize.word;
 
     prizeOverlay.style.display =
       "flex";
 
+    createSparks();
+
   }
 );
+
+/* =====================================================
+   КОНФЕТТИ
+===================================================== */
+
+function createSparks() {
+
+  const card =
+    document.querySelector(
+      ".prize-card"
+    );
+
+  for (
+    let i = 0;
+    i < 24;
+    i++
+  ) {
+
+    const spark =
+      document.createElement("div");
+
+    spark.className = "spark";
+
+    spark.style.left =
+      240 + "px";
+
+    spark.style.top =
+      260 + "px";
+
+    const angle =
+      Math.random() *
+      Math.PI * 2;
+
+    const distance =
+      150 +
+      Math.random() * 230;
+
+    spark.style.setProperty(
+      "--x",
+      Math.cos(angle) *
+      distance +
+      "px"
+    );
+
+    spark.style.setProperty(
+      "--y",
+      Math.sin(angle) *
+      distance +
+      "px"
+    );
+
+    card.appendChild(spark);
+
+    setTimeout(
+      () => spark.remove(),
+      900
+    );
+
+  }
+
+}
 
 /* =====================================================
    ДАЛЬШЕ
@@ -1238,24 +1789,29 @@ grabButton.addEventListener(
 
 nextButton.addEventListener(
   "click",
-  () => {
+  async () => {
 
     prizeOverlay.style.display =
       "none";
 
-    /*
-      Пока это только тестовый раунд.
-
-      Позже здесь будет:
-      currentRound++;
-      createRound();
-    */
-
-    showMessage(
-      "Первый тестовый раунд пройден! 🎉"
+    prizeDoor.classList.remove(
+      "ready"
     );
 
-    busy = false;
+    doorToy.textContent = "";
+
+    prizeReady = false;
+
+    /*
+      Пока оставляем первый раунд.
+
+      На следующем этапе сюда
+      подключим массив из 10 раундов.
+    */
+
+    await showMessage(
+      "Игрушка поймана! 🧸"
+    );
 
   }
 );
