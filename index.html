@@ -2,6 +2,7 @@
 <html lang="ru">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -54,6 +55,7 @@ button {
     height: 1080px;
 
     overflow: hidden;
+
     transform-origin: top left;
 
     background:
@@ -85,6 +87,7 @@ button {
         0 15px 40px rgba(77,67,72,.13);
 
     text-align: center;
+
     color: #40506a;
 
     z-index: 20;
@@ -300,7 +303,7 @@ button {
 
 
 /* =========================================================
-   BODY
+   CLAW BODY
 ========================================================= */
 
 #clawBody {
@@ -445,6 +448,7 @@ button {
     left: 650px;
 }
 
+
 .toy.caught {
     z-index: 40;
 
@@ -474,68 +478,31 @@ button {
 
 
 /* =========================================================
-   SHAFT MASK
+   CHUTE FRONT
 
    ВАЖНО:
-   это НЕ новая чёрная дырка.
+   используется НОВЫЙ файл chute-front1.png.
 
-   Это невидимое окно точно поверх уже нарисованного
-   чёрного отверстия.
+   Сам PNG размером с автомат.
+   Поэтому компенсируем положение machineInside.
 
-   Всё, что находится внутри него, видно.
-   Всё, что выходит за его границы, обрезается.
+   Он выше игрушки.
 ========================================================= */
 
-#shaftMask {
+#chuteFront {
     position: absolute;
 
-    /*
-       Координаты относительно machineInside.
+    left: -100px;
+    top: -150px;
 
-       Подогнаны под чёрное отверстие
-       в machine-back-wide.png.
-    */
+    width: 1280px;
+    height: 960px;
 
-    left: 760px;
-    top: 374px;
+    object-fit: fill;
 
-    width: 215px;
-    height: 104px;
-
-    overflow: hidden;
-
-    z-index: 46;
+    z-index: 70;
 
     pointer-events: none;
-}
-
-
-/*
-   Копия игрушки, которая находится
-   ТОЛЬКО внутри шахты.
-*/
-
-#shaftToy {
-    position: absolute;
-
-    left: 0;
-    top: -145px;
-
-    width: 135px;
-    height: 145px;
-
-    object-fit: contain;
-    object-position: center bottom;
-
-    opacity: 0;
-
-    transform-origin: 50% 16%;
-
-    pointer-events: none;
-
-    will-change:
-        top,
-        transform;
 }
 
 
@@ -653,6 +620,7 @@ button {
 }
 
 </style>
+
 </head>
 
 
@@ -781,29 +749,18 @@ button {
             >
 
 
-            <!--
-                ОКНО ШАХТЫ
+            <!-- НОВАЯ ПЕРЕДНЯЯ КРОМКА ШАХТЫ -->
 
-                shaftToy физически существует только
-                внутри этого прямоугольника.
-            -->
-
-            <div id="shaftMask">
-
-                <img
-                    id="shaftToy"
-                    src=""
-                    alt=""
-                    draggable="false"
-                >
-
-            </div>
+            <img
+                id="chuteFront"
+                src="chute-front1.png"
+                alt=""
+                draggable="false"
+            >
 
 
         </div>
 
-
-        <!-- FRONT -->
 
         <img
             id="machineFront"
@@ -813,8 +770,6 @@ button {
         >
 
 
-        <!-- PRIZE -->
-
         <img
             id="prizeToy"
             src=""
@@ -823,19 +778,19 @@ button {
         >
 
 
-        <!-- CONTROLS -->
-
         <button
             id="leftButton"
             class="control"
             aria-label="Влево"
         ></button>
 
+
         <button
             id="rightButton"
             class="control"
             aria-label="Вправо"
         ></button>
+
 
         <button
             id="grabButton"
@@ -930,12 +885,6 @@ const grabButton =
 const prizeToy =
     document.getElementById("prizeToy");
 
-const shaftMask =
-    document.getElementById("shaftMask");
-
-const shaftToy =
-    document.getElementById("shaftToy");
-
 
 const toys = [
 
@@ -959,19 +908,13 @@ const SLOT_X = [
 ];
 
 
-/*
-   Центрируем клешню над шахтой.
+/* =========================================================
+   SHAFT POSITION
 
-   Центр shaftMask:
-   760 + 215/2 = 867.5
+   Это положение каретки над отверстием.
+========================================================= */
 
-   Центр клешни:
-   rigX + 85
-
-   867.5 - 85 = 782.5
-*/
-
-const DROP_RIG_X = 783;
+const DROP_RIG_X = 780;
 
 
 /* =========================================================
@@ -982,7 +925,7 @@ const CABLE_HOME = 42;
 
 const CABLE_LIFT = 52;
 
-const CABLE_DROP_APPROACH = 175;
+const CABLE_DROP_APPROACH = 170;
 
 const CABLE_DROP = 205;
 
@@ -1085,7 +1028,7 @@ function updatePosition() {
 
 
 /* =========================================================
-   CONTROLS
+   LEFT / RIGHT
 ========================================================= */
 
 leftButton.addEventListener(
@@ -1191,6 +1134,8 @@ function getLocalRect(element) {
 
 /* =========================================================
    FREEZE TOY
+
+   НИКАКОГО ПРЫЖКА.
 ========================================================= */
 
 function freezeToy(toy) {
@@ -1220,7 +1165,7 @@ function freezeToy(toy) {
 
 
 /* =========================================================
-   CAPTURE HELD OFFSET
+   CAPTURE REAL OFFSET
 ========================================================= */
 
 function captureHeldOffset() {
@@ -1371,7 +1316,8 @@ function stopFollowingToy() {
             followFrame
         );
 
-        followFrame = null;
+        followFrame =
+            null;
     }
 }
 
@@ -1421,6 +1367,8 @@ async function lowerClawToToy(toy) {
 
 /* =========================================================
    NATURAL GRAB
+
+   ЭТО ТВОЙ УДАЧНЫЙ ЗАХВАТ.
 ========================================================= */
 
 async function grabToyNaturally(toy) {
@@ -1429,17 +1377,22 @@ async function grabToyNaturally(toy) {
         toy
     );
 
+
     clawRig.classList.add(
         "grabbing"
     );
+
 
     setClaw(
         "closed"
     );
 
+
     await wait(470);
 
+
     await wait(90);
+
 
     captureHeldOffset();
 }
@@ -1453,11 +1406,14 @@ async function liftGrabbedToy() {
 
     startFollowingToy();
 
+
     await wait(32);
+
 
     setCable(
         CABLE_LIFT
     );
+
 
     await wait(1050);
 }
@@ -1542,6 +1498,7 @@ async function moveToShaft(toy) {
 
     await wait(450);
 
+
     await wait(120);
 
 
@@ -1560,6 +1517,7 @@ async function lowerOverShaft(toy) {
     setCable(
         CABLE_DROP_APPROACH
     );
+
 
     await wait(760);
 
@@ -1598,29 +1556,36 @@ async function lowerOverShaft(toy) {
 
 
 /* =========================================================
-   DROP INTO SHAFT
+   DROP INTO THE BLACK HOLE
 
-   ГЛАВНОЕ ИСПРАВЛЕНИЕ.
+   Здесь уже НЕ просто опускаем top.
+
+   Сначала точно центрируем игрушку
+   относительно шахты.
+
+   Затем она падает вниз ЗА chute-front1.
 ========================================================= */
 
 async function dropIntoShaft(toy) {
 
     /*
-       1. Клешня раскрывается.
+       Открываем клешню.
     */
 
     setClaw(
         "open"
     );
 
+
     await wait(190);
 
 
     /*
-       2. Останавливаем связь.
+       Отцепляем игрушку.
     */
 
     stopFollowingToy();
+
 
     clawRig.classList.remove(
         "grabbing"
@@ -1628,8 +1593,7 @@ async function dropIntoShaft(toy) {
 
 
     /*
-       3. Фиксируем игрушку в реальной
-       точке отпускания.
+       Фиксируем текущую позицию.
     */
 
     const pos =
@@ -1653,241 +1617,148 @@ async function dropIntoShaft(toy) {
 
 
     /*
-       4. Получаем реальное положение
-       самой маски шахты.
+       Координата ЦЕНТРА чёрной шахты
+       внутри machineInside.
+
+       Это не положение её края,
+       а точка, куда должен попасть
+       центр игрушки.
     */
 
-    const maskRect =
-        getLocalRect(shaftMask);
+    const shaftCenterX = 890;
 
 
     /*
-       Центр игрушки.
+       Вычисляем left игрушки так,
+       чтобы её центр оказался
+       точно в центре шахты.
     */
 
-    const toyCenterX =
-        pos.left +
+    const shaftLeft =
+        shaftCenterX -
         pos.width / 2;
-
-
-    /*
-       Положение копии относительно
-       внутреннего окна шахты.
-    */
-
-    const cloneLeft =
-        toyCenterX -
-        maskRect.left -
-        pos.width / 2;
-
-
-    /*
-       shaftToy получает ТО ЖЕ изображение.
-    */
-
-    shaftToy.src =
-        toy.src;
-
-
-    shaftToy.style.width =
-        `${pos.width}px`;
-
-    shaftToy.style.height =
-        `${pos.height}px`;
-
-    shaftToy.style.left =
-        `${cloneLeft}px`;
-
-
-    /*
-       В начале копия находится так,
-       чтобы совпадать по вертикали
-       с оригиналом.
-    */
-
-    let cloneTop =
-        pos.top -
-        maskRect.top;
-
-
-    shaftToy.style.transition =
-        "none";
-
-    shaftToy.style.top =
-        `${cloneTop}px`;
-
-    shaftToy.style.transform =
-        "rotate(0deg)";
-
-    shaftToy.style.opacity =
-        "1";
-
-
-    /*
-       ВАЖНО:
-
-       Пока оригинал ещё полностью выше
-       отверстия, именно он остаётся виден.
-
-       Копия существует, но overflow:hidden
-       показывает только ту её часть,
-       которая уже пересекает шахту.
-    */
 
 
     await wait(50);
 
 
     /*
-       5. Начинаем падение.
+       Совсем небольшая доводка к центру
+       во время начала падения.
 
-       Оригинал движется вниз до верхней
-       границы отверстия.
-
-       Копия двигается СИНХРОННО.
-    */
-
-
-    const shaftTop =
-        maskRect.top;
-
-
-    /*
-       Насколько игрушке надо пройти,
-       чтобы её верх оказался примерно
-       у верхней границы шахты.
-    */
-
-    const firstFall =
-        Math.max(
-            15,
-            shaftTop - pos.top + 12
-        );
-
-
-    /*
-       Оригинал.
+       Это выглядит как естественная
+       инерция после отпускания.
     */
 
     toy.style.transition =
-        "top .34s cubic-bezier(.38,.02,.78,.32)";
+        "left .18s ease-out, top .18s ease-in";
+
+
+    toy.style.left =
+        `${shaftLeft}px`;
 
     toy.style.top =
-        `${pos.top + firstFall}px`;
+        `${pos.top + 18}px`;
+
+
+    await wait(180);
 
 
     /*
-       Копия внутри маски.
+       Теперь игрушка входит
+       непосредственно в чёрное отверстие.
+
+       chute-front1 находится поверх неё,
+       поэтому нижняя часть игрушки
+       начинает скрываться.
     */
 
-    shaftToy.style.transition =
-        "top .34s cubic-bezier(.38,.02,.78,.32)";
-
-    shaftToy.style.top =
-        `${cloneTop + firstFall}px`;
+    toy.style.transition =
+        "top .30s cubic-bezier(.42,.02,.86,.35), transform .30s ease-in";
 
 
-    await wait(345);
+    toy.style.top =
+        `${pos.top + 115}px`;
+
+    toy.style.transform =
+        "rotate(2deg)";
+
+
+    await wait(300);
 
 
     /*
-       6. Вот здесь игрушка уже входит
-       в чёрное отверстие.
+       Игрушка проваливается глубже.
 
-       Убираем обычную игрушку.
+       Она всё ещё существует,
+       просто передняя стенка шахты
+       закрывает всё большую её часть.
+    */
 
-       НО визуально ничего не мигает:
-       та же самая часть уже отображается
-       shaftToy внутри маски.
+    toy.style.transition =
+        "top .28s cubic-bezier(.5,.02,.94,.32), transform .28s ease-in";
+
+
+    toy.style.top =
+        `${pos.top + 220}px`;
+
+    toy.style.transform =
+        "rotate(4deg) scale(.97)";
+
+
+    await wait(280);
+
+
+    /*
+       Теперь игрушка полностью
+       внутри шахты.
+
+       Убираем только ПОСЛЕ того,
+       как она физически скрылась.
     */
 
     toy.style.opacity =
         "0";
 
 
-    /*
-       7. Теперь продолжает падать ТОЛЬКО
-       версия внутри чёрной шахты.
-
-       Она физически не может появиться
-       за розовой стенкой, потому что
-       shaftMask её обрезает.
-    */
-
-    const currentCloneTop =
-        parseFloat(
-            shaftToy.style.top
-        );
-
-
-    shaftToy.style.transition =
-        "top .42s cubic-bezier(.45,.02,.88,.32), transform .42s ease-in";
-
-    shaftToy.style.top =
-        `${currentCloneTop + 115}px`;
-
-    shaftToy.style.transform =
-        "rotate(3deg)";
-
-
-    await wait(425);
-
-
-    /*
-       8. Последняя часть исчезает вниз.
-    */
-
-    const finalCloneTop =
-        parseFloat(
-            shaftToy.style.top
-        );
-
-
-    shaftToy.style.transition =
-        "top .32s cubic-bezier(.5,.02,.95,.3), transform .32s ease-in";
-
-    shaftToy.style.top =
-        `${finalCloneTop + 125}px`;
-
-    shaftToy.style.transform =
-        "rotate(5deg) scale(.96)";
-
-
-    await wait(330);
-
-
-    /*
-       Теперь она полностью ниже окна.
-    */
-
-    shaftToy.style.opacity =
-        "0";
-
-
-    await wait(180);
+    await wait(220);
 }
 
 
 /* =========================================================
-   CORRECT SEQUENCE
+   CORRECT
 ========================================================= */
 
 async function correctSequence(toy) {
 
     /*
-       ЭТУ ЧАСТЬ ОСТАВЛЯЕМ ПО ЛОГИКЕ
-       ТВОЕЙ УДАЧНОЙ АНИМАЦИИ.
+       1. Подъём.
     */
 
     await liftGrabbedToy();
+
+
+    /*
+       2. Качание.
+    */
 
     await settleSwing(
         toy
     );
 
+
+    /*
+       3. К шахте.
+    */
+
     await moveToShaft(
         toy
     );
+
+
+    /*
+       4. Опускаемся.
+    */
 
     await lowerOverShaft(
         toy
@@ -1895,7 +1766,7 @@ async function correctSequence(toy) {
 
 
     /*
-       Новое падение именно В шахту.
+       5. Падаем внутрь.
     */
 
     await dropIntoShaft(
@@ -1904,11 +1775,12 @@ async function correctSequence(toy) {
 
 
     /*
-       Появление в призовом окне.
+       6. Появляется приз.
     */
 
     prizeToy.src =
         toy.src;
+
 
     prizeToy.classList.add(
         "show"
@@ -1919,7 +1791,7 @@ async function correctSequence(toy) {
 
 
     /*
-       Клешня вверх.
+       7. Клешня вверх.
     */
 
     setCable(
@@ -1931,11 +1803,12 @@ async function correctSequence(toy) {
 
 
     /*
-       Возвращение.
+       8. Возвращаем каретку.
     */
 
     currentSlot =
         1;
+
 
     updatePosition();
 
@@ -1952,7 +1825,7 @@ async function correctSequence(toy) {
 
 
 /* =========================================================
-   WRONG SEQUENCE
+   WRONG
 ========================================================= */
 
 async function wrongSequence(
@@ -1961,6 +1834,7 @@ async function wrongSequence(
 ) {
 
     startFollowingToy();
+
 
     await wait(32);
 
@@ -1975,6 +1849,7 @@ async function wrongSequence(
 
     toy.style.transition =
         "transform .17s ease-out";
+
 
     toy.style.transform =
         "rotate(-2deg)";
@@ -1993,6 +1868,7 @@ async function wrongSequence(
 
     stopFollowingToy();
 
+
     clawRig.classList.remove(
         "grabbing"
     );
@@ -2005,11 +1881,14 @@ async function wrongSequence(
     toy.style.transition =
         "none";
 
+
     toy.style.left =
         `${pos.left}px`;
 
+
     toy.style.top =
         `${pos.top}px`;
+
 
     toy.style.bottom =
         "auto";
@@ -2031,6 +1910,7 @@ async function wrongSequence(
     toy.style.top =
         `${targetTop}px`;
 
+
     toy.style.transform =
         "rotate(3deg)";
 
@@ -2038,8 +1918,13 @@ async function wrongSequence(
     await wait(440);
 
 
+    /*
+       Мягкое приземление.
+    */
+
     toy.style.transition =
         "transform .09s ease-out";
+
 
     toy.style.transform =
         "rotate(-1deg) scaleY(.965)";
@@ -2051,6 +1936,7 @@ async function wrongSequence(
     toy.style.transition =
         "transform .18s cubic-bezier(.2,.8,.3,1.3)";
 
+
     toy.style.transform =
         "rotate(.6deg) scaleY(1)";
 
@@ -2061,6 +1947,7 @@ async function wrongSequence(
     toy.style.transition =
         "transform .14s ease-out";
 
+
     toy.style.transform =
         "rotate(0deg)";
 
@@ -2069,28 +1956,37 @@ async function wrongSequence(
 
 
     /*
-       Возвращаем игрушку домой.
+       Возвращаем игрушку.
     */
 
     toy.style.transition =
         "none";
 
+
     toy.style.top =
         "auto";
+
 
     toy.style.left =
         `${toyHome[index].left}px`;
 
+
     toy.style.bottom =
         `${toyHome[index].bottom}px`;
 
+
     toy.style.transform =
         "";
+
 
     toy.classList.remove(
         "caught"
     );
 
+
+    /*
+       Клешня наверх.
+    */
 
     setCable(
         CABLE_HOME
@@ -2154,7 +2050,7 @@ grabButton.addEventListener(
 
 
             /*
-               2. Опускаем.
+               2. Опускаемся.
             */
 
             await lowerClawToToy(
@@ -2166,7 +2062,7 @@ grabButton.addEventListener(
 
 
             /*
-               3. ТВОЙ УДАЧНЫЙ ЗАХВАТ.
+               3. Захватываем.
             */
 
             await grabToyNaturally(
@@ -2175,7 +2071,7 @@ grabButton.addEventListener(
 
 
             /*
-               4. Проверяем.
+               4. Проверяем игрушку.
             */
 
             const correct =
@@ -2217,6 +2113,7 @@ document.addEventListener(
         if (
             event.key === "ArrowLeft"
         ) {
+
             leftButton.click();
         }
 
@@ -2224,6 +2121,7 @@ document.addEventListener(
         if (
             event.key === "ArrowRight"
         ) {
+
             rightButton.click();
         }
 
@@ -2247,16 +2145,10 @@ document.addEventListener(
 prizeToy.src =
     "";
 
+
 prizeToy.classList.remove(
     "show"
 );
-
-
-shaftToy.src =
-    "";
-
-shaftToy.style.opacity =
-    "0";
 
 
 toys.forEach(
@@ -2287,4 +2179,5 @@ updatePosition();
 </script>
 
 </body>
+
 </html>
