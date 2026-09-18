@@ -140,7 +140,7 @@ button {
 
 
 /* =========================================================
-   WIDE MACHINE
+   MACHINE
 ========================================================= */
 
 #machine {
@@ -197,9 +197,6 @@ button {
 
 /* =========================================================
    CLAW RIG
-
-   Сам rig только отвечает за движение.
-   Не используем его как единый слой поверх игрушки.
 ========================================================= */
 
 #clawRig {
@@ -286,9 +283,7 @@ button {
 
 
 /* =========================================================
-   CLAW ASSEMBLY
-
-   Уменьшили примерно на 12%.
+   CLAW
 ========================================================= */
 
 #clawAssembly {
@@ -307,9 +302,7 @@ button {
 
 
 /* =========================================================
-   BODY
-
-   Корпус находится сзади игрушки.
+   CLAW BODY
 ========================================================= */
 
 #clawBody {
@@ -329,9 +322,7 @@ button {
 
 
 /* =========================================================
-   LEFT CLAW = ДАЛЬНЯЯ ЛАПКА
-
-   Она будет ЗА игрушкой.
+   BACK CLAW
 ========================================================= */
 
 #clawLeft {
@@ -349,17 +340,14 @@ button {
     z-index: 31;
 
     transition:
-        transform .46s
-        cubic-bezier(.34,1.02,.64,1);
+        transform .46s cubic-bezier(.34,1.02,.64,1);
 
     pointer-events: none;
 }
 
 
 /* =========================================================
-   RIGHT CLAW = БЛИЖНЯЯ ЛАПКА
-
-   Она находится ПЕРЕД игрушкой.
+   FRONT CLAW
 ========================================================= */
 
 #clawRight {
@@ -377,8 +365,7 @@ button {
     z-index: 55;
 
     transition:
-        transform .46s
-        cubic-bezier(.34,1.02,.64,1);
+        transform .46s cubic-bezier(.34,1.02,.64,1);
 
     pointer-events: none;
 }
@@ -417,12 +404,6 @@ button {
 
 /* =========================================================
    TOYS
-
-   Игрушка находится:
-
-   - ПЕРЕД body + left claw
-   - ЗА right claw
-
 ========================================================= */
 
 .toy {
@@ -469,20 +450,12 @@ button {
 }
 
 
-/* АНАНАС
-
-   Был 700.
-   Уводим заметно левее от шахты.
-*/
+/* АНАНАС */
 
 #toy2 {
     left: 650px;
 }
 
-
-/* =========================================================
-   CAUGHT TOY
-========================================================= */
 
 .toy.caught {
     z-index: 40;
@@ -494,15 +467,6 @@ button {
         );
 }
 
-
-/* =========================================================
-   ВАЖНО
-
-   Когда идёт захват, передняя лапка должна
-   оставаться поверх игрушки.
-
-   Сам body и левая лапка остаются позади.
-========================================================= */
 
 #clawRig.grabbing #clawBody {
     z-index: 32;
@@ -518,7 +482,7 @@ button {
 
 
 /* =========================================================
-   FRONT MACHINE
+   FRONT
 ========================================================= */
 
 #machineFront {
@@ -538,7 +502,7 @@ button {
 
 
 /* =========================================================
-   BUTTONS
+   CONTROLS
 ========================================================= */
 
 .control {
@@ -614,8 +578,7 @@ button {
 
     transition:
         opacity .28s ease,
-        transform .48s
-        cubic-bezier(.2,.9,.3,1.2);
+        transform .48s cubic-bezier(.2,.9,.3,1.2);
 
     z-index: 125;
 
@@ -664,8 +627,6 @@ button {
     <div id="machine">
 
 
-        <!-- BACK -->
-
         <img
             id="machineBack"
             src="machine-back-wide.png"
@@ -674,16 +635,8 @@ button {
         >
 
 
-        <!-- =================================================
-             INNER MACHINE
-        ================================================== -->
-
         <div id="machineInside">
 
-
-            <!-- =================================================
-                 CLAW
-            ================================================== -->
 
             <div id="clawRig">
 
@@ -705,10 +658,6 @@ button {
                         class="neutral"
                     >
 
-                        <!--
-                            BODY + LEFT находятся сзади.
-                        -->
-
                         <img
                             id="clawBody"
                             src="claw-body.png"
@@ -725,10 +674,6 @@ button {
                         >
 
 
-                        <!--
-                            RIGHT находится впереди.
-                        -->
-
                         <img
                             id="clawRight"
                             src="claw-right.png"
@@ -742,10 +687,6 @@ button {
 
             </div>
 
-
-            <!-- =================================================
-                 TOYS
-            ================================================== -->
 
             <img
                 class="toy"
@@ -783,8 +724,6 @@ button {
         </div>
 
 
-        <!-- FRONT -->
-
         <img
             id="machineFront"
             src="machine-front-wide.png"
@@ -793,8 +732,6 @@ button {
         >
 
 
-        <!-- PRIZE -->
-
         <img
             id="prizeToy"
             src=""
@@ -802,8 +739,6 @@ button {
             draggable="false"
         >
 
-
-        <!-- CONTROLS -->
 
         <button
             id="leftButton"
@@ -865,14 +800,11 @@ function resizeGame() {
             window.innerHeight / GAME_HEIGHT
         );
 
-
     viewport.style.width =
         GAME_WIDTH * scale + "px";
 
-
     viewport.style.height =
         GAME_HEIGHT * scale + "px";
-
 
     game.style.transform =
         `scale(${scale})`;
@@ -929,11 +861,6 @@ const toys = [
 
 /* =========================================================
    CLAW POSITIONS
-
-   Клешня стала немного меньше.
-
-   Её центр теперь:
-   rigX + 85px.
 ========================================================= */
 
 const SLOT_X = [
@@ -948,10 +875,16 @@ const SLOT_X = [
 
 
 /* =========================================================
-   DROP CHUTE
+   SHAFT / DROP POSITION
+
+   ВАЖНО:
+   это положение клешни над центром
+   чёрного отверстия.
+
+   Было 845 — слишком далеко вправо.
 ========================================================= */
 
-const DROP_RIG_X = 845;
+const DROP_RIG_X = 735;
 
 
 /* =========================================================
@@ -962,9 +895,9 @@ const CABLE_HOME = 42;
 
 const CABLE_LIFT = 52;
 
-const CABLE_DROP_APPROACH = 190;
+const CABLE_DROP_APPROACH = 185;
 
-const CABLE_DROP = 220;
+const CABLE_DROP = 218;
 
 const CABLE_WRONG_LIFT = 145;
 
@@ -980,6 +913,19 @@ let busy = false;
 let grabbedToy = null;
 
 let followFrame = null;
+
+
+/*
+   НОВОЕ.
+
+   Здесь мы будем хранить реальное положение
+   игрушки относительно клешни В МОМЕНТ ЗАХВАТА.
+
+   Благодаря этому никакого скачка не будет.
+*/
+
+let heldOffsetX = 0;
+let heldOffsetY = 0;
 
 
 /* =========================================================
@@ -1007,7 +953,6 @@ function setClaw(state) {
         "closed"
     );
 
-
     clawAssembly.classList.add(
         state
     );
@@ -1027,14 +972,6 @@ async function openClaw() {
     setClaw("open");
 
     await wait(460);
-}
-
-
-async function closeClaw() {
-
-    setClaw("closed");
-
-    await wait(470);
 }
 
 
@@ -1085,7 +1022,6 @@ leftButton.addEventListener(
             return;
         }
 
-
         currentSlot--;
 
         updatePosition();
@@ -1104,7 +1040,6 @@ rightButton.addEventListener(
             return;
         }
 
-
         currentSlot++;
 
         updatePosition();
@@ -1121,7 +1056,6 @@ const toyHome =
 
         const style =
             getComputedStyle(toy);
-
 
         return {
 
@@ -1142,82 +1076,149 @@ const toyHome =
 
 
 /* =========================================================
-   LOCAL TOY POSITION
+   POSITION HELPERS
 ========================================================= */
 
-function getToyLocalPosition(toy) {
+function getInsideScale() {
+
+    const rect =
+        machineInside.getBoundingClientRect();
+
+    return rect.width / INSIDE_WIDTH;
+}
+
+
+function getLocalRect(element) {
 
     const insideRect =
         machineInside.getBoundingClientRect();
 
-
-    const toyRect =
-        toy.getBoundingClientRect();
-
+    const rect =
+        element.getBoundingClientRect();
 
     const scale =
-        insideRect.width /
-        INSIDE_WIDTH;
-
+        getInsideScale();
 
     return {
 
         left:
-            (toyRect.left - insideRect.left) /
-            scale,
+            (rect.left - insideRect.left) / scale,
 
         top:
-            (toyRect.top - insideRect.top) /
-            scale
+            (rect.top - insideRect.top) / scale,
+
+        width:
+            rect.width / scale,
+
+        height:
+            rect.height / scale
 
     };
 }
 
 
 /* =========================================================
-   FREEZE TOY EXACTLY WHERE IT IS
+   FREEZE TOY
 
-   Никакого визуального перемещения.
+   Внешне игрушка вообще не меняет положение.
 ========================================================= */
 
 function freezeToy(toy) {
 
-    const pos =
-        getToyLocalPosition(toy);
-
+    const rect =
+        getLocalRect(toy);
 
     toy.style.transition =
         "none";
 
-
     toy.style.left =
-        `${pos.left}px`;
-
+        `${rect.left}px`;
 
     toy.style.top =
-        `${pos.top}px`;
-
+        `${rect.top}px`;
 
     toy.style.bottom =
         "auto";
-
 
     toy.classList.add(
         "caught"
     );
 
-
-    grabbedToy = toy;
+    grabbedToy =
+        toy;
 }
 
 
 /* =========================================================
-   HELD TARGET
+   ЗАПОМИНАЕМ РЕАЛЬНЫЙ ЗАХВАТ
 
-   Теперь игрушка не затягивается высоко
-   внутрь клешни.
+   Это ключевое исправление.
 
-   Она висит ниже.
+   Мы НЕ говорим игрушке:
+   "перейди в заранее заданную точку".
+
+   Мы смотрим, где она находится СЕЙЧАС
+   относительно центра механизма.
+
+   Это расстояние потом сохраняется.
+========================================================= */
+
+function captureHeldOffset() {
+
+    if (!grabbedToy) {
+        return;
+    }
+
+    const toyRect =
+        getLocalRect(grabbedToy);
+
+    const rigRect =
+        getLocalRect(clawRig);
+
+
+    /*
+       Точка подвеса.
+
+       Центр rig по X.
+       По Y ориентируемся на положение
+       самого захвата.
+    */
+
+    const anchorX =
+        rigRect.left + 85;
+
+    const cableLength =
+        parseFloat(
+            getComputedStyle(cable).height
+        );
+
+    const anchorY =
+        rigRect.top +
+        52 +
+        cableLength;
+
+
+    /*
+       Запоминаем ТОЧНО текущее расстояние.
+
+       Никакого перемещения здесь нет.
+    */
+
+    heldOffsetX =
+        toyRect.left - anchorX;
+
+    heldOffsetY =
+        toyRect.top - anchorY;
+}
+
+
+/* =========================================================
+   TARGET
+
+   Теперь положение строится из сохранённого offset.
+
+   Поэтому первый кадр follow совпадает
+   с последним кадром захвата.
 ========================================================= */
 
 function getHeldTarget() {
@@ -1226,35 +1227,32 @@ function getHeldTarget() {
         return null;
     }
 
-
-    const rigX =
-        parseFloat(
-            getComputedStyle(clawRig).left
-        );
-
+    const rigRect =
+        getLocalRect(clawRig);
 
     const cableLength =
         parseFloat(
             getComputedStyle(cable).height
         );
 
+    const anchorX =
+        rigRect.left + 85;
 
-    const toyWidth =
-        grabbedToy.offsetWidth;
+    const anchorY =
+        rigRect.top +
+        52 +
+        cableLength;
 
 
     return {
 
         left:
-            rigX +
-            85 -
-            toyWidth / 2,
+            anchorX +
+            heldOffsetX,
 
         top:
-            52 +
-            cableLength +
-            92
-
+            anchorY +
+            heldOffsetY
     };
 }
 
@@ -1262,11 +1260,10 @@ function getHeldTarget() {
 /* =========================================================
    FOLLOW
 
-   ВЕРТИКАЛЬНО:
-   почти жёстко.
+   Первое движение абсолютно плавное.
 
-   ГОРИЗОНТАЛЬНО:
-   немного отстаёт -> появляется масса.
+   По Y игрушка почти жёстко следует за клешнёй.
+   По X оставляем совсем небольшую массу.
 ========================================================= */
 
 function followToy() {
@@ -1285,39 +1282,47 @@ function followToy() {
     }
 
 
-    const currentLeft =
+    let currentLeft =
         parseFloat(
             grabbedToy.style.left
         );
 
-
-    const currentTop =
+    let currentTop =
         parseFloat(
             grabbedToy.style.top
         );
 
 
+    if (!Number.isFinite(currentLeft)) {
+        currentLeft = target.left;
+    }
+
+    if (!Number.isFinite(currentTop)) {
+        currentTop = target.top;
+    }
+
+
     /*
-       Горизонтальная инерция.
+       Очень мягкая горизонтальная инерция.
     */
 
     const nextLeft =
         currentLeft +
-        (target.left - currentLeft) * .22;
+        (target.left - currentLeft) * .30;
 
 
     /*
-       По вертикали держим гораздо жёстче.
+       Вертикально держим практически
+       как единый объект.
     */
 
     const nextTop =
         currentTop +
-        (target.top - currentTop) * .72;
+        (target.top - currentTop) * .88;
 
 
     grabbedToy.style.left =
         `${nextLeft}px`;
-
 
     grabbedToy.style.top =
         `${nextTop}px`;
@@ -1352,24 +1357,16 @@ function stopFollowingToy() {
 
 
 /* =========================================================
-   НАТУРАЛЬНОЕ ОПУСКАНИЕ
-
-   Глубина берётся ИНДИВИДУАЛЬНО
-   для каждой игрушки.
+   LOWER CLAW
 ========================================================= */
 
 async function lowerClawToToy(toy) {
-
 
     const grabDepth =
         Number(
             toy.dataset.grab
         );
 
-
-    /*
-       Большая часть пути.
-    */
 
     setCable(
         grabDepth - 32
@@ -1380,16 +1377,11 @@ async function lowerClawToToy(toy) {
 
 
     /*
-       Последние 32 px медленно.
-
-       Теперь хорошо видно,
-       как клешня подходит непосредственно
-       к игрушке.
+       Последние сантиметры медленнее.
     */
 
     cable.style.transition =
         "height .52s cubic-bezier(.18,.72,.3,1)";
-
 
     clawAssembly.style.transition =
         "top .52s cubic-bezier(.18,.72,.3,1)";
@@ -1403,13 +1395,8 @@ async function lowerClawToToy(toy) {
     await wait(540);
 
 
-    /*
-       Возвращаем обычную скорость.
-    */
-
     cable.style.transition =
         "height .92s cubic-bezier(.37,0,.18,1)";
-
 
     clawAssembly.style.transition =
         "top .92s cubic-bezier(.37,0,.18,1)";
@@ -1417,26 +1404,15 @@ async function lowerClawToToy(toy) {
 
 
 /* =========================================================
-   НАСТОЯЩИЙ МОМЕНТ ЗАХВАТА
-
-   НОВАЯ СХЕМА:
-
-   1. клешня уже стоит вокруг игрушки
-   2. игрушка неподвижна
-   3. лапки закрываются
-   4. никаких -3px
-   5. никаких tension
-   6. никаких коррекций
+   NATURAL GRAB
 ========================================================= */
 
 async function grabToyNaturally(toy) {
 
 
     /*
-       С этого момента PNG переводим
-       в top-координаты.
-
-       ВИЗУАЛЬНО она остаётся точно там же.
+       Игрушка остаётся ровно на том месте,
+       где она была.
     */
 
     freezeToy(
@@ -1444,22 +1420,15 @@ async function grabToyNaturally(toy) {
     );
 
 
-    /*
-       Включаем глубину:
-
-       левая лапка -> за игрушкой
-       правая -> перед игрушкой.
-    */
-
     clawRig.classList.add(
         "grabbing"
     );
 
 
     /*
-       Лапки начинают закрываться.
+       Закрываем лапки.
 
-       Игрушка НЕ ДВИГАЕТСЯ.
+       Игрушку пока вообще НЕ двигаем.
     */
 
     setClaw(
@@ -1471,37 +1440,50 @@ async function grabToyNaturally(toy) {
 
 
     /*
-       Короткая пауза.
-
-       Теперь визуально видно,
-       что лапки действительно обхватили PNG.
+       Небольшая механическая пауза.
     */
 
-    await wait(120);
+    await wait(90);
+
+
+    /*
+       И ВОТ ТЕПЕРЬ запоминаем реальное
+       положение игрушки относительно клешни.
+
+       На экране ничего не происходит.
+    */
+
+    captureHeldOffset();
 }
 
 
 /* =========================================================
-   ПОДЪЁМ
+   LIFT
 
-   Теперь никакого отдельного натяжения.
+   Ключевой момент:
 
-   Клешня и игрушка начинают движение
-   как одна система.
+   follow запускается ДО изменения длины троса.
+
+   Поэтому он начинает с ТОЧНО той же точки,
+   где игрушка была при закрытии лапок.
 ========================================================= */
 
 async function liftGrabbedToy() {
 
 
-    /*
-       Сразу запускаем слежение.
-    */
-
     startFollowingToy();
 
 
     /*
-       И одновременно поднимаем клешню.
+       Один кадр браузеру на фиксацию
+       текущего положения.
+    */
+
+    await wait(32);
+
+
+    /*
+       Теперь начинается настоящий подъём.
     */
 
     setCable(
@@ -1514,9 +1496,7 @@ async function liftGrabbedToy() {
 
 
 /* =========================================================
-   КАЧАНИЕ
-
-   ОСТАВЛЯЕМ — ОНО ТЕБЕ ПОНРАВИЛОСЬ.
+   SWING
 ========================================================= */
 
 async function settleSwing(toy) {
@@ -1575,40 +1555,22 @@ async function settleSwing(toy) {
 
 
 /* =========================================================
-   CORRECT SEQUENCE
+   MOVE TO SHAFT
 ========================================================= */
 
-async function correctSequence(toy) {
+async function moveToShaft(toy) {
 
 
-    /* =====================================================
-       1. ПОДНИМАЕМ
-
-       Захват уже произошёл.
-    ===================================================== */
-
-    await liftGrabbedToy();
-
-
-    /* =====================================================
-       2. НЕБОЛЬШОЕ КАЧАНИЕ ПОСЛЕ ПОДЪЁМА
-    ===================================================== */
-
-    await settleSwing(
-        toy
-    );
-
-
-    /* =====================================================
-       3. ДВИЖЕНИЕ К ШАХТЕ
-    ===================================================== */
+    /*
+       Начало движения.
+    */
 
     toy.style.transition =
-        "transform .20s ease-out";
+        "transform .22s ease-out";
 
 
     toy.style.transform =
-        "rotate(-4deg)";
+        "rotate(-3.5deg)";
 
 
     moveRigTo(
@@ -1616,36 +1578,48 @@ async function correctSequence(toy) {
     );
 
 
-    await wait(470);
+    await wait(480);
 
 
     /*
-       Инерция проходит через центр.
+       Игрушка проходит через вертикаль.
     */
 
     toy.style.transition =
-        "transform .28s ease-in-out";
+        "transform .27s ease-in-out";
 
 
     toy.style.transform =
-        "rotate(2deg)";
+        "rotate(2.2deg)";
 
 
     await wait(450);
 
 
     /*
-       Успокаиваемся.
+       Даём полностью закончиться
+       движению самой каретки.
+    */
+
+    await wait(120);
+
+
+    /*
+       Успокаиваем раскачивание.
     */
 
     await settleSwing(
         toy
     );
+}
 
 
-    /* =====================================================
-       4. ОПУСКАНИЕ К ШАХТЕ
-    ===================================================== */
+/* =========================================================
+   LOWER OVER SHAFT
+========================================================= */
+
+async function lowerOverShaft(toy) {
+
 
     setCable(
         CABLE_DROP_APPROACH
@@ -1656,15 +1630,14 @@ async function correctSequence(toy) {
 
 
     /*
-       Последние 30 px медленно.
+       Финальное медленное опускание.
     */
 
     cable.style.transition =
-        "height .46s ease-out";
-
+        "height .46s cubic-bezier(.18,.7,.3,1)";
 
     clawAssembly.style.transition =
-        "top .46s ease-out";
+        "top .46s cubic-bezier(.18,.7,.3,1)";
 
 
     setCable(
@@ -1672,27 +1645,45 @@ async function correctSequence(toy) {
     );
 
 
-    await wait(470);
+    await wait(480);
 
 
     cable.style.transition =
         "height .92s cubic-bezier(.37,0,.18,1)";
 
-
     clawAssembly.style.transition =
         "top .92s cubic-bezier(.37,0,.18,1)";
 
+
+    toy.style.transition =
+        "transform .16s ease-out";
 
     toy.style.transform =
         "rotate(0deg)";
 
 
-    await wait(130);
+    /*
+       Важная пауза.
+
+       Теперь видно:
+       клешня действительно остановилась
+       над отверстием.
+    */
+
+    await wait(220);
+}
 
 
-    /* =====================================================
-       5. ОТПУСКАЕМ
-    ===================================================== */
+/* =========================================================
+   DROP INTO SHAFT
+========================================================= */
+
+async function dropIntoShaft(toy) {
+
+
+    /*
+       Сначала открываем клешню.
+    */
 
     setClaw(
         "open"
@@ -1700,14 +1691,15 @@ async function correctSequence(toy) {
 
 
     /*
-       Лапки начинают отходить.
+       Пока лапки только расходятся,
+       игрушка ещё не падает.
     */
 
-    await wait(210);
+    await wait(180);
 
 
     /*
-       Теперь игрушка действительно свободна.
+       Освобождаем игрушку.
     */
 
     stopFollowingToy();
@@ -1718,81 +1710,158 @@ async function correctSequence(toy) {
     );
 
 
-    const currentTop =
-        parseFloat(
-            toy.style.top
-        );
+    /*
+       Считываем её ТОЧНОЕ положение
+       после остановки.
+
+       X больше не меняем вообще.
+    */
+
+    const rect =
+        getLocalRect(toy);
+
+
+    toy.style.transition =
+        "none";
+
+    toy.style.left =
+        `${rect.left}px`;
+
+    toy.style.top =
+        `${rect.top}px`;
+
+    toy.style.bottom =
+        "auto";
+
+    toy.style.transform =
+        "rotate(0deg)";
+
+
+    /*
+       Очень короткая естественная задержка
+       после отпускания.
+    */
+
+    await wait(70);
 
 
     /* =====================================================
-       6. ПАДЕНИЕ
+       ПАДЕНИЕ 1
 
-       Первый момент очень короткий.
+       Первые пиксели — медленно.
     ===================================================== */
 
     toy.style.transition =
-        "top .13s ease-in";
+        "top .10s cubic-bezier(.4,0,.8,.4)";
 
 
     toy.style.top =
-        `${currentTop + 8}px`;
+        `${rect.top + 9}px`;
 
 
-    await wait(130);
+    await wait(105);
 
 
-    /*
-       Основное ускорение.
-    */
+    /* =====================================================
+       ПАДЕНИЕ 2
+
+       Ускоряемся вертикально вниз.
+
+       LEFT НЕ ТРОГАЕМ.
+    ===================================================== */
 
     toy.style.transition =
-        "top .38s cubic-bezier(.42,.02,.88,.35), transform .38s ease-in";
+        "top .24s cubic-bezier(.45,.02,.9,.35),
+         transform .24s ease-in";
 
 
     toy.style.top =
-        `${currentTop + 165}px`;
+        `${rect.top + 105}px`;
 
 
     toy.style.transform =
-        "rotate(5deg)";
+        "rotate(2deg)";
 
 
-    await wait(390);
+    await wait(245);
 
 
-    /*
-       Уходит глубже в шахту.
-    */
+    /* =====================================================
+       ПАДЕНИЕ 3
+
+       Игрушка уходит глубже в чёрный отсек.
+    ===================================================== */
 
     toy.style.transition =
-        "top .27s cubic-bezier(.5,.02,.92,.32), transform .27s ease-in";
+        "top .20s cubic-bezier(.5,.02,.95,.3),
+         transform .20s ease-in";
 
 
     toy.style.top =
-        `${currentTop + 275}px`;
+        `${rect.top + 215}px`;
 
 
     toy.style.transform =
-        "rotate(9deg) scale(.94)";
+        "rotate(4deg) scale(.97)";
 
 
-    await wait(280);
+    await wait(205);
 
 
     /*
-       Теперь уже скрыта front-слоем.
+       К этому моменту front PNG уже должен
+       визуально перекрывать игрушку.
     */
 
     toy.style.opacity =
         "0";
 
 
-    await wait(320);
+    await wait(250);
+}
 
 
-    /* =====================================================
-       7. PRIZE
-    ===================================================== */
+/* =========================================================
+   CORRECT
+========================================================= */
+
+async function correctSequence(toy) {
+
+
+    /* 1. ПЛАВНО ПОДНЯЛИ */
+
+    await liftGrabbedToy();
+
+
+    /* 2. КАЧАНИЕ */
+
+    await settleSwing(
+        toy
+    );
+
+
+    /* 3. ЕДЕМ К ШАХТЕ */
+
+    await moveToShaft(
+        toy
+    );
+
+
+    /* 4. ОПУСКАЕМСЯ НАД ШАХТОЙ */
+
+    await lowerOverShaft(
+        toy
+    );
+
+
+    /* 5. ВЕРТИКАЛЬНО ПАДАЕМ ВНУТРЬ */
+
+    await dropIntoShaft(
+        toy
+    );
+
+
+    /* 6. ПОЯВЛЯЕМСЯ В ПРИЗОВОМ ОКНЕ */
 
     prizeToy.src =
         toy.src;
@@ -1806,9 +1875,7 @@ async function correctSequence(toy) {
     await wait(650);
 
 
-    /* =====================================================
-       8. CLAW UP
-    ===================================================== */
+    /* 7. КЛЕШНЯ ВВЕРХ */
 
     setCable(
         CABLE_HOME
@@ -1818,9 +1885,7 @@ async function correctSequence(toy) {
     await wait(980);
 
 
-    /* =====================================================
-       9. RETURN TO CENTER
-    ===================================================== */
+    /* 8. КЛЕШНЯ В ЦЕНТР */
 
     currentSlot =
         1;
@@ -1841,7 +1906,7 @@ async function correctSequence(toy) {
 
 
 /* =========================================================
-   WRONG SEQUENCE
+   WRONG
 ========================================================= */
 
 async function wrongSequence(
@@ -1850,11 +1915,15 @@ async function wrongSequence(
 ) {
 
 
-    /* =====================================================
-       1. ПОДНИМАЕМ НЕМНОГО
-    ===================================================== */
+    /*
+       Подъём начинается точно так же,
+       без скачка.
+    */
 
     startFollowingToy();
+
+
+    await wait(32);
 
 
     setCable(
@@ -1876,16 +1945,16 @@ async function wrongSequence(
     await wait(150);
 
 
-    /* =====================================================
-       2. КЛЕШНЯ ТЕРЯЕТ ИГРУШКУ
-    ===================================================== */
+    /*
+       Отпускаем.
+    */
 
     setClaw(
         "open"
     );
 
 
-    await wait(210);
+    await wait(180);
 
 
     stopFollowingToy();
@@ -1896,9 +1965,37 @@ async function wrongSequence(
     );
 
 
-    /* =====================================================
-       3. ПАДЕНИЕ НА ПОЛ
-    ===================================================== */
+    /*
+       Фиксируем текущее положение,
+       чтобы и здесь не было скачка.
+    */
+
+    const rect =
+        getLocalRect(toy);
+
+
+    toy.style.transition =
+        "none";
+
+
+    toy.style.left =
+        `${rect.left}px`;
+
+
+    toy.style.top =
+        `${rect.top}px`;
+
+
+    toy.style.bottom =
+        "auto";
+
+
+    await wait(60);
+
+
+    /*
+       Падение на пол.
+    */
 
     const targetTop =
         INSIDE_HEIGHT -
@@ -1907,7 +2004,8 @@ async function wrongSequence(
 
 
     toy.style.transition =
-        "top .43s cubic-bezier(.42,.02,.82,.35), transform .43s ease-in";
+        "top .43s cubic-bezier(.42,.02,.82,.35),
+         transform .43s ease-in";
 
 
     toy.style.top =
@@ -1921,9 +2019,9 @@ async function wrongSequence(
     await wait(440);
 
 
-    /* =====================================================
-       4. МЯГКОЕ КАСАНИЕ
-    ===================================================== */
+    /*
+       Мягкое касание.
+    */
 
     toy.style.transition =
         "transform .09s ease-out";
@@ -1958,9 +2056,9 @@ async function wrongSequence(
     await wait(150);
 
 
-    /* =====================================================
-       5. HOME
-    ===================================================== */
+    /*
+       Возвращаем исходные координаты.
+    */
 
     toy.style.transition =
         "none";
@@ -1987,9 +2085,9 @@ async function wrongSequence(
     );
 
 
-    /* =====================================================
-       6. CLAW UP
-    ===================================================== */
+    /*
+       Клешня домой.
+    */
 
     setCable(
         CABLE_HOME
@@ -2044,9 +2142,9 @@ grabButton.addEventListener(
         try {
 
 
-            /* =============================================
-               1. ОТКРЫВАЕМ ЛАПКИ
-            ============================================== */
+            /*
+               1. ОТКРЫВАЕМСЯ
+            */
 
             await openClaw();
 
@@ -2054,11 +2152,9 @@ grabButton.addEventListener(
             await wait(90);
 
 
-            /* =============================================
-               2. ОПУСКАЕМ ТОЧНО К ЭТОЙ ИГРУШКЕ
-
-               У каждой своя глубина.
-            ============================================== */
+            /*
+               2. ОПУСКАЕМСЯ
+            */
 
             await lowerClawToToy(
                 toy
@@ -2066,30 +2162,27 @@ grabButton.addEventListener(
 
 
             /*
-               Очень короткая остановка
-               непосредственно у игрушки.
+               Остановка около игрушки.
             */
 
             await wait(140);
 
 
-            /* =============================================
-               3. ЗАХВАТ
+            /*
+               3. ЗАКРЫВАЕМСЯ ВОКРУГ НЕЁ
 
-               Игрушка неподвижна.
-
-               Одна лапка сзади.
-               Другая спереди.
-            ============================================== */
+               Игрушка всё ещё стоит
+               абсолютно неподвижно.
+            */
 
             await grabToyNaturally(
                 toy
             );
 
 
-            /* =============================================
-               4. ВЫБИРАЕМ РЕЗУЛЬТАТ
-            ============================================== */
+            /*
+               4. РЕЗУЛЬТАТ
+            */
 
             const correct =
                 toy.dataset.correct === "true";
