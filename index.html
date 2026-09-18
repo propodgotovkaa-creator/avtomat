@@ -53,6 +53,7 @@ button {
     height: 1080px;
 
     overflow: hidden;
+
     transform-origin: top left;
 
     background:
@@ -83,6 +84,7 @@ button {
         0 15px 40px rgba(77,67,72,.13);
 
     text-align: center;
+
     color: #40506a;
 
     z-index: 20;
@@ -152,6 +154,8 @@ button {
 
 /* =========================================================
    BACK
+
+   ВЕСЬ ЗАДНИЙ АВТОМАТ.
 ========================================================= */
 
 #machineBack {
@@ -171,6 +175,9 @@ button {
 
 /* =========================================================
    INNER CHAMBER
+
+   ИГРУШКИ И КЛЕШНЯ ЖИВУТ МЕЖДУ
+   BACK И FRONT.
 ========================================================= */
 
 #machineInside {
@@ -188,69 +195,7 @@ button {
 }
 
 /* =========================================================
-   SHAFT MASK
-
-   Это НЕ картинка.
-
-   Это невидимое окно прямо поверх
-   чёрного отверстия.
-
-   Всё, что находится внутри него,
-   видно ТОЛЬКО в пределах дырки.
-========================================================= */
-
-#shaftMask {
-    position: absolute;
-
-    /*
-       Координаты самой чёрной области
-       внутри machineInside.
-    */
-
-    left: 805px;
-    top: 365px;
-
-    width: 190px;
-    height: 105px;
-
-    overflow: hidden;
-
-    z-index: 46;
-
-    pointer-events: none;
-}
-
-/*
-   Копия падающей игрушки.
-*/
-
-#shaftToy {
-    position: absolute;
-
-    width: 135px;
-    height: 145px;
-
-    object-fit: contain;
-    object-position: center bottom;
-
-    left: 27px;
-    top: -145px;
-
-    opacity: 0;
-
-    transform-origin: 50% 16%;
-
-    pointer-events: none;
-
-    filter:
-        drop-shadow(
-            0 5px 4px
-            rgba(20,15,20,.15)
-        );
-}
-
-/* =========================================================
-   CLAW RIG
+   CLAW
 ========================================================= */
 
 #clawRig {
@@ -264,15 +209,11 @@ button {
     width: 170px;
     height: 465px;
 
-    z-index: 30;
+    z-index: 50;
 
     transition:
         left .92s cubic-bezier(.22,.65,.35,1);
 }
-
-/* =========================================================
-   CART
-========================================================= */
 
 #clawCart {
     position: absolute;
@@ -289,10 +230,6 @@ button {
 
     pointer-events: none;
 }
-
-/* =========================================================
-   CABLE
-========================================================= */
 
 #cableAnchor {
     position: absolute;
@@ -333,10 +270,6 @@ button {
         height .92s cubic-bezier(.37,0,.18,1);
 }
 
-/* =========================================================
-   CLAW ASSEMBLY
-========================================================= */
-
 #clawAssembly {
     position: absolute;
 
@@ -350,10 +283,6 @@ button {
     transition:
         top .92s cubic-bezier(.37,0,.18,1);
 }
-
-/* =========================================================
-   CLAW BODY
-========================================================= */
 
 #clawBody {
     position: absolute;
@@ -369,10 +298,6 @@ button {
 
     pointer-events: none;
 }
-
-/* =========================================================
-   LEFT CLAW
-========================================================= */
 
 #clawLeft {
     position: absolute;
@@ -394,10 +319,6 @@ button {
 
     pointer-events: none;
 }
-
-/* =========================================================
-   RIGHT CLAW
-========================================================= */
 
 #clawRight {
     position: absolute;
@@ -463,6 +384,11 @@ button {
     object-fit: contain;
     object-position: center bottom;
 
+    /*
+       Игрушка находится над BACK,
+       но ниже FRONT.
+    */
+
     z-index: 40;
 
     pointer-events: none;
@@ -495,16 +421,14 @@ button {
 
 .toy.caught {
     z-index: 40;
-
-    filter:
-        drop-shadow(
-            0 6px 5px
-            rgba(45,35,40,.14)
-        );
 }
 
 /* =========================================================
-   FRONT MACHINE
+   FRONT
+
+   НОВЫЙ ПРОЗРАЧНЫЙ PNG.
+
+   ОН ВСЕГДА НАД ИГРУШКОЙ.
 ========================================================= */
 
 #machineFront {
@@ -523,7 +447,7 @@ button {
 }
 
 /* =========================================================
-   BUTTONS
+   CONTROLS
 ========================================================= */
 
 .control {
@@ -643,12 +567,16 @@ button {
 
     <div id="machine">
 
+        <!-- 1. BACK -->
+
         <img
             id="machineBack"
             src="machine-back-wide.png"
             alt=""
             draggable="false"
         >
+
+        <!-- 2. ИГРУШКИ + КЛЕШНЯ -->
 
         <div id="machineInside">
 
@@ -727,22 +655,9 @@ button {
                 draggable="false"
             >
 
-            <!--
-                НЕВИДИМОЕ ОКНО ЧЁРНОЙ ШАХТЫ
-            -->
-
-            <div id="shaftMask">
-
-                <img
-                    id="shaftToy"
-                    src=""
-                    alt=""
-                    draggable="false"
-                >
-
-            </div>
-
         </div>
+
+        <!-- 3. FRONT -->
 
         <img
             id="machineFront"
@@ -857,12 +772,6 @@ const grabButton =
 const prizeToy =
     document.getElementById("prizeToy");
 
-const shaftMask =
-    document.getElementById("shaftMask");
-
-const shaftToy =
-    document.getElementById("shaftToy");
-
 const toys = [
     document.getElementById("toy0"),
     document.getElementById("toy1"),
@@ -880,24 +789,13 @@ const SLOT_X = [
 ];
 
 /*
-   Центр отверстия:
-   shaftMask left 805
-   width 190
+   Точка сброса.
 
-   центр = 900
+   Теперь это именно положение клешни
+   над шахтой нового BACK.
 */
 
-const SHAFT_CENTER_X = 900;
-
-/*
-   rig имеет точку захвата примерно
-   на x + 85.
-
-   Поэтому:
-   900 - 85 = 815
-*/
-
-const DROP_RIG_X = 815;
+const DROP_RIG_X = 790;
 
 /* =========================================================
    CABLE
@@ -907,16 +805,9 @@ const CABLE_HOME = 42;
 
 const CABLE_LIFT = 52;
 
-/*
-   Над шахтой специально НЕ опускаем
-   игрушку слишком глубоко.
+const CABLE_DROP_APPROACH = 155;
 
-   Сначала она должна висеть НАД отверстием.
-*/
-
-const CABLE_DROP_APPROACH = 125;
-
-const CABLE_DROP = 155;
+const CABLE_DROP = 190;
 
 const CABLE_WRONG_LIFT = 145;
 
@@ -1008,7 +899,7 @@ function updatePosition() {
 }
 
 /* =========================================================
-   CONTROLS
+   BUTTONS
 ========================================================= */
 
 leftButton.addEventListener(
@@ -1056,6 +947,7 @@ const toyHome =
             getComputedStyle(toy);
 
         return {
+
             left:
                 parseFloat(style.left),
 
@@ -1107,7 +999,7 @@ function getLocalRect(element) {
 }
 
 /* =========================================================
-   FREEZE TOY
+   FREEZE
 ========================================================= */
 
 function freezeToy(toy) {
@@ -1131,12 +1023,11 @@ function freezeToy(toy) {
         "caught"
     );
 
-    grabbedToy =
-        toy;
+    grabbedToy = toy;
 }
 
 /* =========================================================
-   CAPTURE OFFSET
+   OFFSET
 ========================================================= */
 
 function captureHeldOffset() {
@@ -1171,10 +1062,6 @@ function captureHeldOffset() {
         toyRect.top - anchorY;
 }
 
-/* =========================================================
-   HELD TARGET
-========================================================= */
-
 function getHeldTarget() {
 
     if (!grabbedToy) {
@@ -1198,6 +1085,7 @@ function getHeldTarget() {
         52 + cableLength;
 
     return {
+
         left:
             anchorX +
             heldOffsetX,
@@ -1319,7 +1207,7 @@ async function lowerClawToToy(toy) {
 }
 
 /* =========================================================
-   GRAB
+   NATURAL GRAB
 ========================================================= */
 
 async function grabToyNaturally(toy) {
@@ -1447,19 +1335,19 @@ async function lowerOverShaft(toy) {
         CABLE_DROP_APPROACH
     );
 
-    await wait(700);
+    await wait(720);
 
     cable.style.transition =
-        "height .42s ease-out";
+        "height .46s ease-out";
 
     clawAssembly.style.transition =
-        "top .42s ease-out";
+        "top .46s ease-out";
 
     setCable(
         CABLE_DROP
     );
 
-    await wait(430);
+    await wait(470);
 
     cable.style.transition =
         "height .92s cubic-bezier(.37,0,.18,1)";
@@ -1477,13 +1365,22 @@ async function lowerOverShaft(toy) {
 }
 
 /* =========================================================
-   REAL SHAFT DROP
+   DROP
+
+   ВАЖНО:
+
+   НИКАКИХ КОПИЙ.
+   НИКАКИХ MASK.
+   НИКАКИХ CHUTE-FRONT.
+
+   Настоящая игрушка падает вниз
+   между BACK и FRONT.
 ========================================================= */
 
 async function dropIntoShaft(toy) {
 
     /*
-       1. Открываем клешню.
+       Открываем клешню.
     */
 
     setClaw(
@@ -1493,7 +1390,7 @@ async function dropIntoShaft(toy) {
     await wait(190);
 
     /*
-       2. Отцепляем.
+       Отцепляем игрушку.
     */
 
     stopFollowingToy();
@@ -1503,7 +1400,7 @@ async function dropIntoShaft(toy) {
     );
 
     /*
-       3. Фиксируем реальное положение.
+       Фиксируем её положение.
     */
 
     const pos =
@@ -1524,152 +1421,71 @@ async function dropIntoShaft(toy) {
     toy.style.transform =
         "rotate(0deg)";
 
-    /*
-       Центрируем игрушку непосредственно
-       над центром шахты.
-    */
-
-    const targetLeft =
-        SHAFT_CENTER_X -
-        pos.width / 2;
-
-    await wait(40);
+    await wait(60);
 
     /*
-       4. Сначала игрушка падает
-       ОБЫЧНО и полностью видна.
+       Теперь игрушка просто падает.
 
-       Она движется к верхнему краю дырки.
+       FRONT уже находится НАД НЕЙ.
+
+       Поэтому когда она входит
+       в шахту, передняя стенка
+       автоматически начинает
+       перекрывать игрушку.
     */
-
-    const shaftTop = 365;
-
-    const contactTop =
-        shaftTop -
-        pos.height +
-        24;
 
     toy.style.transition =
-        "left .16s ease-out, top .30s cubic-bezier(.25,.05,.65,.4)";
-
-    toy.style.left =
-        `${targetLeft}px`;
+        "top .18s cubic-bezier(.35,.05,.65,.45)";
 
     toy.style.top =
-        `${contactTop}px`;
+        `${pos.top + 25}px`;
+
+    await wait(180);
+
+    /*
+       Основное падение.
+    */
+
+    toy.style.transition =
+        "top .34s cubic-bezier(.45,.02,.86,.32), transform .34s ease-in";
+
+    toy.style.top =
+        `${pos.top + 145}px`;
+
+    toy.style.transform =
+        "rotate(2deg)";
+
+    await wait(340);
+
+    /*
+       Ещё глубже внутрь шахты.
+
+       Здесь FRONT должен уже закрывать
+       значительную часть игрушки.
+    */
+
+    toy.style.transition =
+        "top .30s cubic-bezier(.5,.02,.94,.28), transform .30s ease-in";
+
+    toy.style.top =
+        `${pos.top + 260}px`;
+
+    toy.style.transform =
+        "rotate(4deg) scale(.97)";
 
     await wait(300);
 
     /*
-       Сейчас нижняя часть игрушки
-       только начала входить в дырку.
+       Игрушка уже физически
+       ушла за переднюю стенку.
 
-       Именно ЗДЕСЬ переключаемся
-       на маску.
-    */
-
-    const visibleInside =
-        (contactTop + pos.height) -
-        shaftTop;
-
-    /*
-       Копия получает ТО ЖЕ изображение.
-    */
-
-    shaftToy.src =
-        toy.src;
-
-    shaftToy.style.transition =
-        "none";
-
-    shaftToy.style.opacity =
-        "1";
-
-    /*
-       Координаты внутри маски.
-
-       Центрируем по X.
-    */
-
-    shaftToy.style.left =
-        `${(190 - pos.width) / 2}px`;
-
-    /*
-       Верх картинки находится выше окна.
-       Поэтому виден только кусочек,
-       который уже вошёл в шахту.
-    */
-
-    shaftToy.style.top =
-        `${visibleInside - pos.height}px`;
-
-    shaftToy.style.transform =
-        "rotate(0deg)";
-
-    /*
-       Оригинал убираем.
-
-       ВАЖНО:
-       зрительно ничего не исчезает,
-       потому что тот кусок, который
-       уже находится в дырке,
-       одновременно отображается
-       внутри shaftMask.
+       Только теперь убираем её.
     */
 
     toy.style.opacity =
         "0";
 
-    await wait(20);
-
-    /*
-       5. Теперь копия продолжает
-       ТО ЖЕ падение.
-
-       Но она физически видна
-       исключительно внутри дырки.
-    */
-
-    shaftToy.style.transition =
-        "top .42s cubic-bezier(.35,.02,.82,.35), transform .42s ease-in";
-
-    shaftToy.style.top =
-        `${25}px`;
-
-    shaftToy.style.transform =
-        "rotate(3deg)";
-
-    await wait(420);
-
-    /*
-       6. Уходит ещё глубже.
-    */
-
-    shaftToy.style.transition =
-        "top .24s ease-in, opacity .15s ease-in";
-
-    shaftToy.style.top =
-        `${115}px`;
-
-    shaftToy.style.opacity =
-        "0";
-
-    await wait(250);
-
-    /*
-       Полностью очищаем.
-    */
-
-    shaftToy.src = "";
-
-    shaftToy.style.transition =
-        "none";
-
-    shaftToy.style.top =
-        "-145px";
-
-    shaftToy.style.transform =
-        "none";
+    await wait(180);
 }
 
 /* =========================================================
@@ -1697,8 +1513,7 @@ async function correctSequence(toy) {
     );
 
     /*
-       Только после полного падения
-       появляется приз.
+       После падения появляется приз.
     */
 
     prizeToy.src =
@@ -1961,13 +1776,11 @@ prizeToy.classList.remove(
     "show"
 );
 
-shaftToy.src = "";
-
-shaftToy.style.opacity = "0";
-
 toys.forEach(
     toy => {
-        toy.style.opacity = "1";
+
+        toy.style.opacity =
+            "1";
     }
 );
 
@@ -1986,4 +1799,5 @@ updatePosition();
 </script>
 
 </body>
+
 </html>
