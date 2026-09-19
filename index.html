@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 
 <head>
@@ -55,7 +55,6 @@ button {
     height: 1080px;
 
     overflow: hidden;
-
     transform-origin: top left;
 
     background:
@@ -111,6 +110,11 @@ button {
     pointer-events: none;
 }
 
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
 .progress {
     position: absolute;
 
@@ -157,7 +161,7 @@ button {
 
 
 /* =========================================================
-   BACK
+   MACHINE BACK
 ========================================================= */
 
 #machineBack {
@@ -459,45 +463,11 @@ button {
 
 
 /* =========================================================
-   CLAW DEPTH
-========================================================= */
+   MACHINE FRONT
 
-#clawRig.grabbing #clawBody {
-    z-index: 32;
-}
-
-#clawRig.grabbing #clawLeft {
-    z-index: 31;
-}
-
-#clawRig.grabbing #clawRight {
-    z-index: 55;
-}
-
-
-/* =========================================================
-   FRONT SHAFT LAYER
-========================================================= */
-
-#chuteFront {
-    position: absolute;
-
-    left: -100px;
-    top: -150px;
-
-    width: 1280px;
-    height: 960px;
-
-    object-fit: fill;
-
-    z-index: 70;
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   FRONT MACHINE
+   Только wide5.
+   Он находится перед игрушкой и скрывает её
+   при падении в чёрную шахту.
 ========================================================= */
 
 #machineFront {
@@ -621,6 +591,8 @@ button {
 <div id="game">
 
 
+    <!-- TASK -->
+
     <div class="task">
 
         <div class="task-small">
@@ -638,6 +610,8 @@ button {
     </div>
 
 
+    <!-- PROGRESS -->
+
     <div
         class="progress"
         id="progress"
@@ -646,8 +620,12 @@ button {
     </div>
 
 
+    <!-- MACHINE -->
+
     <div id="machine">
 
+
+        <!-- BACK -->
 
         <img
             id="machineBack"
@@ -657,8 +635,12 @@ button {
         >
 
 
+        <!-- INNER CHAMBER -->
+
         <div id="machineInside">
 
+
+            <!-- CLAW -->
 
             <div id="clawRig">
 
@@ -708,6 +690,8 @@ button {
             </div>
 
 
+            <!-- TOYS -->
+
             <img
                 class="toy"
                 id="toy0"
@@ -716,7 +700,6 @@ button {
                 draggable="false"
             >
 
-
             <img
                 class="toy"
                 id="toy1"
@@ -724,7 +707,6 @@ button {
                 alt=""
                 draggable="false"
             >
-
 
             <img
                 class="toy"
@@ -735,24 +717,20 @@ button {
             >
 
 
-            <img
-                id="chuteFront"
-                src="machine-front-wide2.png"
-                alt=""
-                draggable="false"
-            >
-
-
         </div>
 
 
+        <!-- FRONT -->
+
         <img
             id="machineFront"
-            src="machine-front-wide1.png"
+            src="machine-front-wide5.png"
             alt=""
             draggable="false"
         >
 
+
+        <!-- PRIZE -->
 
         <img
             id="prizeToy"
@@ -762,19 +740,19 @@ button {
         >
 
 
+        <!-- CONTROLS -->
+
         <button
             id="leftButton"
             class="control"
             aria-label="Влево"
         ></button>
 
-
         <button
             id="rightButton"
             class="control"
             aria-label="Вправо"
         ></button>
-
 
         <button
             id="grabButton"
@@ -809,6 +787,11 @@ const INSIDE_HEIGHT = 490;
 
 const ROUNDS = [
 
+    /* 1
+       С в середине
+       Правильная: ЛИСА
+    */
+
     {
         scheme: "scheme-s-middle.png",
 
@@ -820,6 +803,12 @@ const ROUNDS = [
 
         correct: 1
     },
+
+
+    /* 2
+       С в начале
+       Правильная: СОВА
+    */
 
     {
         scheme: "scheme-s-start.png",
@@ -833,6 +822,12 @@ const ROUNDS = [
         correct: 2
     },
 
+
+    /* 3
+       С в конце
+       Правильная: КОМПАС
+    */
+
     {
         scheme: "scheme-s-end.png",
 
@@ -844,6 +839,12 @@ const ROUNDS = [
 
         correct: 1
     },
+
+
+    /* 4
+       С в начале
+       Правильная: СОМ
+    */
 
     {
         scheme: "scheme-s-start.png",
@@ -857,6 +858,12 @@ const ROUNDS = [
         correct: 2
     },
 
+
+    /* 5
+       С в середине
+       Правильная: ЧЕСНОК
+    */
+
     {
         scheme: "scheme-s-middle.png",
 
@@ -866,8 +873,14 @@ const ROUNDS = [
             "toy/sobaka.png"
         ],
 
-        correct: 0
+        correct: 1
     },
+
+
+    /* 6
+       С в конце
+       Правильная: КАКТУС
+    */
 
     {
         scheme: "scheme-s-end.png",
@@ -881,6 +894,12 @@ const ROUNDS = [
         correct: 2
     },
 
+
+    /* 7
+       С в середине
+       Правильное: КОЛЕСО
+    */
+
     {
         scheme: "scheme-s-middle.png",
 
@@ -893,8 +912,14 @@ const ROUNDS = [
         correct: 2
     },
 
+
+    /* 8
+       С в конце
+       Правильный: КОМПАС
+    */
+
     {
-        scheme: "scheme-s-middle.png",
+        scheme: "scheme-s-end.png",
 
         toys: [
             "toy/sunduk.png",
@@ -902,7 +927,7 @@ const ROUNDS = [
             "toy/samolet.png"
         ],
 
-        correct: 2
+        correct: 1
     }
 
 ];
@@ -1002,6 +1027,11 @@ const SLOT_X = [
     632
 ];
 
+
+/*
+   Положение клешни над чёрной шахтой.
+*/
+
 const DROP_RIG_X = 780;
 
 
@@ -1035,6 +1065,7 @@ let grabbedToy = null;
 let followFrame = null;
 
 let heldOffsetX = 0;
+
 let heldOffsetY = 0;
 
 
@@ -1052,7 +1083,7 @@ function wait(ms) {
 
 
 /* =========================================================
-   CLAW
+   CLAW STATE
 ========================================================= */
 
 function setClaw(state) {
@@ -1071,7 +1102,9 @@ function setClaw(state) {
 
 async function neutralClaw() {
 
-    setClaw("neutral");
+    setClaw(
+        "neutral"
+    );
 
     await wait(380);
 }
@@ -1079,7 +1112,9 @@ async function neutralClaw() {
 
 async function openClaw() {
 
-    setClaw("open");
+    setClaw(
+        "open"
+    );
 
     await wait(460);
 }
@@ -1099,7 +1134,7 @@ function setCable(length) {
 
 
 /* =========================================================
-   MOVE
+   MOVE CLAW
 ========================================================= */
 
 function moveRigTo(x) {
@@ -1118,7 +1153,7 @@ function updatePosition() {
 
 
 /* =========================================================
-   CONTROLS
+   LEFT
 ========================================================= */
 
 leftButton.addEventListener(
@@ -1138,6 +1173,10 @@ leftButton.addEventListener(
     }
 );
 
+
+/* =========================================================
+   RIGHT
+========================================================= */
 
 rightButton.addEventListener(
     "click",
@@ -1197,13 +1236,25 @@ function loadRound(index) {
         ROUNDS[index];
 
 
+    /*
+       Схема положения С.
+    */
+
     taskScheme.src =
         round.scheme;
 
 
+    /*
+       Номер раунда.
+    */
+
     progress.textContent =
         `🧸 Раунд ${index + 1} из ${ROUNDS.length}`;
 
+
+    /*
+       Убираем предыдущий приз.
+    */
 
     prizeToy.classList.remove(
         "show"
@@ -1212,6 +1263,10 @@ function loadRound(index) {
     prizeToy.src =
         "";
 
+
+    /*
+       Загружаем три игрушки.
+    */
 
     toys.forEach(
         (toy, toyIndex) => {
@@ -1303,6 +1358,7 @@ function getLocalRect(element) {
         insideRect.width /
         INSIDE_WIDTH;
 
+
     return {
 
         left:
@@ -1325,7 +1381,7 @@ function getLocalRect(element) {
 
 
 /* =========================================================
-   FREEZE
+   FREEZE TOY
 ========================================================= */
 
 function freezeToy(toy) {
@@ -1361,7 +1417,7 @@ function freezeToy(toy) {
 
 
 /* =========================================================
-   OFFSET
+   CAPTURE HELD OFFSET
 ========================================================= */
 
 function captureHeldOffset() {
@@ -1451,7 +1507,7 @@ function getHeldTarget() {
 
 
 /* =========================================================
-   FOLLOW
+   FOLLOW TOY
 ========================================================= */
 
 function followToy() {
@@ -1483,12 +1539,16 @@ function followToy() {
 
 
     if (!Number.isFinite(currentLeft)) {
-        currentLeft = target.left;
+
+        currentLeft =
+            target.left;
     }
 
 
     if (!Number.isFinite(currentTop)) {
-        currentTop = target.top;
+
+        currentTop =
+            target.top;
     }
 
 
@@ -1527,7 +1587,9 @@ function startFollowingToy() {
 
 function stopFollowingToy() {
 
-    if (followFrame !== null) {
+    if (
+        followFrame !== null
+    ) {
 
         cancelAnimationFrame(
             followFrame
@@ -1540,7 +1602,7 @@ function stopFollowingToy() {
 
 
 /* =========================================================
-   LOWER
+   LOWER CLAW TO TOY
 ========================================================= */
 
 async function lowerClawToToy(toy) {
@@ -1606,6 +1668,7 @@ async function grabToyNaturally(toy) {
 
 
     await wait(470);
+
 
     await wait(90);
 
@@ -1725,6 +1788,7 @@ async function moveToShaft(toy) {
 
     await wait(450);
 
+
     await wait(120);
 
 
@@ -1785,10 +1849,19 @@ async function lowerOverShaft(toy) {
 
 
 /* =========================================================
-   DROP
+   DROP INTO BLACK SHAFT
+
+   Это наша рабочая версия:
+   игрушка сначала центрируется над дыркой,
+   потом падает вниз,
+   а wide5 скрывает её спереди.
 ========================================================= */
 
 async function dropIntoShaft(toy) {
+
+    /*
+       Открываем клешню.
+    */
 
     setClaw(
         "open"
@@ -1798,6 +1871,10 @@ async function dropIntoShaft(toy) {
     await wait(190);
 
 
+    /*
+       Отцепляем игрушку.
+    */
+
     stopFollowingToy();
 
 
@@ -1805,6 +1882,10 @@ async function dropIntoShaft(toy) {
         "grabbing"
     );
 
+
+    /*
+       Запоминаем её реальную позицию.
+    */
 
     const pos =
         getLocalRect(toy);
@@ -1830,9 +1911,19 @@ async function dropIntoShaft(toy) {
         "rotate(0deg)";
 
 
+    /*
+       Центр чёрной дырки
+       внутри machineInside.
+    */
+
     const shaftCenterX =
         890;
 
+
+    /*
+       Ставим центр игрушки
+       точно над центром дырки.
+    */
 
     const shaftLeft =
         shaftCenterX -
@@ -1841,6 +1932,11 @@ async function dropIntoShaft(toy) {
 
     await wait(50);
 
+
+    /*
+       Небольшая доводка
+       к центру дырки.
+    */
 
     toy.style.transition =
         "left .18s ease-out, top .18s ease-in";
@@ -1857,6 +1953,10 @@ async function dropIntoShaft(toy) {
     await wait(180);
 
 
+    /*
+       Начало падения.
+    */
+
     toy.style.transition =
         "top .30s cubic-bezier(.42,.02,.86,.35), transform .30s ease-in";
 
@@ -1872,12 +1972,20 @@ async function dropIntoShaft(toy) {
     await wait(300);
 
 
+    /*
+       Игрушка проваливается
+       глубже в чёрную шахту.
+
+       machine-front-wide5 находится
+       поверх игрушки.
+    */
+
     toy.style.transition =
         "top .28s cubic-bezier(.5,.02,.94,.32), transform .28s ease-in";
 
 
     toy.style.top =
-        `${pos.top + 220}px`;
+        `${pos.top + 245}px`;
 
 
     toy.style.transform =
@@ -1886,6 +1994,13 @@ async function dropIntoShaft(toy) {
 
     await wait(280);
 
+
+    /*
+       Игрушка уже физически
+       скрылась за шахтой.
+
+       Только теперь убираем её.
+    */
 
     toy.style.opacity =
         "0";
@@ -1896,33 +2011,58 @@ async function dropIntoShaft(toy) {
 
 
 /* =========================================================
-   CORRECT
+   CORRECT SEQUENCE
 ========================================================= */
 
 async function correctSequence(toy) {
 
+    /*
+       Поднимаем игрушку.
+    */
+
     await liftGrabbedToy();
 
+
+    /*
+       Небольшое качание.
+    */
 
     await settleSwing(
         toy
     );
 
 
+    /*
+       Несём к чёрной дырке.
+    */
+
     await moveToShaft(
         toy
     );
 
+
+    /*
+       Опускаем над дыркой.
+    */
 
     await lowerOverShaft(
         toy
     );
 
 
+    /*
+       Роняем внутрь.
+    */
+
     await dropIntoShaft(
         toy
     );
 
+
+    /*
+       Та же игрушка появляется
+       в окошке ПРИЗ.
+    */
 
     prizeToy.src =
         toy.src;
@@ -1933,8 +2073,17 @@ async function correctSequence(toy) {
     );
 
 
+    /*
+       Пока оставляем приз
+       немного подольше.
+    */
+
     await wait(1100);
 
+
+    /*
+       Возвращаем клешню наверх.
+    */
 
     setCable(
         CABLE_HOME
@@ -1943,6 +2092,11 @@ async function correctSequence(toy) {
 
     await wait(980);
 
+
+    /*
+       Возвращаем клешню
+       в центральное положение.
+    */
 
     currentSlot =
         1;
@@ -1962,11 +2116,15 @@ async function correctSequence(toy) {
 
 
     /*
-       Пока автоматически
-       переходим к следующему раунду.
+       Пока переход автоматический.
+
+       Следующим этапом заменим это
+       на нажатие по призу,
+       вылет в центр и кнопку
+       "Играть дальше".
     */
 
-    await wait(1000);
+    await wait(1200);
 
 
     if (
@@ -1981,29 +2139,24 @@ async function correctSequence(toy) {
             roundIndex
         );
 
-    } else {
-
-        /*
-           Пока после 8 раунда
-           оставляем последний приз.
-           Финальный экран добавим позже.
-        */
-
-        prizeToy.classList.add(
-            "show"
-        );
     }
+
 }
 
 
 /* =========================================================
-   WRONG
+   WRONG SEQUENCE
 ========================================================= */
 
 async function wrongSequence(
     toy,
     index
 ) {
+
+    /*
+       Немного поднимаем
+       неправильную игрушку.
+    */
 
     startFollowingToy();
 
@@ -2029,6 +2182,10 @@ async function wrongSequence(
 
     await wait(150);
 
+
+    /*
+       Отпускаем.
+    */
 
     setClaw(
         "open"
@@ -2069,6 +2226,10 @@ async function wrongSequence(
     await wait(60);
 
 
+    /*
+       Возвращаем на пол.
+    */
+
     const targetTop =
         INSIDE_HEIGHT -
         toyHome[index].bottom -
@@ -2089,6 +2250,10 @@ async function wrongSequence(
 
     await wait(440);
 
+
+    /*
+       Мягкое приземление.
+    */
 
     toy.style.transition =
         "transform .09s ease-out";
@@ -2123,6 +2288,10 @@ async function wrongSequence(
     await wait(150);
 
 
+    /*
+       Возвращаем исходные CSS-координаты.
+    */
+
     toy.style.transition =
         "none";
 
@@ -2147,6 +2316,10 @@ async function wrongSequence(
         "caught"
     );
 
+
+    /*
+       Клешня наверх.
+    */
 
     setCable(
         CABLE_HOME
@@ -2199,11 +2372,19 @@ grabButton.addEventListener(
 
         try {
 
+            /*
+               1. Открываем клешню.
+            */
+
             await openClaw();
 
 
             await wait(90);
 
+
+            /*
+               2. Опускаем к игрушке.
+            */
 
             await lowerClawToToy(
                 toy
@@ -2213,10 +2394,18 @@ grabButton.addEventListener(
             await wait(140);
 
 
+            /*
+               3. Захватываем.
+            */
+
             await grabToyNaturally(
                 toy
             );
 
+
+            /*
+               4. Проверяем ответ.
+            */
 
             const correct =
                 toy.dataset.correct === "true";
