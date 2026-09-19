@@ -464,10 +464,6 @@ button {
 
 /* =========================================================
    MACHINE FRONT
-
-   Только wide5.
-   Он находится перед игрушкой и скрывает её
-   при падении в чёрную шахту.
 ========================================================= */
 
 #machineFront {
@@ -487,7 +483,7 @@ button {
 
 
 /* =========================================================
-   BUTTONS
+   CONTROLS
 ========================================================= */
 
 .control {
@@ -541,13 +537,18 @@ button {
 
 
 /* =========================================================
-   PRIZE
+   SMALL PRIZE
 ========================================================= */
 
 #prizeToy {
     position: absolute;
 
-    left: 925px;
+    /*
+       Чуть центрируем игрушку
+       в окошке ПРИЗ.
+    */
+
+    left: 930px;
     top: 720px;
 
     width: 145px;
@@ -563,12 +564,13 @@ button {
 
     transition:
         opacity .28s ease,
-        transform .48s
-        cubic-bezier(.2,.9,.3,1.2);
+        transform .48s cubic-bezier(.2,.9,.3,1.2);
 
-    z-index: 125;
+    z-index: 160;
 
     pointer-events: none;
+
+    cursor: pointer;
 }
 
 #prizeToy.show {
@@ -577,6 +579,211 @@ button {
     transform:
         translateY(0)
         scale(1);
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   PRIZE OVERLAY
+========================================================= */
+
+#prizeOverlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 500;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(55,48,55,.30);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity .35s ease,
+        visibility .35s ease;
+}
+
+#prizeOverlay.show {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   BIG PRIZE WRAP
+========================================================= */
+
+#bigPrizeWrap {
+    position: relative;
+
+    width: 620px;
+    height: 680px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+
+    transform:
+        translateY(100px)
+        scale(.28);
+
+    transition:
+        transform .60s
+        cubic-bezier(.18,.9,.3,1.18),
+        opacity .30s ease;
+}
+
+#prizeOverlay.show #bigPrizeWrap {
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
+/* =========================================================
+   BIG PRIZE
+========================================================= */
+
+#bigPrizeToy {
+    display: block;
+
+    width: 390px;
+    height: 390px;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 22px 18px
+            rgba(55,45,50,.22)
+        );
+
+    animation:
+        prizeFloat
+        2.2s
+        ease-in-out
+        infinite;
+}
+
+
+@keyframes prizeFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0)
+            rotate(-1deg);
+    }
+
+    50% {
+
+        transform:
+            translateY(-13px)
+            rotate(1deg);
+    }
+}
+
+
+/* =========================================================
+   NEXT BUTTON
+========================================================= */
+
+#nextButton {
+    margin-top: 16px;
+
+    min-width: 330px;
+
+    padding:
+        21px
+        40px;
+
+    border: 0;
+
+    border-radius: 28px;
+
+    background:
+        #ed5573;
+
+    color:
+        #ffffff;
+
+    font-size: 30px;
+    font-weight: 900;
+
+    box-shadow:
+        0 10px 0 #c83f5c,
+        0 18px 30px rgba(92,53,65,.22);
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+}
+
+#nextButton:active {
+
+    transform:
+        translateY(6px);
+
+    box-shadow:
+        0 4px 0 #c83f5c,
+        0 10px 20px rgba(92,53,65,.18);
+}
+
+#nextButton:disabled {
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   FINAL TEXT
+========================================================= */
+
+#finalText {
+    display: none;
+
+    margin-top: 20px;
+
+    padding:
+        20px
+        38px;
+
+    border-radius: 28px;
+
+    background:
+        rgba(255,255,255,.96);
+
+    color:
+        #40506a;
+
+    font-size: 32px;
+    font-weight: 900;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 35px
+        rgba(60,50,55,.15);
 }
 
 </style>
@@ -591,7 +798,9 @@ button {
 <div id="game">
 
 
-    <!-- TASK -->
+    <!-- =====================================================
+         TASK
+    ====================================================== -->
 
     <div class="task">
 
@@ -610,7 +819,9 @@ button {
     </div>
 
 
-    <!-- PROGRESS -->
+    <!-- =====================================================
+         PROGRESS
+    ====================================================== -->
 
     <div
         class="progress"
@@ -620,7 +831,9 @@ button {
     </div>
 
 
-    <!-- MACHINE -->
+    <!-- =====================================================
+         MACHINE
+    ====================================================== -->
 
     <div id="machine">
 
@@ -635,7 +848,7 @@ button {
         >
 
 
-        <!-- INNER CHAMBER -->
+        <!-- INNER -->
 
         <div id="machineInside">
 
@@ -720,7 +933,10 @@ button {
         </div>
 
 
-        <!-- FRONT -->
+        <!--
+            ВАЖНО:
+            оставляем именно wide5.
+        -->
 
         <img
             id="machineFront"
@@ -730,7 +946,7 @@ button {
         >
 
 
-        <!-- PRIZE -->
+        <!-- SMALL PRIZE -->
 
         <img
             id="prizeToy"
@@ -763,6 +979,35 @@ button {
 
     </div>
 
+
+    <!-- =====================================================
+         BIG PRIZE SCREEN
+    ====================================================== -->
+
+    <div id="prizeOverlay">
+
+        <div id="bigPrizeWrap">
+
+            <img
+                id="bigPrizeToy"
+                src=""
+                alt=""
+                draggable="false"
+            >
+
+            <button id="nextButton">
+                ИГРАТЬ ДАЛЬШЕ
+            </button>
+
+            <div id="finalText">
+                Отличная работа! 🧸
+            </div>
+
+        </div>
+
+    </div>
+
+
 </div>
 
 </div>
@@ -774,11 +1019,17 @@ button {
    DIMENSIONS
 ========================================================= */
 
-const GAME_WIDTH = 1920;
-const GAME_HEIGHT = 1080;
+const GAME_WIDTH =
+    1920;
 
-const INSIDE_WIDTH = 1085;
-const INSIDE_HEIGHT = 490;
+const GAME_HEIGHT =
+    1080;
+
+const INSIDE_WIDTH =
+    1085;
+
+const INSIDE_HEIGHT =
+    490;
 
 
 /* =========================================================
@@ -787,13 +1038,15 @@ const INSIDE_HEIGHT = 490;
 
 const ROUNDS = [
 
-    /* 1
+    /*
+       1
        С в середине
-       Правильная: ЛИСА
+       ЛИСА
     */
 
     {
-        scheme: "scheme-s-middle.png",
+        scheme:
+            "scheme-s-middle.png",
 
         toys: [
             "toy/sobaka.png",
@@ -801,17 +1054,20 @@ const ROUNDS = [
             "toy/ananas.png"
         ],
 
-        correct: 1
+        correct:
+            1
     },
 
 
-    /* 2
+    /*
+       2
        С в начале
-       Правильная: СОВА
+       СОВА
     */
 
     {
-        scheme: "scheme-s-start.png",
+        scheme:
+            "scheme-s-start.png",
 
         toys: [
             "toy/kaktus.png",
@@ -819,17 +1075,20 @@ const ROUNDS = [
             "toy/sova.png"
         ],
 
-        correct: 2
+        correct:
+            2
     },
 
 
-    /* 3
+    /*
+       3
        С в конце
-       Правильная: КОМПАС
+       КОМПАС
     */
 
     {
-        scheme: "scheme-s-end.png",
+        scheme:
+            "scheme-s-end.png",
 
         toys: [
             "toy/sunduk.png",
@@ -837,17 +1096,20 @@ const ROUNDS = [
             "toy/kapusta.png"
         ],
 
-        correct: 1
+        correct:
+            1
     },
 
 
-    /* 4
+    /*
+       4
        С в начале
-       Правильная: СОМ
+       СОМ
     */
 
     {
-        scheme: "scheme-s-start.png",
+        scheme:
+            "scheme-s-start.png",
 
         toys: [
             "toy/nosok.png",
@@ -855,17 +1117,20 @@ const ROUNDS = [
             "toy/som.png"
         ],
 
-        correct: 2
+        correct:
+            2
     },
 
 
-    /* 5
+    /*
+       5
        С в середине
-       Правильная: ЧЕСНОК
+       ЧЕСНОК
     */
 
     {
-        scheme: "scheme-s-middle.png",
+        scheme:
+            "scheme-s-middle.png",
 
         toys: [
             "toy/avtobus.png",
@@ -873,17 +1138,20 @@ const ROUNDS = [
             "toy/sobaka.png"
         ],
 
-        correct: 1
+        correct:
+            1
     },
 
 
-    /* 6
+    /*
+       6
        С в конце
-       Правильная: КАКТУС
+       КАКТУС
     */
 
     {
-        scheme: "scheme-s-end.png",
+        scheme:
+            "scheme-s-end.png",
 
         toys: [
             "toy/som.png",
@@ -891,17 +1159,20 @@ const ROUNDS = [
             "toy/kaktus.png"
         ],
 
-        correct: 2
+        correct:
+            2
     },
 
 
-    /* 7
+    /*
+       7
        С в середине
-       Правильное: КОЛЕСО
+       КОЛЕСО
     */
 
     {
-        scheme: "scheme-s-middle.png",
+        scheme:
+            "scheme-s-middle.png",
 
         toys: [
             "toy/samolet.png",
@@ -909,17 +1180,20 @@ const ROUNDS = [
             "toy/koleso.png"
         ],
 
-        correct: 2
+        correct:
+            2
     },
 
 
-    /* 8
+    /*
+       8
        С в конце
-       Правильный: КОМПАС
+       КОМПАС
     */
 
     {
-        scheme: "scheme-s-end.png",
+        scheme:
+            "scheme-s-end.png",
 
         toys: [
             "toy/sunduk.png",
@@ -927,7 +1201,8 @@ const ROUNDS = [
             "toy/samolet.png"
         ],
 
-        correct: 1
+        correct:
+            1
     }
 
 ];
@@ -938,25 +1213,39 @@ const ROUNDS = [
 ========================================================= */
 
 const viewport =
-    document.getElementById("viewport");
+    document.getElementById(
+        "viewport"
+    );
 
 const game =
-    document.getElementById("game");
+    document.getElementById(
+        "game"
+    );
 
 
 function resizeGame() {
 
     const scale =
         Math.min(
-            window.innerWidth / GAME_WIDTH,
-            window.innerHeight / GAME_HEIGHT
+            window.innerWidth /
+            GAME_WIDTH,
+
+            window.innerHeight /
+            GAME_HEIGHT
         );
 
+
     viewport.style.width =
-        GAME_WIDTH * scale + "px";
+        GAME_WIDTH *
+        scale +
+        "px";
+
 
     viewport.style.height =
-        GAME_HEIGHT * scale + "px";
+        GAME_HEIGHT *
+        scale +
+        "px";
+
 
     game.style.transform =
         `scale(${scale})`;
@@ -968,6 +1257,7 @@ window.addEventListener(
     resizeGame
 );
 
+
 resizeGame();
 
 
@@ -976,43 +1266,89 @@ resizeGame();
 ========================================================= */
 
 const machineInside =
-    document.getElementById("machineInside");
+    document.getElementById(
+        "machineInside"
+    );
 
 const clawRig =
-    document.getElementById("clawRig");
+    document.getElementById(
+        "clawRig"
+    );
 
 const cable =
-    document.getElementById("cable");
+    document.getElementById(
+        "cable"
+    );
 
 const clawAssembly =
-    document.getElementById("clawAssembly");
+    document.getElementById(
+        "clawAssembly"
+    );
 
 const leftButton =
-    document.getElementById("leftButton");
+    document.getElementById(
+        "leftButton"
+    );
 
 const rightButton =
-    document.getElementById("rightButton");
+    document.getElementById(
+        "rightButton"
+    );
 
 const grabButton =
-    document.getElementById("grabButton");
+    document.getElementById(
+        "grabButton"
+    );
 
 const prizeToy =
-    document.getElementById("prizeToy");
+    document.getElementById(
+        "prizeToy"
+    );
 
 const taskScheme =
-    document.getElementById("taskScheme");
+    document.getElementById(
+        "taskScheme"
+    );
 
 const progress =
-    document.getElementById("progress");
+    document.getElementById(
+        "progress"
+    );
+
+const prizeOverlay =
+    document.getElementById(
+        "prizeOverlay"
+    );
+
+const bigPrizeToy =
+    document.getElementById(
+        "bigPrizeToy"
+    );
+
+const nextButton =
+    document.getElementById(
+        "nextButton"
+    );
+
+const finalText =
+    document.getElementById(
+        "finalText"
+    );
 
 
 const toys = [
 
-    document.getElementById("toy0"),
+    document.getElementById(
+        "toy0"
+    ),
 
-    document.getElementById("toy1"),
+    document.getElementById(
+        "toy1"
+    ),
 
-    document.getElementById("toy2")
+    document.getElementById(
+        "toy2"
+    )
 
 ];
 
@@ -1029,44 +1365,61 @@ const SLOT_X = [
 
 
 /*
-   Положение клешни над чёрной шахтой.
+   Рабочее положение
+   над чёрной дыркой.
 */
 
-const DROP_RIG_X = 780;
+const DROP_RIG_X =
+    780;
 
 
 /* =========================================================
    CABLE
 ========================================================= */
 
-const CABLE_HOME = 42;
+const CABLE_HOME =
+    42;
 
-const CABLE_LIFT = 52;
+const CABLE_LIFT =
+    52;
 
-const CABLE_DROP_APPROACH = 170;
+const CABLE_DROP_APPROACH =
+    170;
 
-const CABLE_DROP = 205;
+const CABLE_DROP =
+    205;
 
-const CABLE_WRONG_LIFT = 145;
+const CABLE_WRONG_LIFT =
+    145;
 
 
 /* =========================================================
    STATE
 ========================================================= */
 
-let roundIndex = 0;
+let roundIndex =
+    0;
 
-let currentSlot = 1;
+let currentSlot =
+    1;
 
-let busy = false;
+let busy =
+    false;
 
-let grabbedToy = null;
+let grabbedToy =
+    null;
 
-let followFrame = null;
+let followFrame =
+    null;
 
-let heldOffsetX = 0;
+let heldOffsetX =
+    0;
 
-let heldOffsetY = 0;
+let heldOffsetY =
+    0;
+
+let waitingForPrize =
+    false;
 
 
 /* =========================================================
@@ -1077,7 +1430,10 @@ function wait(ms) {
 
     return new Promise(
         resolve =>
-            setTimeout(resolve, ms)
+            setTimeout(
+                resolve,
+                ms
+            )
     );
 }
 
@@ -1094,6 +1450,7 @@ function setClaw(state) {
         "closed"
     );
 
+
     clawAssembly.classList.add(
         state
     );
@@ -1106,7 +1463,10 @@ async function neutralClaw() {
         "neutral"
     );
 
-    await wait(380);
+
+    await wait(
+        380
+    );
 }
 
 
@@ -1116,7 +1476,10 @@ async function openClaw() {
         "open"
     );
 
-    await wait(460);
+
+    await wait(
+        460
+    );
 }
 
 
@@ -1147,7 +1510,9 @@ function moveRigTo(x) {
 function updatePosition() {
 
     moveRigTo(
-        SLOT_X[currentSlot]
+        SLOT_X[
+            currentSlot
+        ]
     );
 }
 
@@ -1162,12 +1527,15 @@ leftButton.addEventListener(
 
         if (
             busy ||
+            waitingForPrize ||
             currentSlot <= 0
         ) {
             return;
         }
 
+
         currentSlot--;
+
 
         updatePosition();
     }
@@ -1184,12 +1552,15 @@ rightButton.addEventListener(
 
         if (
             busy ||
+            waitingForPrize ||
             currentSlot >= 2
         ) {
             return;
         }
 
+
         currentSlot++;
+
 
         updatePosition();
     }
@@ -1236,8 +1607,12 @@ function loadRound(index) {
         ROUNDS[index];
 
 
+    waitingForPrize =
+        false;
+
+
     /*
-       Схема положения С.
+       Схема.
     */
 
     taskScheme.src =
@@ -1245,7 +1620,7 @@ function loadRound(index) {
 
 
     /*
-       Номер раунда.
+       Прогресс.
     */
 
     progress.textContent =
@@ -1253,30 +1628,59 @@ function loadRound(index) {
 
 
     /*
-       Убираем предыдущий приз.
+       Маленький приз.
     */
 
     prizeToy.classList.remove(
         "show"
     );
 
+
     prizeToy.src =
         "";
 
 
+    prizeToy.style.pointerEvents =
+        "none";
+
+
     /*
-       Загружаем три игрушки.
+       Большой приз.
+    */
+
+    prizeOverlay.classList.remove(
+        "show"
+    );
+
+
+    bigPrizeToy.src =
+        "";
+
+
+    nextButton.style.display =
+        "block";
+
+
+    finalText.style.display =
+        "none";
+
+
+    /*
+       Игрушки.
     */
 
     toys.forEach(
         (toy, toyIndex) => {
 
             toy.src =
-                round.toys[toyIndex];
+                round.toys[
+                    toyIndex
+                ];
 
 
             toy.dataset.correct =
-                toyIndex === round.correct
+                toyIndex ===
+                round.correct
                     ? "true"
                     : "false";
 
@@ -1349,10 +1753,14 @@ function loadRound(index) {
 function getLocalRect(element) {
 
     const insideRect =
-        machineInside.getBoundingClientRect();
+        machineInside
+        .getBoundingClientRect();
+
 
     const rect =
-        element.getBoundingClientRect();
+        element
+        .getBoundingClientRect();
+
 
     const scale =
         insideRect.width /
@@ -1362,11 +1770,17 @@ function getLocalRect(element) {
     return {
 
         left:
-            (rect.left - insideRect.left) /
+            (
+                rect.left -
+                insideRect.left
+            ) /
             scale,
 
         top:
-            (rect.top - insideRect.top) /
+            (
+                rect.top -
+                insideRect.top
+            ) /
             scale,
 
         width:
@@ -1387,7 +1801,9 @@ function getLocalRect(element) {
 function freezeToy(toy) {
 
     const pos =
-        getLocalRect(toy);
+        getLocalRect(
+            toy
+        );
 
 
     toy.style.transition =
@@ -1417,38 +1833,48 @@ function freezeToy(toy) {
 
 
 /* =========================================================
-   CAPTURE HELD OFFSET
+   HELD OFFSET
 ========================================================= */
 
 function captureHeldOffset() {
 
-    if (!grabbedToy) {
+    if (
+        !grabbedToy
+    ) {
         return;
     }
 
 
     const toyRect =
-        getLocalRect(grabbedToy);
+        getLocalRect(
+            grabbedToy
+        );
 
 
     const rigX =
         parseFloat(
-            getComputedStyle(clawRig).left
+            getComputedStyle(
+                clawRig
+            ).left
         );
 
 
     const cableLength =
         parseFloat(
-            getComputedStyle(cable).height
+            getComputedStyle(
+                cable
+            ).height
         );
 
 
     const anchorX =
-        rigX + 85;
+        rigX +
+        85;
 
 
     const anchorY =
-        52 + cableLength;
+        52 +
+        cableLength;
 
 
     heldOffsetX =
@@ -1468,29 +1894,37 @@ function captureHeldOffset() {
 
 function getHeldTarget() {
 
-    if (!grabbedToy) {
+    if (
+        !grabbedToy
+    ) {
         return null;
     }
 
 
     const rigX =
         parseFloat(
-            getComputedStyle(clawRig).left
+            getComputedStyle(
+                clawRig
+            ).left
         );
 
 
     const cableLength =
         parseFloat(
-            getComputedStyle(cable).height
+            getComputedStyle(
+                cable
+            ).height
         );
 
 
     const anchorX =
-        rigX + 85;
+        rigX +
+        85;
 
 
     const anchorY =
-        52 + cableLength;
+        52 +
+        cableLength;
 
 
     return {
@@ -1512,7 +1946,9 @@ function getHeldTarget() {
 
 function followToy() {
 
-    if (!grabbedToy) {
+    if (
+        !grabbedToy
+    ) {
         return;
     }
 
@@ -1521,31 +1957,45 @@ function followToy() {
         getHeldTarget();
 
 
-    if (!target) {
+    if (
+        !target
+    ) {
         return;
     }
 
 
     let currentLeft =
         parseFloat(
-            grabbedToy.style.left
+            grabbedToy
+            .style
+            .left
         );
 
 
     let currentTop =
         parseFloat(
-            grabbedToy.style.top
+            grabbedToy
+            .style
+            .top
         );
 
 
-    if (!Number.isFinite(currentLeft)) {
+    if (
+        !Number.isFinite(
+            currentLeft
+        )
+    ) {
 
         currentLeft =
             target.left;
     }
 
 
-    if (!Number.isFinite(currentTop)) {
+    if (
+        !Number.isFinite(
+            currentTop
+        )
+    ) {
 
         currentTop =
             target.top;
@@ -1554,12 +2004,20 @@ function followToy() {
 
     const nextLeft =
         currentLeft +
-        (target.left - currentLeft) * .32;
+        (
+            target.left -
+            currentLeft
+        ) *
+        .32;
 
 
     const nextTop =
         currentTop +
-        (target.top - currentTop) * .92;
+        (
+            target.top -
+            currentTop
+        ) *
+        .92;
 
 
     grabbedToy.style.left =
@@ -1588,12 +2046,14 @@ function startFollowingToy() {
 function stopFollowingToy() {
 
     if (
-        followFrame !== null
+        followFrame !==
+        null
     ) {
 
         cancelAnimationFrame(
             followFrame
         );
+
 
         followFrame =
             null;
@@ -1602,7 +2062,7 @@ function stopFollowingToy() {
 
 
 /* =========================================================
-   LOWER CLAW TO TOY
+   LOWER CLAW
 ========================================================= */
 
 async function lowerClawToToy(toy) {
@@ -1614,11 +2074,14 @@ async function lowerClawToToy(toy) {
 
 
     setCable(
-        grabDepth - 32
+        grabDepth -
+        32
     );
 
 
-    await wait(760);
+    await wait(
+        760
+    );
 
 
     cable.style.transition =
@@ -1634,7 +2097,9 @@ async function lowerClawToToy(toy) {
     );
 
 
-    await wait(540);
+    await wait(
+        540
+    );
 
 
     cable.style.transition =
@@ -1667,10 +2132,14 @@ async function grabToyNaturally(toy) {
     );
 
 
-    await wait(470);
+    await wait(
+        470
+    );
 
 
-    await wait(90);
+    await wait(
+        90
+    );
 
 
     captureHeldOffset();
@@ -1686,7 +2155,9 @@ async function liftGrabbedToy() {
     startFollowingToy();
 
 
-    await wait(32);
+    await wait(
+        32
+    );
 
 
     setCable(
@@ -1694,7 +2165,9 @@ async function liftGrabbedToy() {
     );
 
 
-    await wait(1050);
+    await wait(
+        1050
+    );
 }
 
 
@@ -1712,7 +2185,9 @@ async function settleSwing(toy) {
         "rotate(-4deg)";
 
 
-    await wait(170);
+    await wait(
+        170
+    );
 
 
     toy.style.transition =
@@ -1723,7 +2198,9 @@ async function settleSwing(toy) {
         "rotate(2.8deg)";
 
 
-    await wait(220);
+    await wait(
+        220
+    );
 
 
     toy.style.transition =
@@ -1734,7 +2211,9 @@ async function settleSwing(toy) {
         "rotate(-1.3deg)";
 
 
-    await wait(200);
+    await wait(
+        200
+    );
 
 
     toy.style.transition =
@@ -1745,14 +2224,18 @@ async function settleSwing(toy) {
         "rotate(.4deg)";
 
 
-    await wait(180);
+    await wait(
+        180
+    );
 
 
     toy.style.transform =
         "rotate(0deg)";
 
 
-    await wait(120);
+    await wait(
+        120
+    );
 }
 
 
@@ -1775,7 +2258,9 @@ async function moveToShaft(toy) {
     );
 
 
-    await wait(470);
+    await wait(
+        470
+    );
 
 
     toy.style.transition =
@@ -1786,10 +2271,14 @@ async function moveToShaft(toy) {
         "rotate(2deg)";
 
 
-    await wait(450);
+    await wait(
+        450
+    );
 
 
-    await wait(120);
+    await wait(
+        120
+    );
 
 
     await settleSwing(
@@ -1809,7 +2298,9 @@ async function lowerOverShaft(toy) {
     );
 
 
-    await wait(760);
+    await wait(
+        760
+    );
 
 
     cable.style.transition =
@@ -1825,7 +2316,9 @@ async function lowerOverShaft(toy) {
     );
 
 
-    await wait(470);
+    await wait(
+        470
+    );
 
 
     cable.style.transition =
@@ -1844,36 +2337,29 @@ async function lowerOverShaft(toy) {
         "rotate(0deg)";
 
 
-    await wait(220);
+    await wait(
+        220
+    );
 }
 
 
 /* =========================================================
    DROP INTO BLACK SHAFT
 
-   Это наша рабочая версия:
-   игрушка сначала центрируется над дыркой,
-   потом падает вниз,
-   а wide5 скрывает её спереди.
+   НЕ ТРОГАЕМ.
 ========================================================= */
 
 async function dropIntoShaft(toy) {
-
-    /*
-       Открываем клешню.
-    */
 
     setClaw(
         "open"
     );
 
 
-    await wait(190);
+    await wait(
+        190
+    );
 
-
-    /*
-       Отцепляем игрушку.
-    */
 
     stopFollowingToy();
 
@@ -1883,12 +2369,10 @@ async function dropIntoShaft(toy) {
     );
 
 
-    /*
-       Запоминаем её реальную позицию.
-    */
-
     const pos =
-        getLocalRect(toy);
+        getLocalRect(
+            toy
+        );
 
 
     toy.style.transition =
@@ -1912,30 +2396,28 @@ async function dropIntoShaft(toy) {
 
 
     /*
-       Центр чёрной дырки
-       внутри machineInside.
+       Рабочий центр
+       чёрной дырки.
     */
 
     const shaftCenterX =
         890;
 
 
-    /*
-       Ставим центр игрушки
-       точно над центром дырки.
-    */
-
     const shaftLeft =
         shaftCenterX -
-        pos.width / 2;
+        pos.width /
+        2;
 
 
-    await wait(50);
+    await wait(
+        50
+    );
 
 
     /*
-       Небольшая доводка
-       к центру дырки.
+       Доводим игрушку
+       к центру отверстия.
     */
 
     toy.style.transition =
@@ -1950,7 +2432,9 @@ async function dropIntoShaft(toy) {
         `${pos.top + 18}px`;
 
 
-    await wait(180);
+    await wait(
+        180
+    );
 
 
     /*
@@ -1969,15 +2453,14 @@ async function dropIntoShaft(toy) {
         "rotate(2deg)";
 
 
-    await wait(300);
+    await wait(
+        300
+    );
 
 
     /*
-       Игрушка проваливается
-       глубже в чёрную шахту.
-
-       machine-front-wide5 находится
-       поверх игрушки.
+       Уходит глубже
+       за wide5.
     */
 
     toy.style.transition =
@@ -1992,39 +2475,41 @@ async function dropIntoShaft(toy) {
         "rotate(4deg) scale(.97)";
 
 
-    await wait(280);
+    await wait(
+        280
+    );
 
 
     /*
-       Игрушка уже физически
-       скрылась за шахтой.
-
-       Только теперь убираем её.
+       Исчезает только тогда,
+       когда уже скрылась.
     */
 
     toy.style.opacity =
         "0";
 
 
-    await wait(220);
+    await wait(
+        220
+    );
 }
 
 
 /* =========================================================
-   CORRECT SEQUENCE
+   CORRECT
 ========================================================= */
 
 async function correctSequence(toy) {
 
     /*
-       Поднимаем игрушку.
+       1. Поднимаем.
     */
 
     await liftGrabbedToy();
 
 
     /*
-       Небольшое качание.
+       2. Качание.
     */
 
     await settleSwing(
@@ -2033,7 +2518,7 @@ async function correctSequence(toy) {
 
 
     /*
-       Несём к чёрной дырке.
+       3. К шахте.
     */
 
     await moveToShaft(
@@ -2042,7 +2527,7 @@ async function correctSequence(toy) {
 
 
     /*
-       Опускаем над дыркой.
+       4. Опускаемся.
     */
 
     await lowerOverShaft(
@@ -2051,7 +2536,8 @@ async function correctSequence(toy) {
 
 
     /*
-       Роняем внутрь.
+       5. Падаем
+       в чёрную дырку.
     */
 
     await dropIntoShaft(
@@ -2060,8 +2546,8 @@ async function correctSequence(toy) {
 
 
     /*
-       Та же игрушка появляется
-       в окошке ПРИЗ.
+       6. Появляется
+       маленький приз.
     */
 
     prizeToy.src =
@@ -2073,16 +2559,22 @@ async function correctSequence(toy) {
     );
 
 
+    prizeToy.style.pointerEvents =
+        "auto";
+
+
     /*
-       Пока оставляем приз
-       немного подольше.
+       Теперь игра ждёт,
+       пока ребёнок нажмёт
+       на приз.
     */
 
-    await wait(1100);
+    waitingForPrize =
+        true;
 
 
     /*
-       Возвращаем клешню наверх.
+       7. Клешня вверх.
     */
 
     setCable(
@@ -2090,12 +2582,13 @@ async function correctSequence(toy) {
     );
 
 
-    await wait(980);
+    await wait(
+        980
+    );
 
 
     /*
-       Возвращаем клешню
-       в центральное положение.
+       8. Каретка обратно.
     */
 
     currentSlot =
@@ -2105,7 +2598,9 @@ async function correctSequence(toy) {
     updatePosition();
 
 
-    await wait(930);
+    await wait(
+        930
+    );
 
 
     await neutralClaw();
@@ -2113,39 +2608,11 @@ async function correctSequence(toy) {
 
     grabbedToy =
         null;
-
-
-    /*
-       Пока переход автоматический.
-
-       Следующим этапом заменим это
-       на нажатие по призу,
-       вылет в центр и кнопку
-       "Играть дальше".
-    */
-
-    await wait(1200);
-
-
-    if (
-        roundIndex <
-        ROUNDS.length - 1
-    ) {
-
-        roundIndex++;
-
-
-        loadRound(
-            roundIndex
-        );
-
-    }
-
 }
 
 
 /* =========================================================
-   WRONG SEQUENCE
+   WRONG
 ========================================================= */
 
 async function wrongSequence(
@@ -2153,15 +2620,12 @@ async function wrongSequence(
     index
 ) {
 
-    /*
-       Немного поднимаем
-       неправильную игрушку.
-    */
-
     startFollowingToy();
 
 
-    await wait(32);
+    await wait(
+        32
+    );
 
 
     setCable(
@@ -2169,7 +2633,9 @@ async function wrongSequence(
     );
 
 
-    await wait(720);
+    await wait(
+        720
+    );
 
 
     toy.style.transition =
@@ -2180,19 +2646,19 @@ async function wrongSequence(
         "rotate(-2deg)";
 
 
-    await wait(150);
+    await wait(
+        150
+    );
 
-
-    /*
-       Отпускаем.
-    */
 
     setClaw(
         "open"
     );
 
 
-    await wait(190);
+    await wait(
+        190
+    );
 
 
     stopFollowingToy();
@@ -2204,7 +2670,9 @@ async function wrongSequence(
 
 
     const pos =
-        getLocalRect(toy);
+        getLocalRect(
+            toy
+        );
 
 
     toy.style.transition =
@@ -2223,12 +2691,10 @@ async function wrongSequence(
         "auto";
 
 
-    await wait(60);
+    await wait(
+        60
+    );
 
-
-    /*
-       Возвращаем на пол.
-    */
 
     const targetTop =
         INSIDE_HEIGHT -
@@ -2248,11 +2714,13 @@ async function wrongSequence(
         "rotate(3deg)";
 
 
-    await wait(440);
+    await wait(
+        440
+    );
 
 
     /*
-       Мягкое приземление.
+       Приземление.
     */
 
     toy.style.transition =
@@ -2263,7 +2731,9 @@ async function wrongSequence(
         "rotate(-1deg) scaleY(.965)";
 
 
-    await wait(90);
+    await wait(
+        90
+    );
 
 
     toy.style.transition =
@@ -2274,7 +2744,9 @@ async function wrongSequence(
         "rotate(.6deg) scaleY(1)";
 
 
-    await wait(180);
+    await wait(
+        180
+    );
 
 
     toy.style.transition =
@@ -2285,11 +2757,13 @@ async function wrongSequence(
         "rotate(0deg)";
 
 
-    await wait(150);
+    await wait(
+        150
+    );
 
 
     /*
-       Возвращаем исходные CSS-координаты.
+       Возвращаем домой.
     */
 
     toy.style.transition =
@@ -2318,7 +2792,7 @@ async function wrongSequence(
 
 
     /*
-       Клешня наверх.
+       Клешня вверх.
     */
 
     setCable(
@@ -2326,7 +2800,9 @@ async function wrongSequence(
     );
 
 
-    await wait(980);
+    await wait(
+        980
+    );
 
 
     await neutralClaw();
@@ -2345,22 +2821,32 @@ grabButton.addEventListener(
     "click",
     async () => {
 
-        if (busy) {
+        if (
+            busy ||
+            waitingForPrize
+        ) {
             return;
         }
 
 
         const toy =
-            toys[currentSlot];
+            toys[
+                currentSlot
+            ];
 
 
-        if (!toy) {
+        if (
+            !toy
+        ) {
             return;
         }
 
 
         if (
-            getComputedStyle(toy).opacity === "0"
+            getComputedStyle(
+                toy
+            ).opacity ===
+            "0"
         ) {
             return;
         }
@@ -2373,17 +2859,19 @@ grabButton.addEventListener(
         try {
 
             /*
-               1. Открываем клешню.
+               Открываем.
             */
 
             await openClaw();
 
 
-            await wait(90);
+            await wait(
+                90
+            );
 
 
             /*
-               2. Опускаем к игрушке.
+               Опускаемся.
             */
 
             await lowerClawToToy(
@@ -2391,11 +2879,13 @@ grabButton.addEventListener(
             );
 
 
-            await wait(140);
+            await wait(
+                140
+            );
 
 
             /*
-               3. Захватываем.
+               Захват.
             */
 
             await grabToyNaturally(
@@ -2404,14 +2894,17 @@ grabButton.addEventListener(
 
 
             /*
-               4. Проверяем ответ.
+               Проверяем.
             */
 
             const correct =
-                toy.dataset.correct === "true";
+                toy.dataset.correct ===
+                "true";
 
 
-            if (correct) {
+            if (
+                correct
+            ) {
 
                 await correctSequence(
                     toy
@@ -2425,12 +2918,152 @@ grabButton.addEventListener(
                 );
             }
 
-
         } finally {
 
             busy =
                 false;
         }
+    }
+);
+
+
+/* =========================================================
+   CLICK SMALL PRIZE
+========================================================= */
+
+prizeToy.addEventListener(
+    "click",
+    () => {
+
+        if (
+            !waitingForPrize
+        ) {
+            return;
+        }
+
+
+        if (
+            !prizeToy
+            .classList
+            .contains(
+                "show"
+            )
+        ) {
+            return;
+        }
+
+
+        /*
+           Запрещаем повторное
+           нажатие.
+        */
+
+        prizeToy.style.pointerEvents =
+            "none";
+
+
+        /*
+           Передаём картинку
+           большому призу.
+        */
+
+        bigPrizeToy.src =
+            prizeToy.src;
+
+
+        /*
+           Маленькая игрушка
+           исчезает из окошка.
+        */
+
+        prizeToy.classList.remove(
+            "show"
+        );
+
+
+        /*
+           Показываем большой экран.
+        */
+
+        prizeOverlay.classList.add(
+            "show"
+        );
+
+
+        /*
+           Если это последний раунд,
+           вместо "Играть дальше"
+           покажем завершение.
+        */
+
+        if (
+            roundIndex ===
+            ROUNDS.length - 1
+        ) {
+
+            nextButton.style.display =
+                "none";
+
+
+            finalText.style.display =
+                "block";
+        }
+    }
+);
+
+
+/* =========================================================
+   NEXT ROUND
+========================================================= */
+
+nextButton.addEventListener(
+    "click",
+    async () => {
+
+        if (
+            roundIndex >=
+            ROUNDS.length - 1
+        ) {
+            return;
+        }
+
+
+        nextButton.disabled =
+            true;
+
+
+        /*
+           Убираем большой приз.
+        */
+
+        prizeOverlay.classList.remove(
+            "show"
+        );
+
+
+        await wait(
+            380
+        );
+
+
+        bigPrizeToy.src =
+            "";
+
+
+        /*
+           Следующий раунд.
+        */
+
+        roundIndex++;
+
+
+        loadRound(
+            roundIndex
+        );
+
+
+        nextButton.disabled =
+            false;
     }
 );
 
@@ -2444,7 +3077,8 @@ document.addEventListener(
     event => {
 
         if (
-            event.key === "ArrowLeft"
+            event.key ===
+            "ArrowLeft"
         ) {
 
             leftButton.click();
@@ -2452,7 +3086,8 @@ document.addEventListener(
 
 
         if (
-            event.key === "ArrowRight"
+            event.key ===
+            "ArrowRight"
         ) {
 
             rightButton.click();
@@ -2460,10 +3095,12 @@ document.addEventListener(
 
 
         if (
-            event.code === "Space"
+            event.code ===
+            "Space"
         ) {
 
             event.preventDefault();
+
 
             grabButton.click();
         }
