@@ -455,10 +455,7 @@ button {
 
 #prizeToy {
     position: absolute;
-
-    /* немного сдвинули приз влево */
     left: 44%;
-
     bottom: 10px;
     width: 125px;
     height: 108px;
@@ -584,11 +581,11 @@ button {
 #finalText {
     display: none;
     margin-top: 20px;
-    padding: 20px 38px;
+    padding: 24px 44px;
     border-radius: 28px;
     background: rgba(255,255,255,.96);
     color: #40506a;
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 900;
     text-align: center;
 }
@@ -749,7 +746,7 @@ button {
         </button>
 
         <div id="finalText">
-            Отличная работа! 🧸
+            Приходи играть ещё!
         </div>
 
     </div>
@@ -780,6 +777,7 @@ const BALL_PIT_HEIGHT = 188;
 
 const ROUNDS = [
 
+    /* 1 - правильная игрушка по центру */
     {
         scheme: "scheme-s-middle.png",
         toys: [
@@ -790,6 +788,7 @@ const ROUNDS = [
         correct: 1
     },
 
+    /* 2 - правильная игрушка справа */
     {
         scheme: "scheme-s-start.png",
         toys: [
@@ -800,6 +799,7 @@ const ROUNDS = [
         correct: 2
     },
 
+    /* 3 - правильная игрушка по центру */
     {
         scheme: "scheme-s-end.png",
         toys: [
@@ -810,16 +810,18 @@ const ROUNDS = [
         correct: 1
     },
 
+    /* 4 - правильная игрушка слева */
     {
         scheme: "scheme-s-start.png",
         toys: [
-            "toy/nosok.png",
+            "toy/som.png",
             "toy/lisa.png",
-            "toy/som.png"
+            "toy/nosok.png"
         ],
-        correct: 2
+        correct: 0
     },
 
+    /* 5 - правильная игрушка по центру */
     {
         scheme: "scheme-s-middle.png",
         toys: [
@@ -830,16 +832,18 @@ const ROUNDS = [
         correct: 1
     },
 
+    /* 6 - правильная игрушка слева */
     {
         scheme: "scheme-s-end.png",
         toys: [
-            "toy/som.png",
+            "toy/kaktus.png",
             "toy/kapusta.png",
-            "toy/kaktus.png"
+            "toy/som.png"
         ],
-        correct: 2
+        correct: 0
     },
 
+    /* 7 - правильная игрушка справа */
     {
         scheme: "scheme-s-middle.png",
         toys: [
@@ -850,11 +854,12 @@ const ROUNDS = [
         correct: 2
     },
 
+    /* 8 - компас заменён на автобус */
     {
         scheme: "scheme-s-end.png",
         toys: [
             "toy/sunduk.png",
-            "toy/kompas.png",
+            "toy/avtobus.png",
             "toy/samolet.png"
         ],
         correct: 1
@@ -1055,22 +1060,7 @@ const BALLS = [];
 let ballPhysicsFrame = null;
 let ballPhysicsRunning = false;
 
-/*
-   31 шарик.
-
-   Рабочая версия:
-   шарики изначально стоят плотной кучей.
-
-   Нижний ряд лежит на дне.
-   Следующий ряд находится в промежутках нижнего.
-   Верхний ряд находится в промежутках среднего.
-*/
-
 const BALL_LAYOUT = [
-
-    /* =====================================================
-       НИЖНИЙ РЯД - 13
-    ===================================================== */
 
     [4,130,58,"front"],
     [60,129,59,"front"],
@@ -1086,10 +1076,6 @@ const BALL_LAYOUT = [
     [634,129,59,"front"],
     [681,134,54,"front"],
 
-    /* =====================================================
-       СРЕДНИЙ РЯД - 10
-    ===================================================== */
-
     [31,80,57,"back"],
     [96,78,59,"back"],
     [163,80,57,"back"],
@@ -1100,10 +1086,6 @@ const BALL_LAYOUT = [
     [500,77,59,"back"],
     [568,80,57,"back"],
     [635,79,58,"back"],
-
-    /* =====================================================
-       ВЕРХНИЙ РЯД - 8
-    ===================================================== */
 
     [64,32,56,"back"],
     [146,31,57,"back"],
@@ -2099,12 +2081,6 @@ function loadRound(index) {
 
     finalText.style.display =
         "none";
-
-    /*
-       ОСТАВЛЯЕМ РАБОЧУЮ МЕХАНИКУ:
-       шарики возвращаются и естественно
-       оседают друг на друга.
-    */
 
     resetBalls(
         true
