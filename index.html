@@ -196,14 +196,12 @@ button {
 
 #clawRig {
     --cable: 42px;
-
     position: absolute;
     left: 295px;
     top: 5px;
     width: 170px;
     height: 445px;
     z-index: 30;
-
     transition: left .92s cubic-bezier(.22,.65,.35,1);
 }
 
@@ -245,7 +243,6 @@ button {
 
     box-shadow: 1px 0 2px rgba(0,0,0,.2);
     z-index: 31;
-
     transition: height .92s cubic-bezier(.37,0,.18,1);
 }
 
@@ -256,7 +253,6 @@ button {
     width: 160px;
     height: 180px;
     z-index: 32;
-
     transition: top .92s cubic-bezier(.37,0,.18,1);
 }
 
@@ -460,18 +456,14 @@ button {
 #prizeToy {
     position: absolute;
 
-    /*
-       Чуть левее визуального центра полочки.
-    */
-    left: 46%;
-    bottom: 10px;
+    /* немного сдвинули приз влево */
+    left: 44%;
 
+    bottom: 10px;
     width: 125px;
     height: 108px;
-
     object-fit: contain;
     object-position: center bottom;
-
     opacity: 0;
 
     transform:
@@ -506,20 +498,14 @@ button {
     position: absolute;
     inset: 0;
     z-index: 500;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     background: rgba(55,48,55,.30);
-
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-
-    transition:
-        opacity .35s ease,
-        visibility .35s ease;
+    transition: opacity .35s ease, visibility .35s ease;
 }
 
 #prizeOverlay.show {
@@ -532,12 +518,10 @@ button {
     position: relative;
     width: 620px;
     height: 680px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     opacity: 0;
     transform: translateY(100px) scale(.28);
 
@@ -556,33 +540,18 @@ button {
     width: 390px;
     height: 390px;
     object-fit: contain;
-
-    filter:
-        drop-shadow(
-            0 22px 18px
-            rgba(55,45,50,.22)
-        );
-
-    animation:
-        prizeFloat
-        2.2s
-        ease-in-out
-        infinite;
+    filter: drop-shadow(0 22px 18px rgba(55,45,50,.22));
+    animation: prizeFloat 2.2s ease-in-out infinite;
 }
 
 @keyframes prizeFloat {
-
     0%,
     100% {
-        transform:
-            translateY(0)
-            rotate(-1deg);
+        transform: translateY(0) rotate(-1deg);
     }
 
     50% {
-        transform:
-            translateY(-13px)
-            rotate(1deg);
+        transform: translateY(-13px) rotate(1deg);
     }
 }
 
@@ -758,9 +727,9 @@ button {
 
     </div>
 
-    <button id="leftButton" class="control" aria-label="Влево"></button>
-    <button id="rightButton" class="control" aria-label="Вправо"></button>
-    <button id="grabButton" class="control" aria-label="Поймать"></button>
+    <button id="leftButton" class="control"></button>
+    <button id="rightButton" class="control"></button>
+    <button id="grabButton" class="control"></button>
 
 </div>
 
@@ -1086,47 +1055,64 @@ const BALLS = [];
 let ballPhysicsFrame = null;
 let ballPhysicsRunning = false;
 
+/*
+   31 шарик.
+
+   Рабочая версия:
+   шарики изначально стоят плотной кучей.
+
+   Нижний ряд лежит на дне.
+   Следующий ряд находится в промежутках нижнего.
+   Верхний ряд находится в промежутках среднего.
+*/
+
 const BALL_LAYOUT = [
 
-    /* НИЖНИЙ РЯД */
+    /* =====================================================
+       НИЖНИЙ РЯД - 13
+    ===================================================== */
 
-    [4,132,58,"front"],
+    [4,130,58,"front"],
     [60,129,59,"front"],
-    [117,133,58,"front"],
+    [117,130,58,"front"],
     [174,128,60,"front"],
-    [232,132,58,"front"],
+    [232,130,58,"front"],
     [289,129,59,"front"],
-    [347,133,58,"front"],
+    [347,130,58,"front"],
     [404,128,60,"front"],
-    [462,132,58,"front"],
+    [462,130,58,"front"],
     [519,129,59,"front"],
-    [577,133,58,"front"],
+    [577,130,58,"front"],
     [634,129,59,"front"],
     [681,134,54,"front"],
 
-    /* СРЕДНИЙ РЯД */
+    /* =====================================================
+       СРЕДНИЙ РЯД - 10
+    ===================================================== */
 
-    [25,83,57,"back"],
-    [91,77,59,"back"],
-    [158,87,57,"back"],
-    [226,76,59,"back"],
-    [294,85,57,"back"],
-    [362,76,59,"back"],
-    [430,86,57,"back"],
-    [498,76,59,"back"],
-    [566,86,57,"back"],
-    [634,78,58,"back"],
+    [31,80,57,"back"],
+    [96,78,59,"back"],
+    [163,80,57,"back"],
+    [230,77,59,"back"],
+    [298,80,57,"back"],
+    [365,77,59,"back"],
+    [433,80,57,"back"],
+    [500,77,59,"back"],
+    [568,80,57,"back"],
+    [635,79,58,"back"],
 
-    /* ВЕРХ */
+    /* =====================================================
+       ВЕРХНИЙ РЯД - 8
+    ===================================================== */
 
-    [58,35,56,"back"],
-    [139,29,57,"back"],
-    [222,39,55,"back"],
-    [306,28,58,"back"],
-    [390,38,55,"back"],
-    [474,29,58,"back"],
-    [558,39,55,"back"],
-    [641,31,57,"back"]
+    [64,32,56,"back"],
+    [146,31,57,"back"],
+    [229,34,55,"back"],
+    [312,30,58,"back"],
+    [396,34,55,"back"],
+    [479,30,58,"back"],
+    [562,34,55,"back"],
+    [644,32,57,"back"]
 
 ];
 
@@ -1211,7 +1197,7 @@ function createBalls() {
 
                 va: 0,
 
-                sleeping: true,
+                sleeping: false,
                 sleepCounter: 0
             });
         }
@@ -1780,7 +1766,7 @@ function collapseBallsIntoGap(slot) {
         toyHome[slot].width / 2;
 
     BALLS.forEach(
-        (ball, index) => {
+        ball => {
 
             const center =
                 ball.x +
@@ -1801,8 +1787,11 @@ function collapseBallsIntoGap(slot) {
                 1 -
                 distance / 155;
 
+            const direction =
+                Math.sign(dx);
+
             ball.vx +=
-                Math.sign(dx) *
+                direction *
                 (
                     .35 +
                     1.15 * power
@@ -1813,7 +1802,7 @@ function collapseBallsIntoGap(slot) {
                 .35 * power;
 
             ball.va +=
-                Math.sign(dx) *
+                direction *
                 .8;
 
             wakeBall(ball);
@@ -1827,7 +1816,7 @@ function collapseBallsIntoGap(slot) {
    RESET BALLS
 ========================================================= */
 
-function resetBalls() {
+function resetBalls(settle = true) {
 
     if (
         ballPhysicsFrame !==
@@ -1838,10 +1827,12 @@ function resetBalls() {
             ballPhysicsFrame
         );
 
-        ballPhysicsFrame = null;
+        ballPhysicsFrame =
+            null;
     }
 
-    ballPhysicsRunning = false;
+    ballPhysicsRunning =
+        false;
 
     BALLS.forEach(
         ball => {
@@ -1856,12 +1847,20 @@ function resetBalls() {
             ball.vy = 0;
             ball.va = 0;
 
-            ball.sleeping = true;
-            ball.sleepCounter = 0;
+            ball.sleeping =
+                !settle;
+
+            ball.sleepCounter =
+                0;
         }
     );
 
     renderBalls();
+
+    if (settle) {
+
+        startBallPhysics();
+    }
 }
 
 /* =========================================================
@@ -1883,16 +1882,24 @@ function setClaw(state) {
 
 async function neutralClaw() {
 
-    setClaw("neutral");
+    setClaw(
+        "neutral"
+    );
 
-    await wait(380);
+    await wait(
+        380
+    );
 }
 
 async function openClaw() {
 
-    setClaw("open");
+    setClaw(
+        "open"
+    );
 
-    await wait(460);
+    await wait(
+        460
+    );
 }
 
 function setCable(length) {
@@ -1985,17 +1992,26 @@ function addToyToPouch(src) {
         return;
     }
 
-    collectedToys.push(src);
+    collectedToys.push(
+        src
+    );
 
     const layout =
         POUCH_LAYOUT[index];
 
     const img =
-        document.createElement("img");
+        document.createElement(
+            "img"
+        );
 
-    img.src = src;
-    img.className = "pouch-toy";
-    img.draggable = false;
+    img.src =
+        src;
+
+    img.className =
+        "pouch-toy";
+
+    img.draggable =
+        false;
 
     img.style.left =
         `${layout.left}px`;
@@ -2084,7 +2100,15 @@ function loadRound(index) {
     finalText.style.display =
         "none";
 
-    resetBalls();
+    /*
+       ОСТАВЛЯЕМ РАБОЧУЮ МЕХАНИКУ:
+       шарики возвращаются и естественно
+       оседают друг на друга.
+    */
+
+    resetBalls(
+        true
+    );
 
     toys.forEach(
         (toy, toyIndex) => {
@@ -2093,7 +2117,8 @@ function loadRound(index) {
                 round.toys[toyIndex];
 
             toy.dataset.correct =
-                toyIndex === round.correct
+                toyIndex ===
+                round.correct
                     ? "true"
                     : "false";
 
@@ -2197,7 +2222,9 @@ function getLocalRect(element) {
 function freezeToy(toy) {
 
     const pos =
-        getLocalRect(toy);
+        getLocalRect(
+            toy
+        );
 
     toy.style.transition =
         "none";
@@ -2414,7 +2441,9 @@ async function lowerClawToToy(toy) {
         grabDepth - 58
     );
 
-    await wait(650);
+    await wait(
+        650
+    );
 
     pushBallsByClaw(
         currentSlot
@@ -2430,13 +2459,17 @@ async function lowerClawToToy(toy) {
         grabDepth
     );
 
-    await wait(280);
+    await wait(
+        280
+    );
 
     pushBallsByClaw(
         currentSlot
     );
 
-    await wait(330);
+    await wait(
+        330
+    );
 
     cable.style.transition =
         "height .92s cubic-bezier(.37,0,.18,1)";
@@ -2451,13 +2484,17 @@ async function lowerClawToToy(toy) {
 
 async function grabToyNaturally(toy) {
 
-    freezeToy(toy);
+    freezeToy(
+        toy
+    );
 
     setClaw(
         "closed"
     );
 
-    await wait(470);
+    await wait(
+        470
+    );
 
     captureHeldOffset();
 }
@@ -2470,25 +2507,33 @@ async function liftGrabbedToy() {
 
     startFollowingToy();
 
-    await wait(40);
+    await wait(
+        40
+    );
 
     setCable(
         CABLE_LIFT
     );
 
-    await wait(150);
+    await wait(
+        150
+    );
 
     pushBallsByRisingToy(
         currentSlot
     );
 
-    await wait(260);
+    await wait(
+        260
+    );
 
     collapseBallsIntoGap(
         currentSlot
     );
 
-    await wait(650);
+    await wait(
+        650
+    );
 }
 
 /* =========================================================
@@ -2503,7 +2548,9 @@ async function settleSwing(toy) {
     toy.style.transform =
         "rotate(-4deg)";
 
-    await wait(170);
+    await wait(
+        170
+    );
 
     toy.style.transition =
         "transform .22s ease-in-out";
@@ -2511,7 +2558,9 @@ async function settleSwing(toy) {
     toy.style.transform =
         "rotate(2.8deg)";
 
-    await wait(220);
+    await wait(
+        220
+    );
 
     toy.style.transition =
         "transform .20s ease-in-out";
@@ -2519,7 +2568,9 @@ async function settleSwing(toy) {
     toy.style.transform =
         "rotate(-1.3deg)";
 
-    await wait(200);
+    await wait(
+        200
+    );
 
     toy.style.transition =
         "transform .18s ease-out";
@@ -2527,12 +2578,16 @@ async function settleSwing(toy) {
     toy.style.transform =
         "rotate(.4deg)";
 
-    await wait(180);
+    await wait(
+        180
+    );
 
     toy.style.transform =
         "rotate(0deg)";
 
-    await wait(120);
+    await wait(
+        120
+    );
 }
 
 /* =========================================================
@@ -2551,7 +2606,9 @@ async function moveToShaft(toy) {
         DROP_RIG_X
     );
 
-    await wait(470);
+    await wait(
+        470
+    );
 
     toy.style.transition =
         "transform .28s ease-in-out";
@@ -2559,7 +2616,9 @@ async function moveToShaft(toy) {
     toy.style.transform =
         "rotate(2deg)";
 
-    await wait(700);
+    await wait(
+        700
+    );
 
     await settleSwing(
         toy
@@ -2576,7 +2635,9 @@ async function lowerOverShaft(toy) {
         CABLE_DROP_APPROACH
     );
 
-    await wait(760);
+    await wait(
+        760
+    );
 
     cable.style.transition =
         "height .46s ease-out";
@@ -2588,7 +2649,9 @@ async function lowerOverShaft(toy) {
         CABLE_DROP
     );
 
-    await wait(470);
+    await wait(
+        470
+    );
 
     cable.style.transition =
         "height .92s cubic-bezier(.37,0,.18,1)";
@@ -2602,7 +2665,9 @@ async function lowerOverShaft(toy) {
     toy.style.transform =
         "rotate(0deg)";
 
-    await wait(220);
+    await wait(
+        220
+    );
 }
 
 /* =========================================================
@@ -2708,13 +2773,17 @@ async function dropIntoShaft(toy) {
         "dropping"
     );
 
-    await wait(70);
+    await wait(
+        70
+    );
 
     setClaw(
         "open"
     );
 
-    await wait(180);
+    await wait(
+        180
+    );
 
     await animateVerticalDrop(
         toy,
@@ -2726,7 +2795,9 @@ async function dropIntoShaft(toy) {
     toy.style.opacity =
         "0";
 
-    await wait(70);
+    await wait(
+        70
+    );
 
     toy.classList.remove(
         "dropping"
@@ -2774,14 +2845,18 @@ async function correctSequence(toy) {
         CABLE_HOME
     );
 
-    await wait(980);
+    await wait(
+        980
+    );
 
     currentSlot =
         1;
 
     updatePosition();
 
-    await wait(930);
+    await wait(
+        930
+    );
 
     await neutralClaw();
 
@@ -2800,19 +2875,25 @@ async function wrongSequence(
 
     startFollowingToy();
 
-    await wait(32);
+    await wait(
+        32
+    );
 
     setCable(
         CABLE_WRONG_LIFT
     );
 
-    await wait(150);
+    await wait(
+        150
+    );
 
     pushBallsByRisingToy(
         index
     );
 
-    await wait(400);
+    await wait(
+        400
+    );
 
     toy.style.transition =
         "transform .17s ease-out";
@@ -2820,13 +2901,17 @@ async function wrongSequence(
     toy.style.transform =
         "rotate(-2deg)";
 
-    await wait(150);
+    await wait(
+        150
+    );
 
     setClaw(
         "open"
     );
 
-    await wait(190);
+    await wait(
+        190
+    );
 
     const pos =
         getLocalRect(
@@ -2855,7 +2940,9 @@ async function wrongSequence(
         toyHome[index].bottom -
         toyHome[index].height;
 
-    await wait(60);
+    await wait(
+        60
+    );
 
     toy.style.left =
         `${lockedLeft}px`;
@@ -2869,7 +2956,9 @@ async function wrongSequence(
     toy.style.transform =
         "rotate(3deg)";
 
-    await wait(440);
+    await wait(
+        440
+    );
 
     collapseBallsIntoGap(
         index
@@ -2881,7 +2970,9 @@ async function wrongSequence(
     toy.style.transform =
         "rotate(-1deg) scaleY(.965)";
 
-    await wait(90);
+    await wait(
+        90
+    );
 
     toy.style.transition =
         "transform .18s cubic-bezier(.2,.8,.3,1.3)";
@@ -2889,7 +2980,9 @@ async function wrongSequence(
     toy.style.transform =
         "rotate(.6deg) scaleY(1)";
 
-    await wait(180);
+    await wait(
+        180
+    );
 
     toy.style.transition =
         "transform .14s ease-out";
@@ -2897,7 +2990,9 @@ async function wrongSequence(
     toy.style.transform =
         "rotate(0deg)";
 
-    await wait(150);
+    await wait(
+        150
+    );
 
     toy.style.transition =
         "none";
@@ -2923,7 +3018,9 @@ async function wrongSequence(
         CABLE_HOME
     );
 
-    await wait(980);
+    await wait(
+        980
+    );
 
     await neutralClaw();
 
@@ -2969,13 +3066,17 @@ grabButton.addEventListener(
 
             await openClaw();
 
-            await wait(90);
+            await wait(
+                90
+            );
 
             await lowerClawToToy(
                 toy
             );
 
-            await wait(140);
+            await wait(
+                140
+            );
 
             await grabToyNaturally(
                 toy
@@ -3086,7 +3187,9 @@ nextButton.addEventListener(
             "show"
         );
 
-        await wait(380);
+        await wait(
+            380
+        );
 
         bigPrizeToy.src =
             "";
