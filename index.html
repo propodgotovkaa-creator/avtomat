@@ -259,81 +259,6 @@ button {
 }
 
 /* =========================================================
-   FLOOR COVER
-
-   Перекрываем только нижнюю розовую ПЛОСКОСТЬ
-   слева от шахты.
-
-   Бортик самой шахты находится правее и
-   остаётся видимым.
-========================================================= */
-
-#floorCover {
-    position: absolute;
-
-    left: 0;
-    bottom: 0;
-
-    width: 735px;
-    height: 96px;
-
-    z-index: 38;
-
-    pointer-events: none;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(247,238,238,.97) 0%,
-            rgba(244,231,232,.99) 100%
-        );
-}
-
-/* =========================================================
-   BALL PIT
-========================================================= */
-
-#ballPit {
-    position: absolute;
-
-    left: 0;
-    bottom: 0;
-
-    width: 735px;
-    height: 190px;
-
-    overflow: hidden;
-
-    z-index: 48;
-
-    pointer-events: none;
-}
-
-.ball {
-    position: absolute;
-
-    width: 58px;
-    height: 58px;
-
-    object-fit: contain;
-
-    pointer-events: none;
-
-    transform-origin: center center;
-
-    will-change:
-        left,
-        top,
-        transform;
-
-    filter:
-        drop-shadow(
-            0 3px 3px
-            rgba(60,50,70,.12)
-        );
-}
-
-/* =========================================================
    RAIL
 ========================================================= */
 
@@ -423,14 +348,12 @@ button {
         );
 
     box-shadow:
-        1px 0 2px
-        rgba(0,0,0,.2);
+        1px 0 2px rgba(0,0,0,.2);
 
     z-index: 31;
 
     transition:
-        height .92s
-        cubic-bezier(.37,0,.18,1);
+        height .92s cubic-bezier(.37,0,.18,1);
 }
 
 #clawAssembly {
@@ -449,8 +372,7 @@ button {
     z-index: 32;
 
     transition:
-        top .92s
-        cubic-bezier(.37,0,.18,1);
+        top .92s cubic-bezier(.37,0,.18,1);
 }
 
 #clawBody {
@@ -478,14 +400,12 @@ button {
 
     object-fit: contain;
 
-    transform-origin:
-        58px 15px;
+    transform-origin: 58px 15px;
 
     z-index: 32;
 
     transition:
-        transform .46s
-        cubic-bezier(.34,1.02,.64,1);
+        transform .46s cubic-bezier(.34,1.02,.64,1);
 
     pointer-events: none;
 }
@@ -500,14 +420,12 @@ button {
 
     object-fit: contain;
 
-    transform-origin:
-        14px 15px;
+    transform-origin: 14px 15px;
 
     z-index: 32;
 
     transition:
-        transform .46s
-        cubic-bezier(.34,1.02,.64,1);
+        transform .46s cubic-bezier(.34,1.02,.64,1);
 
     pointer-events: none;
 }
@@ -543,16 +461,13 @@ button {
 /* =========================================================
    TOYS
 
-   Игрушки находятся В шариках.
-
-   Нижний слой шаров будет перед нижней частью
-   игрушки, верхняя часть игрушки остаётся видимой.
+   Игрушки находятся внутри кучи шариков.
 ========================================================= */
 
 .toy {
     position: absolute;
 
-    bottom: 15px;
+    bottom: 13px;
 
     width: 128px;
     height: 138px;
@@ -560,12 +475,14 @@ button {
     object-fit: contain;
     object-position: center bottom;
 
-    z-index: 46;
+    /*
+       Игрушка ниже передних шариков.
+    */
+    z-index: 45;
 
     pointer-events: none;
 
-    transform-origin:
-        50% 16%;
+    transform-origin: 50% 16%;
 
     will-change:
         left,
@@ -592,22 +509,63 @@ button {
 }
 
 /*
-   После захвата игрушка должна
-   оказаться выше шариков.
+   После захвата игрушка оказывается
+   выше шариков.
 */
 
 .toy.caught {
-    z-index: 58;
-
-    filter:
-        drop-shadow(
-            0 6px 5px
-            rgba(45,35,40,.14)
-        );
+    z-index: 62;
 }
 
 .toy.dropping {
-    z-index: 70;
+    z-index: 72;
+}
+
+/* =========================================================
+   BALL PIT
+========================================================= */
+
+#ballPit {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    /*
+       Заканчиваем шарики ДО шахты.
+    */
+    width: 735px;
+    height: 188px;
+
+    overflow: hidden;
+
+    /*
+       Перед нижней частью игрушек.
+    */
+    z-index: 50;
+
+    pointer-events: none;
+}
+
+.ball {
+    position: absolute;
+
+    object-fit: contain;
+
+    pointer-events: none;
+
+    transform-origin: center center;
+
+    will-change:
+        left,
+        top,
+        transform;
+
+    filter:
+        drop-shadow(
+            0 3px 3px
+            rgba(60,50,70,.12)
+        );
 }
 
 /* =========================================================
@@ -664,8 +622,7 @@ button {
 
     z-index: 150;
 
-    -webkit-tap-highlight-color:
-        transparent;
+    -webkit-tap-highlight-color: transparent;
 }
 
 #leftButton {
@@ -743,8 +700,7 @@ button {
 
     transition:
         opacity .28s ease,
-        transform .48s
-        cubic-bezier(.2,.9,.3,1.2);
+        transform .48s cubic-bezier(.2,.9,.3,1.2);
 
     pointer-events: none;
 
@@ -776,8 +732,7 @@ button {
     align-items: center;
     justify-content: center;
 
-    background:
-        rgba(55,48,55,.30);
+    background: rgba(55,48,55,.30);
 
     opacity: 0;
     visibility: hidden;
@@ -814,8 +769,7 @@ button {
         scale(.28);
 
     transition:
-        transform .60s
-        cubic-bezier(.18,.9,.3,1.18),
+        transform .60s cubic-bezier(.18,.9,.3,1.18),
         opacity .30s ease;
 }
 
@@ -873,33 +827,28 @@ button {
 
     min-width: 330px;
 
-    padding:
-        21px 40px;
+    padding: 21px 40px;
 
     border: 0;
 
     border-radius: 28px;
 
-    background:
-        #ed5573;
+    background: #ed5573;
 
-    color:
-        #ffffff;
+    color: #fff;
 
     font-size: 30px;
     font-weight: 900;
 
     box-shadow:
         0 10px 0 #c83f5c,
-        0 18px 30px
-        rgba(92,53,65,.22);
+        0 18px 30px rgba(92,53,65,.22);
 
     cursor: pointer;
 }
 
 #nextButton:active {
-    transform:
-        translateY(6px);
+    transform: translateY(6px);
 }
 
 #nextButton:disabled {
@@ -911,16 +860,13 @@ button {
 
     margin-top: 20px;
 
-    padding:
-        20px 38px;
+    padding: 20px 38px;
 
     border-radius: 28px;
 
-    background:
-        rgba(255,255,255,.96);
+    background: rgba(255,255,255,.96);
 
-    color:
-        #40506a;
+    color: #40506a;
 
     font-size: 32px;
     font-weight: 900;
@@ -936,8 +882,6 @@ button {
 <div id="viewport">
 
 <div id="game">
-
-    <!-- TASK -->
 
     <div class="task">
 
@@ -955,16 +899,12 @@ button {
 
     </div>
 
-    <!-- PROGRESS -->
-
     <div
         class="progress"
         id="progress"
     >
         🧸 Раунд 1 из 8
     </div>
-
-    <!-- POUCH -->
 
     <div id="pouch">
 
@@ -986,8 +926,6 @@ button {
 
     </div>
 
-    <!-- MACHINE -->
-
     <div id="machine">
 
         <img
@@ -999,16 +937,12 @@ button {
 
         <div id="machineInside">
 
-            <!-- RAIL -->
-
             <img
                 id="clawRail"
                 src="claw-rail.png"
                 alt=""
                 draggable="false"
             >
-
-            <!-- CLAW -->
 
             <div id="clawRig">
 
@@ -1055,11 +989,7 @@ button {
 
             </div>
 
-            <!-- FLOOR -->
-
-            <div id="floorCover"></div>
-
-            <!-- TOYS -->
+            <!-- ИГРУШКИ -->
 
             <img
                 class="toy"
@@ -1085,13 +1015,11 @@ button {
                 draggable="false"
             >
 
-            <!-- BALLS -->
+            <!-- ШАРИКИ -->
 
             <div id="ballPit"></div>
 
         </div>
-
-        <!-- SHAFT -->
 
         <img
             id="machineShaftEdge"
@@ -1100,16 +1028,12 @@ button {
             draggable="false"
         >
 
-        <!-- FRONT -->
-
         <img
             id="machineFront"
             src="machine-front-pastel-v2.png"
             alt=""
             draggable="false"
         >
-
-        <!-- PRIZE -->
 
         <div id="prizeWindow">
 
@@ -1121,8 +1045,6 @@ button {
             >
 
         </div>
-
-        <!-- CONTROLS -->
 
         <button
             id="leftButton"
@@ -1143,8 +1065,6 @@ button {
         ></button>
 
     </div>
-
-    <!-- BIG PRIZE -->
 
     <div id="prizeOverlay">
 
@@ -1294,35 +1214,24 @@ const ROUNDS = [
 ========================================================= */
 
 const viewport =
-    document.getElementById(
-        "viewport"
-    );
+    document.getElementById("viewport");
 
 const game =
-    document.getElementById(
-        "game"
-    );
+    document.getElementById("game");
 
 function resizeGame() {
 
     const scale =
         Math.min(
-            window.innerWidth /
-            GAME_WIDTH,
-
-            window.innerHeight /
-            GAME_HEIGHT
+            window.innerWidth / GAME_WIDTH,
+            window.innerHeight / GAME_HEIGHT
         );
 
     viewport.style.width =
-        GAME_WIDTH *
-        scale +
-        "px";
+        GAME_WIDTH * scale + "px";
 
     viewport.style.height =
-        GAME_HEIGHT *
-        scale +
-        "px";
+        GAME_HEIGHT * scale + "px";
 
     game.style.transform =
         `scale(${scale})`;
@@ -1340,99 +1249,57 @@ resizeGame();
 ========================================================= */
 
 const machineInside =
-    document.getElementById(
-        "machineInside"
-    );
+    document.getElementById("machineInside");
 
 const ballPit =
-    document.getElementById(
-        "ballPit"
-    );
+    document.getElementById("ballPit");
 
 const clawRig =
-    document.getElementById(
-        "clawRig"
-    );
+    document.getElementById("clawRig");
 
 const cable =
-    document.getElementById(
-        "cable"
-    );
+    document.getElementById("cable");
 
 const clawAssembly =
-    document.getElementById(
-        "clawAssembly"
-    );
+    document.getElementById("clawAssembly");
 
 const leftButton =
-    document.getElementById(
-        "leftButton"
-    );
+    document.getElementById("leftButton");
 
 const rightButton =
-    document.getElementById(
-        "rightButton"
-    );
+    document.getElementById("rightButton");
 
 const grabButton =
-    document.getElementById(
-        "grabButton"
-    );
+    document.getElementById("grabButton");
 
 const prizeToy =
-    document.getElementById(
-        "prizeToy"
-    );
+    document.getElementById("prizeToy");
 
 const taskScheme =
-    document.getElementById(
-        "taskScheme"
-    );
+    document.getElementById("taskScheme");
 
 const progress =
-    document.getElementById(
-        "progress"
-    );
+    document.getElementById("progress");
 
 const prizeOverlay =
-    document.getElementById(
-        "prizeOverlay"
-    );
+    document.getElementById("prizeOverlay");
 
 const bigPrizeToy =
-    document.getElementById(
-        "bigPrizeToy"
-    );
+    document.getElementById("bigPrizeToy");
 
 const nextButton =
-    document.getElementById(
-        "nextButton"
-    );
+    document.getElementById("nextButton");
 
 const finalText =
-    document.getElementById(
-        "finalText"
-    );
+    document.getElementById("finalText");
 
 const pouchToys =
-    document.getElementById(
-        "pouchToys"
-    );
+    document.getElementById("pouchToys");
 
 const toys = [
-
-    document.getElementById(
-        "toy0"
-    ),
-
-    document.getElementById(
-        "toy1"
-    ),
-
-    document.getElementById(
-        "toy2"
-    )
-
+    document.getElementById("toy0"),
+    document.getElementById("toy1"),
+    document.getElementById("toy2")
 ];
 
 /* =========================================================
@@ -1445,27 +1312,27 @@ const SLOT_X = [
     545
 ];
 
-const DROP_RIG_X = 735;
-
 /*
-   Центр отверстия.
+   ВАЖНО.
 
-   Эта координата используется
-   ОДИН РАЗ перед падением.
+   Эта позиция рассчитана так,
+   чтобы сама клешня привезла игрушку
+   к шахте.
+
+   Перед падением LEFT игрушки
+   больше вообще не меняется.
 */
 
-const SHAFT_DROP_CENTER_X = 810;
+const DROP_RIG_X = 725;
 
 /* =========================================================
    CABLE
 ========================================================= */
 
 const CABLE_HOME = 42;
-
 const CABLE_LIFT = 52;
 
 const CABLE_DROP_APPROACH = 165;
-
 const CABLE_DROP = 205;
 
 const CABLE_WRONG_LIFT = 140;
@@ -1478,21 +1345,21 @@ const toyHome = [
 
     {
         left: 65,
-        bottom: 15,
+        bottom: 13,
         width: 128,
         height: 138
     },
 
     {
         left: 315,
-        bottom: 15,
+        bottom: 13,
         width: 128,
         height: 138
     },
 
     {
         left: 565,
-        bottom: 15,
+        bottom: 13,
         width: 128,
         height: 138
     }
@@ -1504,7 +1371,6 @@ const toyHome = [
 ========================================================= */
 
 let roundIndex = 0;
-
 let currentSlot = 1;
 
 let busy = false;
@@ -1514,7 +1380,6 @@ let grabbedToy = null;
 let followFrame = null;
 
 let heldOffsetX = 0;
-
 let heldOffsetY = 0;
 
 let waitingForPrize = false;
@@ -1543,11 +1408,8 @@ function wait(ms) {
 const BALL_IMAGES = [
 
     "ball-pink.png",
-
     "ball-yellow.png",
-
     "ball-mint.png",
-
     "ball-blue.png"
 
 ];
@@ -1559,16 +1421,22 @@ const BALL_IMAGES = [
 const BALLS = [];
 
 let ballPhysicsFrame = null;
-
 let ballPhysicsRunning = false;
 
 const BALL_PIT_WIDTH = 735;
-const BALL_PIT_HEIGHT = 190;
+const BALL_PIT_HEIGHT = 188;
 
-const BALL_GRAVITY = .21;
-const BALL_FRICTION = .986;
-const BALL_GROUND_FRICTION = .965;
-const BALL_BOUNCE = .34;
+const BALL_GRAVITY = .24;
+
+const BALL_AIR_FRICTION = .993;
+
+const BALL_GROUND_FRICTION = .975;
+
+const BALL_BOUNCE = .28;
+
+/* =========================================================
+   CREATE BALLS
+========================================================= */
 
 function createBalls() {
 
@@ -1577,62 +1445,66 @@ function createBalls() {
     BALLS.length = 0;
 
     /*
-       34 шара.
+       38 шариков.
 
-       Три неровных слоя.
+       Куча плотная, но не превращается
+       в огромную стену.
 
-       Игрушки специально проходят
-       сквозь эту область, поэтому
-       выглядят погружёнными.
+       Координаты специально немного
+       неровные.
     */
 
     const layout = [
 
-        /* нижний слой */
+        /* НИЖНИЙ СЛОЙ */
 
-        [5,132,58],
-        [62,129,60],
-        [122,134,56],
-        [178,128,60],
-        [238,133,57],
-        [296,127,61],
-        [358,132,58],
-        [416,128,60],
-        [477,133,57],
-        [535,128,60],
-        [595,132,58],
-        [653,129,59],
+        [2,132,57],
+        [59,128,60],
+        [119,133,57],
+        [177,127,60],
+        [237,132,58],
+        [296,126,61],
+        [357,132,58],
+        [415,127,60],
+        [475,133,57],
+        [533,127,60],
+        [593,132,58],
+        [651,128,59],
 
-        /* средний слой */
+        /* ВТОРОЙ СЛОЙ */
 
-        [20,82,57],
-        [83,77,60],
-        [149,84,56],
-        [207,75,59],
-        [269,82,57],
-        [329,74,61],
-        [394,82,57],
-        [454,76,60],
-        [518,83,56],
-        [578,76,60],
-        [640,82,57],
+        [17,82,57],
+        [76,77,60],
+        [138,83,57],
+        [198,75,60],
+        [260,82,57],
+        [320,74,61],
+        [382,82,58],
+        [442,76,60],
+        [504,83,57],
+        [564,76,60],
+        [625,82,57],
+        [678,77,55],
 
-        /* верхний, более редкий */
+        /* ВЕРХНИЙ СЛОЙ */
 
-        [53,31,57],
-        [125,36,55],
-        [196,27,59],
-        [274,35,56],
-        [347,28,58],
-        [423,36,55],
-        [500,29,59],
-        [578,36,56],
-        [650,31,57],
+        [43,34,56],
+        [107,29,58],
+        [173,37,55],
+        [238,27,59],
+        [305,35,56],
+        [371,28,58],
+        [437,36,55],
+        [503,29,59],
+        [569,36,56],
+        [634,30,58],
 
-        /* несколько шаров между слоями */
+        /* ДОПОЛНИТЕЛЬНЫЕ */
 
-        [235,104,55],
-        [468,104,56]
+        [149,105,55],
+        [275,105,56],
+        [402,103,55],
+        [529,105,56]
 
     ];
 
@@ -1646,9 +1518,7 @@ function createBalls() {
             ] = item;
 
             const img =
-                document.createElement(
-                    "img"
-                );
+                document.createElement("img");
 
             img.className =
                 "ball";
@@ -1688,17 +1558,13 @@ function createBalls() {
                 vy: 0,
 
                 angle:
-                    (
-                        (
-                            index * 23
-                        ) %
-                        16
-                    ) -
-                    8,
+                    ((index * 19) % 18) - 9,
 
                 va: 0,
 
-                sleeping: true
+                sleeping: true,
+
+                sleepCounter: 0
             });
         }
     );
@@ -1728,13 +1594,10 @@ function renderBalls() {
 }
 
 /* =========================================================
-   BALL COLLISIONS
+   BALL COLLISION
 ========================================================= */
 
-function resolveBallCollision(
-    a,
-    b
-) {
+function resolveBallCollision(a, b) {
 
     const ar =
         a.size / 2;
@@ -1766,22 +1629,23 @@ function resolveBallCollision(
             dy * dy
         );
 
-    const minimum =
-        ar + br - 4;
+    /*
+       PNG могут иметь немного прозрачного края,
+       поэтому реальные шарики визуально
+       не должны стоять слишком далеко.
+    */
 
-    if (
-        distance <= 0
-    ) {
+    const minimum =
+        (ar + br) * .88;
+
+    if (distance <= .001) {
 
         dx = .01;
         dy = 0;
-
         distance = .01;
     }
 
-    if (
-        distance >= minimum
-    ) {
+    if (distance >= minimum) {
         return;
     }
 
@@ -1792,74 +1656,53 @@ function resolveBallCollision(
         dy / distance;
 
     const overlap =
-        minimum -
-        distance;
+        minimum - distance;
 
     /*
-       Раздвигаем ОБА шара.
-
-       Поэтому получается эффект
-       настоящего рассыпания цепочкой.
+       Раздвигаем оба шара.
     */
 
     a.x -=
-        nx *
-        overlap *
-        .5;
+        nx * overlap * .5;
 
     a.y -=
-        ny *
-        overlap *
-        .5;
+        ny * overlap * .5;
 
     b.x +=
-        nx *
-        overlap *
-        .5;
+        nx * overlap * .5;
 
     b.y +=
-        ny *
-        overlap *
-        .5;
+        ny * overlap * .5;
 
-    const relativeVX =
-        b.vx -
-        a.vx;
+    const rvx =
+        b.vx - a.vx;
 
-    const relativeVY =
-        b.vy -
-        a.vy;
+    const rvy =
+        b.vy - a.vy;
 
-    const velocityAlongNormal =
-        relativeVX *
-        nx +
-        relativeVY *
-        ny;
+    const alongNormal =
+        rvx * nx +
+        rvy * ny;
 
-    if (
-        velocityAlongNormal > 0
-    ) {
+    if (alongNormal > 0) {
         return;
     }
 
     const restitution =
-        .42;
+        .30;
 
     const impulse =
         -(
-            1 +
-            restitution
+            1 + restitution
         ) *
-        velocityAlongNormal /
+        alongNormal /
         2;
 
     const impulseX =
-        impulse *
-        nx;
+        impulse * nx;
 
     const impulseY =
-        impulse *
-        ny;
+        impulse * ny;
 
     a.vx -=
         impulseX;
@@ -1873,13 +1716,22 @@ function resolveBallCollision(
     b.vy +=
         impulseY;
 
-    a.va +=
-        -impulseX *
-        .07;
+    /*
+       При боковом толчке
+       шар начинает вращаться.
+    */
+
+    a.va -=
+        impulseX * .10;
 
     b.va +=
-        impulseX *
-        .07;
+        impulseX * .10;
+
+    a.sleeping = false;
+    b.sleeping = false;
+
+    a.sleepCounter = 0;
+    b.sleepCounter = 0;
 }
 
 /* =========================================================
@@ -1888,42 +1740,32 @@ function resolveBallCollision(
 
 function startBallPhysics() {
 
-    if (
-        ballPhysicsRunning
-    ) {
+    if (ballPhysicsRunning) {
         return;
     }
 
-    ballPhysicsRunning =
-        true;
+    ballPhysicsRunning = true;
 
     function frame() {
-
-        let active =
-            false;
 
         BALLS.forEach(
             ball => {
 
-                if (
-                    ball.sleeping
-                ) {
+                if (ball.sleeping) {
                     return;
                 }
-
-                active = true;
 
                 ball.vy +=
                     BALL_GRAVITY;
 
                 ball.vx *=
-                    BALL_FRICTION;
+                    BALL_AIR_FRICTION;
 
                 ball.vy *=
-                    BALL_FRICTION;
+                    BALL_AIR_FRICTION;
 
                 ball.va *=
-                    .97;
+                    .985;
 
                 ball.x +=
                     ball.vx;
@@ -1942,102 +1784,82 @@ function startBallPhysics() {
                     BALL_PIT_HEIGHT -
                     ball.size;
 
-                /*
-                   LEFT WALL
-                */
+                /* LEFT */
 
-                if (
-                    ball.x < 0
-                ) {
+                if (ball.x < 0) {
 
                     ball.x = 0;
 
                     ball.vx =
-                        Math.abs(
-                            ball.vx
-                        ) *
+                        Math.abs(ball.vx) *
                         BALL_BOUNCE;
                 }
 
-                /*
-                   RIGHT WALL
+                /* RIGHT */
 
-                   Это ключевой ограничитель:
-                   ни один шар не попадает
-                   в шахту.
-                */
-
-                if (
-                    ball.x > maxX
-                ) {
+                if (ball.x > maxX) {
 
                     ball.x =
                         maxX;
 
                     ball.vx =
-                        -Math.abs(
-                            ball.vx
-                        ) *
+                        -Math.abs(ball.vx) *
                         BALL_BOUNCE;
                 }
 
-                /*
-                   TOP
-                */
+                /* TOP */
 
-                if (
-                    ball.y < 0
-                ) {
+                if (ball.y < 0) {
 
                     ball.y = 0;
 
                     ball.vy =
-                        Math.abs(
-                            ball.vy
-                        ) *
+                        Math.abs(ball.vy) *
                         BALL_BOUNCE;
                 }
 
-                /*
-                   FLOOR
-                */
+                /* FLOOR */
 
-                if (
-                    ball.y > maxY
-                ) {
+                if (ball.y > maxY) {
 
                     ball.y =
                         maxY;
 
-                    ball.vy =
-                        -Math.abs(
-                            ball.vy
-                        ) *
-                        BALL_BOUNCE;
+                    if (Math.abs(ball.vy) > .7) {
+
+                        ball.vy =
+                            -Math.abs(ball.vy) *
+                            BALL_BOUNCE;
+
+                    } else {
+
+                        ball.vy = 0;
+                    }
 
                     ball.vx *=
                         BALL_GROUND_FRICTION;
 
                     /*
-                       Вращение соответствует
-                       направлению катания.
+                       Катится в направлении
+                       горизонтальной скорости.
                     */
 
                     ball.va +=
-                        ball.vx *
-                        .045;
+                        ball.vx * .065;
                 }
             }
         );
 
         /*
-           Несколько проходов коллизий
-           дают более плотную кучу.
+           Три прохода коллизий.
+
+           Так толчок передаётся по куче
+           гораздо естественнее.
         */
 
         for (
             let pass = 0;
-            pass < 2;
+            pass < 3;
             pass++
         ) {
 
@@ -2062,38 +1884,64 @@ function startBallPhysics() {
         }
 
         /*
-           Постепенно усыпляем
-           почти остановившиеся шары.
+           После коллизий ещё раз
+           ограничиваем границы.
         */
 
         BALLS.forEach(
             ball => {
 
-                if (
-                    ball.sleeping
-                ) {
+                const maxX =
+                    BALL_PIT_WIDTH -
+                    ball.size;
+
+                const maxY =
+                    BALL_PIT_HEIGHT -
+                    ball.size;
+
+                ball.x =
+                    Math.max(
+                        0,
+                        Math.min(
+                            maxX,
+                            ball.x
+                        )
+                    );
+
+                ball.y =
+                    Math.max(
+                        0,
+                        Math.min(
+                            maxY,
+                            ball.y
+                        )
+                    );
+
+                if (ball.sleeping) {
                     return;
                 }
 
                 const speed =
-                    Math.abs(
-                        ball.vx
-                    ) +
-                    Math.abs(
-                        ball.vy
-                    ) +
-                    Math.abs(
-                        ball.va
-                    ) *
-                    .05;
+                    Math.abs(ball.vx) +
+                    Math.abs(ball.vy) +
+                    Math.abs(ball.va) * .04;
 
-                if (
-                    speed < .11 &&
-                    ball.y >=
-                    BALL_PIT_HEIGHT -
-                    ball.size -
-                    1
-                ) {
+                /*
+                   Шар должен быть почти
+                   неподвижен несколько кадров,
+                   а не уснуть мгновенно.
+                */
+
+                if (speed < .09) {
+
+                    ball.sleepCounter++;
+
+                } else {
+
+                    ball.sleepCounter = 0;
+                }
+
+                if (ball.sleepCounter > 24) {
 
                     ball.vx = 0;
                     ball.vy = 0;
@@ -2107,16 +1955,13 @@ function startBallPhysics() {
 
         renderBalls();
 
-        const stillMoving =
+        const moving =
             BALLS.some(
                 ball =>
                     !ball.sleeping
             );
 
-        if (
-            active ||
-            stillMoving
-        ) {
+        if (moving) {
 
             ballPhysicsFrame =
                 requestAnimationFrame(
@@ -2142,119 +1987,102 @@ function startBallPhysics() {
 /* =========================================================
    SCATTER BALLS
 
-   Клешня как бы входит в кучу.
+   Основной эффект раздвигания.
 
-   Ближайшие шары получают импульс.
-   Потом они толкают соседние.
+   Шары не двигаются одинаково.
+   Ближние получают сильный импульс,
+   дальше движение передаётся через
+   реальные столкновения.
 ========================================================= */
 
-function scatterBallsAroundToy(
-    slot
-) {
+function scatterBallsAroundToy(slot) {
 
     const toyCenterX =
         toyHome[slot].left +
-        toyHome[slot].width /
-        2;
+        toyHome[slot].width / 2;
 
     BALLS.forEach(
         (ball, index) => {
 
             const centerX =
                 ball.x +
-                ball.size /
-                2;
+                ball.size / 2;
 
             const distance =
                 centerX -
                 toyCenterX;
 
             const absDistance =
-                Math.abs(
-                    distance
-                );
+                Math.abs(distance);
 
-            if (
-                absDistance >
-                145
-            ) {
+            /*
+               Непосредственный импульс
+               получают только ближайшие.
+            */
+
+            if (absDistance > 118) {
                 return;
             }
 
             const power =
                 1 -
-                absDistance /
-                145;
+                absDistance / 118;
 
             let direction =
                 distance < 0
                     ? -1
                     : 1;
 
-            if (
-                Math.abs(
-                    distance
-                ) < 7
-            ) {
+            if (Math.abs(distance) < 8) {
 
                 direction =
-                    index %
-                    2 === 0
+                    index % 2 === 0
                         ? -1
                         : 1;
             }
 
             /*
-               Не одинаковые скорости.
-
-               Поэтому шарики не выглядят
-               как одна анимационная группа.
+               Каждый шар получает немного
+               другую силу.
             */
 
             const variation =
-                .78 +
-                (
-                    (
-                        index *
-                        17
-                    ) %
-                    38
-                ) /
-                100;
+                .82 +
+                ((index * 17) % 31) / 100;
 
             ball.vx +=
                 direction *
                 (
-                    2.7 +
-                    4.8 *
-                    power
+                    2.2 +
+                    4.2 * power
                 ) *
                 variation;
 
             /*
-               Лёгкий выброс вверх,
-               затем настоящая гравитация
-               возвращает шар.
+               Не все шары летят вверх.
+               Основное движение боковое,
+               как у пластиковых шаров.
             */
 
             ball.vy -=
                 (
-                    1.1 +
-                    2.6 *
-                    power
+                    .35 +
+                    1.25 * power
                 ) *
                 variation;
 
             ball.va +=
                 direction *
                 (
-                    2 +
-                    4 *
-                    power
+                    2.2 +
+                    3.8 * power
                 );
 
             ball.sleeping =
                 false;
+
+            ball.sleepCounter =
+                0;
         }
     );
 
@@ -2262,75 +2090,83 @@ function scatterBallsAroundToy(
 }
 
 /* =========================================================
-   SECOND BALL IMPULSE
+   RELEASE BALLS
 
-   Когда игрушка реально начинает
-   выходить из кучи, даём маленький
-   дополнительный толчок нижним шарам.
+   Когда игрушка выходит из кучи,
+   ещё несколько шариков проваливаются
+   в освободившееся пространство.
 ========================================================= */
 
-function releaseBallsFromToy(
-    slot
-) {
+function releaseBallsFromToy(slot) {
 
     const toyCenterX =
         toyHome[slot].left +
-        toyHome[slot].width /
-        2;
+        toyHome[slot].width / 2;
 
     BALLS.forEach(
         (ball, index) => {
 
             const centerX =
                 ball.x +
-                ball.size /
-                2;
+                ball.size / 2;
 
             const distance =
                 centerX -
                 toyCenterX;
 
             const absDistance =
-                Math.abs(
-                    distance
-                );
+                Math.abs(distance);
 
-            if (
-                absDistance >
-                100
-            ) {
+            if (absDistance > 90) {
                 return;
             }
 
-            const direction =
-                distance <= 0
-                    ? -1
-                    : 1;
-
             const power =
                 1 -
-                absDistance /
-                100;
+                absDistance / 90;
+
+            let direction;
+
+            /*
+               Теперь часть шаров слегка
+               катится К освободившемуся месту,
+               а часть продолжает расходиться.
+            */
+
+            if (index % 3 === 0) {
+
+                direction =
+                    distance < 0
+                        ? 1
+                        : -1;
+
+            } else {
+
+                direction =
+                    distance < 0
+                        ? -1
+                        : 1;
+            }
 
             ball.vx +=
                 direction *
                 (
-                    .7 +
-                    1.8 *
-                    power
+                    .45 +
+                    1.15 * power
                 );
 
             ball.vy -=
-                .3 +
-                .8 *
-                power;
+                .15 +
+                .45 * power;
 
             ball.va +=
-                direction *
-                1.5;
+                direction * 1.1;
 
             ball.sleeping =
                 false;
+
+            ball.sleepCounter =
+                0;
         }
     );
 
@@ -2339,14 +2175,13 @@ function releaseBallsFromToy(
 
 /* =========================================================
    RESET BALLS
+
+   Используется только при новом раунде.
 ========================================================= */
 
 function resetBalls() {
 
-    if (
-        ballPhysicsFrame !==
-        null
-    ) {
+    if (ballPhysicsFrame !== null) {
 
         cancelAnimationFrame(
             ballPhysicsFrame
@@ -2374,6 +2209,9 @@ function resetBalls() {
 
             ball.sleeping =
                 true;
+
+            ball.sleepCounter =
+                0;
         }
     );
 
@@ -2399,24 +2237,16 @@ function setClaw(state) {
 
 async function neutralClaw() {
 
-    setClaw(
-        "neutral"
-    );
+    setClaw("neutral");
 
-    await wait(
-        380
-    );
+    await wait(380);
 }
 
 async function openClaw() {
 
-    setClaw(
-        "open"
-    );
+    setClaw("open");
 
-    await wait(
-        460
-    );
+    await wait(460);
 }
 
 /* =========================================================
@@ -2444,9 +2274,7 @@ function moveRigTo(x) {
 function updatePosition() {
 
     moveRigTo(
-        SLOT_X[
-            currentSlot
-        ]
+        SLOT_X[currentSlot]
     );
 }
 
@@ -2496,77 +2324,14 @@ rightButton.addEventListener(
 
 const POUCH_LAYOUT = [
 
-    {
-        left: 34,
-        top: 108,
-        width: 108,
-        height: 108,
-        rotate: -10,
-        z: 1
-    },
-
-    {
-        left: 106,
-        top: 105,
-        width: 110,
-        height: 110,
-        rotate: 7,
-        z: 2
-    },
-
-    {
-        left: 183,
-        top: 107,
-        width: 108,
-        height: 108,
-        rotate: -5,
-        z: 3
-    },
-
-    {
-        left: 54,
-        top: 68,
-        width: 104,
-        height: 104,
-        rotate: 11,
-        z: 4
-    },
-
-    {
-        left: 157,
-        top: 66,
-        width: 105,
-        height: 105,
-        rotate: -9,
-        z: 5
-    },
-
-    {
-        left: 104,
-        top: 43,
-        width: 103,
-        height: 103,
-        rotate: 4,
-        z: 6
-    },
-
-    {
-        left: 50,
-        top: 30,
-        width: 98,
-        height: 98,
-        rotate: -8,
-        z: 7
-    },
-
-    {
-        left: 174,
-        top: 29,
-        width: 98,
-        height: 98,
-        rotate: 9,
-        z: 8
-    }
+    {left:34, top:108, width:108, height:108, rotate:-10, z:1},
+    {left:106, top:105, width:110, height:110, rotate:7, z:2},
+    {left:183, top:107, width:108, height:108, rotate:-5, z:3},
+    {left:54, top:68, width:104, height:104, rotate:11, z:4},
+    {left:157, top:66, width:105, height:105, rotate:-9, z:5},
+    {left:104, top:43, width:103, height:103, rotate:4, z:6},
+    {left:50, top:30, width:98, height:98, rotate:-8, z:7},
+    {left:174, top:29, width:98, height:98, rotate:9, z:8}
 
 ];
 
@@ -2582,22 +2347,15 @@ function addToyToPouch(src) {
         return;
     }
 
-    collectedToys.push(
-        src
-    );
+    collectedToys.push(src);
 
     const layout =
-        POUCH_LAYOUT[
-            index
-        ];
+        POUCH_LAYOUT[index];
 
     const img =
-        document.createElement(
-            "img"
-        );
+        document.createElement("img");
 
-    img.src =
-        src;
+    img.src = src;
 
     img.className =
         "pouch-toy";
@@ -2618,9 +2376,7 @@ function addToyToPouch(src) {
         `${layout.height}px`;
 
     img.style.zIndex =
-        String(
-            layout.z
-        );
+        String(layout.z);
 
     img.style.opacity =
         "0";
@@ -2633,9 +2389,7 @@ function addToyToPouch(src) {
     img.style.transition =
         "transform .48s cubic-bezier(.22,.8,.3,1.15), opacity .22s ease";
 
-    pouchToys.appendChild(
-        img
-    );
+    pouchToys.appendChild(img);
 
     requestAnimationFrame(
         () => {
@@ -2663,9 +2417,7 @@ function addToyToPouch(src) {
 function loadRound(index) {
 
     const round =
-        ROUNDS[
-            index
-        ];
+        ROUNDS[index];
 
     waitingForPrize =
         false;
@@ -2702,26 +2454,15 @@ function loadRound(index) {
     resetBalls();
 
     toys.forEach(
-        (
-            toy,
-            toyIndex
-        ) => {
+        (toy, toyIndex) => {
 
             toy.src =
-                round.toys[
-                    toyIndex
-                ];
+                round.toys[toyIndex];
 
             toy.dataset.correct =
-                toyIndex ===
-                round.correct
+                toyIndex === round.correct
                     ? "true"
                     : "false";
-
-            /*
-               Оставляем рабочие глубины
-               захвата из твоей версии.
-            */
 
             toy.dataset.grab =
                 toyIndex === 0
@@ -2776,9 +2517,7 @@ function loadRound(index) {
    LOCAL RECT
 ========================================================= */
 
-function getLocalRect(
-    element
-) {
+function getLocalRect(element) {
 
     const insideRect =
         machineInside
@@ -2820,18 +2559,12 @@ function getLocalRect(
 
 /* =========================================================
    FREEZE TOY
-
-   Это оставлено по рабочей схеме.
 ========================================================= */
 
-function freezeToy(
-    toy
-) {
+function freezeToy(toy) {
 
     const pos =
-        getLocalRect(
-            toy
-        );
+        getLocalRect(toy);
 
     toy.style.transition =
         "none";
@@ -2859,9 +2592,7 @@ function freezeToy(
 
 function captureHeldOffset() {
 
-    if (
-        !grabbedToy
-    ) {
+    if (!grabbedToy) {
         return;
     }
 
@@ -2885,12 +2616,10 @@ function captureHeldOffset() {
         );
 
     const anchorX =
-        rigX +
-        85;
+        rigX + 85;
 
     const anchorY =
-        52 +
-        cableLength;
+        52 + cableLength;
 
     heldOffsetX =
         toyRect.left -
@@ -2903,9 +2632,7 @@ function captureHeldOffset() {
 
 function getHeldTarget() {
 
-    if (
-        !grabbedToy
-    ) {
+    if (!grabbedToy) {
         return null;
     }
 
@@ -2924,12 +2651,10 @@ function getHeldTarget() {
         );
 
     const anchorX =
-        rigX +
-        85;
+        rigX + 85;
 
     const anchorY =
-        52 +
-        cableLength;
+        52 + cableLength;
 
     return {
 
@@ -2945,27 +2670,18 @@ function getHeldTarget() {
 
 /* =========================================================
    FOLLOW TOY
-
-   Рабочая версия.
-
-   Никаких шариков здесь нет.
-   Они не могут менять координаты игрушки.
 ========================================================= */
 
 function followToy() {
 
-    if (
-        !grabbedToy
-    ) {
+    if (!grabbedToy) {
         return;
     }
 
     const target =
         getHeldTarget();
 
-    if (
-        !target
-    ) {
+    if (!target) {
         return;
     }
 
@@ -2999,13 +2715,20 @@ function followToy() {
             target.top;
     }
 
+    /*
+       Чуть быстрее по X,
+       чтобы игрушка точно успевала
+       за клешней и не отставала
+       перед шахтой.
+    */
+
     const nextLeft =
         currentLeft +
         (
             target.left -
             currentLeft
         ) *
-        .42;
+        .58;
 
     const nextTop =
         currentTop +
@@ -3036,10 +2759,7 @@ function startFollowingToy() {
 
 function stopFollowingToy() {
 
-    if (
-        followFrame !==
-        null
-    ) {
+    if (followFrame !== null) {
 
         cancelAnimationFrame(
             followFrame
@@ -3052,16 +2772,9 @@ function stopFollowingToy() {
 
 /* =========================================================
    LOWER CLAW
-
-   Основная механика оставлена.
-
-   Шарики получают импульс только
-   перед последним участком опускания.
 ========================================================= */
 
-async function lowerClawToToy(
-    toy
-) {
+async function lowerClawToToy(toy) {
 
     const grabDepth =
         Number(
@@ -3069,13 +2782,18 @@ async function lowerClawToToy(
         );
 
     setCable(
-        grabDepth -
-        32
+        grabDepth - 32
     );
 
-    await wait(
-        760
-    );
+    await wait(760);
+
+    /*
+       Клешня уже почти дошла
+       до кучи.
+
+       Только сейчас шары начинают
+       реально расходиться.
+    */
 
     scatterBallsAroundToy(
         currentSlot
@@ -3091,9 +2809,7 @@ async function lowerClawToToy(
         grabDepth
     );
 
-    await wait(
-        540
-    );
+    await wait(540);
 
     cable.style.transition =
         "height .92s cubic-bezier(.37,0,.18,1)";
@@ -3106,39 +2822,25 @@ async function lowerClawToToy(
    NATURAL GRAB
 ========================================================= */
 
-async function grabToyNaturally(
-    toy
-) {
+async function grabToyNaturally(toy) {
 
     /*
-       Игрушка фиксируется именно там,
-       где она была.
-
-       Никакого скачка к клешне.
+       Фиксируем игрушку именно там,
+       где она сейчас стоит.
     */
 
-    freezeToy(
-        toy
-    );
+    freezeToy(toy);
 
     setClaw(
         "closed"
     );
 
-    await wait(
-        470
-    );
+    await wait(470);
 
     /*
-       Игрушка всё ещё стоит.
-
-       Только ПОСЛЕ закрытия
-       вычисляем смещение.
+       Только после полного закрытия
+       привязываем игрушку к клешне.
     */
-
-    await wait(
-        90
-    );
 
     captureHeldOffset();
 }
@@ -3151,40 +2853,31 @@ async function liftGrabbedToy() {
 
     startFollowingToy();
 
-    await wait(
-        32
-    );
+    await wait(32);
 
     setCable(
         CABLE_LIFT
     );
 
-    /*
-       Когда игрушка выходит из шаров,
-       нижние шарики получают ещё
-       небольшой естественный импульс.
-    */
+    await wait(220);
 
-    await wait(
-        220
-    );
+    /*
+       Игрушка выходит из кучи,
+       шарики под ней освобождаются.
+    */
 
     releaseBallsFromToy(
         currentSlot
     );
 
-    await wait(
-        830
-    );
+    await wait(830);
 }
 
 /* =========================================================
    SWING
 ========================================================= */
 
-async function settleSwing(
-    toy
-) {
+async function settleSwing(toy) {
 
     toy.style.transition =
         "transform .17s ease-out";
@@ -3192,9 +2885,7 @@ async function settleSwing(
     toy.style.transform =
         "rotate(-4deg)";
 
-    await wait(
-        170
-    );
+    await wait(170);
 
     toy.style.transition =
         "transform .22s ease-in-out";
@@ -3202,9 +2893,7 @@ async function settleSwing(
     toy.style.transform =
         "rotate(2.8deg)";
 
-    await wait(
-        220
-    );
+    await wait(220);
 
     toy.style.transition =
         "transform .20s ease-in-out";
@@ -3212,9 +2901,7 @@ async function settleSwing(
     toy.style.transform =
         "rotate(-1.3deg)";
 
-    await wait(
-        200
-    );
+    await wait(200);
 
     toy.style.transition =
         "transform .18s ease-out";
@@ -3222,27 +2909,22 @@ async function settleSwing(
     toy.style.transform =
         "rotate(.4deg)";
 
-    await wait(
-        180
-    );
+    await wait(180);
 
     toy.style.transform =
         "rotate(0deg)";
 
-    await wait(
-        120
-    );
+    await wait(120);
 }
 
 /* =========================================================
    MOVE TO SHAFT
 
-   Рабочая механика переноса.
+   ВАЖНО:
+   именно клешня теперь задаёт X игрушки.
 ========================================================= */
 
-async function moveToShaft(
-    toy
-) {
+async function moveToShaft(toy) {
 
     toy.style.transition =
         "transform .20s ease-out";
@@ -3254,9 +2936,7 @@ async function moveToShaft(
         DROP_RIG_X
     );
 
-    await wait(
-        470
-    );
+    await wait(470);
 
     toy.style.transition =
         "transform .28s ease-in-out";
@@ -3264,13 +2944,13 @@ async function moveToShaft(
     toy.style.transform =
         "rotate(2deg)";
 
-    await wait(
-        450
-    );
+    /*
+       Даём followToy достаточно времени,
+       чтобы игрушка действительно приехала
+       вместе с клешней.
+    */
 
-    await wait(
-        260
-    );
+    await wait(700);
 
     await settleSwing(
         toy
@@ -3281,17 +2961,13 @@ async function moveToShaft(
    LOWER OVER SHAFT
 ========================================================= */
 
-async function lowerOverShaft(
-    toy
-) {
+async function lowerOverShaft(toy) {
 
     setCable(
         CABLE_DROP_APPROACH
     );
 
-    await wait(
-        760
-    );
+    await wait(760);
 
     cable.style.transition =
         "height .46s ease-out";
@@ -3303,9 +2979,7 @@ async function lowerOverShaft(
         CABLE_DROP
     );
 
-    await wait(
-        470
-    );
+    await wait(470);
 
     cable.style.transition =
         "height .92s cubic-bezier(.37,0,.18,1)";
@@ -3319,22 +2993,19 @@ async function lowerOverShaft(
     toy.style.transform =
         "rotate(0deg)";
 
-    await wait(
-        220
-    );
+    await wait(220);
 }
 
 /* =========================================================
-   SMOOTH VERTICAL DROP
+   VERTICAL DROP
 
-   КРИТИЧЕСКИ ВАЖНО:
+   Здесь физически невозможно
+   изменение X.
 
-   Здесь вообще нет изменения LEFT.
-
-   Только TOP.
+   Функция получает только TOP.
 ========================================================= */
 
-function animateSmoothVerticalDrop(
+function animateVerticalDrop(
     toy,
     startTop,
     endTop,
@@ -3347,9 +3018,7 @@ function animateSmoothVerticalDrop(
             const startTime =
                 performance.now();
 
-            function frame(
-                now
-            ) {
+            function frame(now) {
 
                 const t =
                     Math.min(
@@ -3362,8 +3031,7 @@ function animateSmoothVerticalDrop(
                     );
 
                 /*
-                   Плавное ускорение
-                   под действием "гравитации".
+                   Ускорение вниз.
                 */
 
                 const eased =
@@ -3378,24 +3046,21 @@ function animateSmoothVerticalDrop(
                     eased;
 
                 /*
-                   МЕНЯЕМ ТОЛЬКО TOP.
+                   Только TOP.
                 */
 
                 toy.style.top =
                     `${y}px`;
 
                 /*
-                   Небольшой наклон допустим,
-                   он не меняет X.
+                   Небольшой поворот
+                   не меняет координату X.
                 */
 
                 toy.style.transform =
-                    `rotate(${t * 1.5}deg)
-                     scale(${1 - t * .02})`;
+                    `rotate(${t * 1.4}deg)`;
 
-                if (
-                    t < 1
-                ) {
+                if (t < 1) {
 
                     requestAnimationFrame(
                         frame
@@ -3417,96 +3082,54 @@ function animateSmoothVerticalDrop(
 /* =========================================================
    DROP INTO SHAFT
 
-   1. Следование останавливается.
-   2. Игрушка центрируется над шахтой.
-   3. LEFT фиксируется.
-   4. Клешня открывается.
-   5. Меняется ТОЛЬКО TOP.
+   ГЛАВНОЕ ИЗМЕНЕНИЕ.
 
-   Поэтому рывка вправо быть не может.
+   Здесь больше нет:
+   fixedLeft
+   SHAFT_DROP_CENTER_X
+   transition left
+   центрирования игрушки
+
+   Игрушка падает ровно из лапок.
 ========================================================= */
 
-async function dropIntoShaft(
-    toy
-) {
+async function dropIntoShaft(toy) {
+
+    /*
+       Пока игрушка всё ещё следует
+       за клешней, получаем её реальную
+       текущую позицию.
+    */
+
+    const releasePosition =
+        getLocalRect(
+            toy
+        );
+
+    /*
+       Останавливаем follow.
+    */
 
     stopFollowingToy();
 
     /*
-       Получаем реальную позицию
-       после остановки.
+       Замораживаем ТОЧНО в той позиции,
+       где игрушка сейчас находится.
+
+       Никакого пересчёта X.
     */
 
-    const before =
-        getLocalRect(
-            toy
-        );
-
-    toy.style.transition =
-        "none";
-
-    toy.style.left =
-        `${before.left}px`;
-
-    toy.style.top =
-        `${before.top}px`;
-
-    toy.style.bottom =
-        "auto";
-
-    toy.style.transform =
-        "rotate(0deg)";
-
-    /*
-       Один раз вычисляем центр шахты.
-    */
-
-    const fixedLeft =
-        SHAFT_DROP_CENTER_X -
-        before.width /
-        2;
-
-    /*
-       Последнее горизонтальное
-       движение игрушки.
-    */
-
-    toy.style.transition =
-        "left .26s cubic-bezier(.22,.65,.35,1)";
-
-    toy.style.left =
-        `${fixedLeft}px`;
-
-    await wait(
-        280
-    );
-
-    /*
-       Берём реальную текущую позицию
-       после центрирования.
-    */
-
-    const centered =
-        getLocalRect(
-            toy
-        );
+    const lockedLeft =
+        releasePosition.left;
 
     const releaseTop =
-        centered.top;
-
-    /*
-       Теперь окончательно фиксируем
-       координаты.
-
-       LEFT после этой строки
-       НИГДЕ не меняется.
-    */
+        releasePosition.top;
 
     toy.style.transition =
         "none";
 
     toy.style.left =
-        `${fixedLeft}px`;
+        `${lockedLeft}px`;
 
     toy.style.top =
         `${releaseTop}px`;
@@ -3514,38 +3137,36 @@ async function dropIntoShaft(
     toy.style.bottom =
         "auto";
 
+    toy.style.transform =
+        "rotate(0deg)";
+
     toy.classList.add(
         "dropping"
     );
 
-    await wait(
-        70
-    );
+    await wait(70);
 
     /*
-       Открываем клешню.
+       Раскрываем лапки.
 
-       Игрушка пока стоит.
+       LEFT всё ещё тот же.
     */
 
     setClaw(
         "open"
     );
 
-    await wait(
-        180
-    );
+    await wait(180);
 
     /*
-       Одно непрерывное вертикальное
-       падение.
+       И теперь игрушка просто
+       падает вертикально вниз.
 
-       Ни фаз.
-       Ни пауз.
-       Ни изменения X.
+       Ни одной записи toy.style.left
+       после начала падения нет.
     */
 
-    await animateSmoothVerticalDrop(
+    await animateVerticalDrop(
         toy,
         releaseTop,
         releaseTop + 315,
@@ -3555,9 +3176,7 @@ async function dropIntoShaft(
     toy.style.opacity =
         "0";
 
-    await wait(
-        70
-    );
+    await wait(70);
 
     toy.classList.remove(
         "dropping"
@@ -3568,9 +3187,7 @@ async function dropIntoShaft(
    CORRECT
 ========================================================= */
 
-async function correctSequence(
-    toy
-) {
+async function correctSequence(toy) {
 
     await liftGrabbedToy();
 
@@ -3590,13 +3207,6 @@ async function correctSequence(
         toy
     );
 
-    /*
-       ПРИЗ.
-
-       Контейнер flex сам ставит
-       игрушку ровно по центру.
-    */
-
     prizeToy.src =
         toy.src;
 
@@ -3610,30 +3220,18 @@ async function correctSequence(
     waitingForPrize =
         true;
 
-    /*
-       Клешня вверх.
-    */
-
     setCable(
         CABLE_HOME
     );
 
-    await wait(
-        980
-    );
-
-    /*
-       Возвращаемся в центр.
-    */
+    await wait(980);
 
     currentSlot =
         1;
 
     updatePosition();
 
-    await wait(
-        930
-    );
+    await wait(930);
 
     await neutralClaw();
 
@@ -3652,25 +3250,19 @@ async function wrongSequence(
 
     startFollowingToy();
 
-    await wait(
-        32
-    );
+    await wait(32);
 
     setCable(
         CABLE_WRONG_LIFT
     );
 
-    await wait(
-        220
-    );
+    await wait(220);
 
     releaseBallsFromToy(
         index
     );
 
-    await wait(
-        500
-    );
+    await wait(500);
 
     toy.style.transition =
         "transform .17s ease-out";
@@ -3678,24 +3270,20 @@ async function wrongSequence(
     toy.style.transform =
         "rotate(-2deg)";
 
-    await wait(
-        150
-    );
+    await wait(150);
 
     setClaw(
         "open"
     );
 
-    await wait(
-        190
-    );
-
-    stopFollowingToy();
+    await wait(190);
 
     const pos =
         getLocalRect(
             toy
         );
+
+    stopFollowingToy();
 
     toy.style.transition =
         "none";
@@ -3709,22 +3297,15 @@ async function wrongSequence(
     toy.style.bottom =
         "auto";
 
-    await wait(
-        60
-    );
+    const lockedLeft =
+        pos.left;
+
+    await wait(60);
 
     const targetTop =
         INSIDE_HEIGHT -
         toyHome[index].bottom -
         toyHome[index].height;
-
-    const lockedLeft =
-        pos.left;
-
-    /*
-       X неправильной игрушки
-       тоже фиксируем.
-    */
 
     toy.style.left =
         `${lockedLeft}px`;
@@ -3738,9 +3319,7 @@ async function wrongSequence(
     toy.style.transform =
         "rotate(3deg)";
 
-    await wait(
-        440
-    );
+    await wait(440);
 
     toy.style.transition =
         "transform .09s ease-out";
@@ -3748,9 +3327,7 @@ async function wrongSequence(
     toy.style.transform =
         "rotate(-1deg) scaleY(.965)";
 
-    await wait(
-        90
-    );
+    await wait(90);
 
     toy.style.transition =
         "transform .18s cubic-bezier(.2,.8,.3,1.3)";
@@ -3758,9 +3335,7 @@ async function wrongSequence(
     toy.style.transform =
         "rotate(.6deg) scaleY(1)";
 
-    await wait(
-        180
-    );
+    await wait(180);
 
     toy.style.transition =
         "transform .14s ease-out";
@@ -3768,13 +3343,7 @@ async function wrongSequence(
     toy.style.transform =
         "rotate(0deg)";
 
-    await wait(
-        150
-    );
-
-    /*
-       Возвращаем домой.
-    */
+    await wait(150);
 
     toy.style.transition =
         "none";
@@ -3800,9 +3369,7 @@ async function wrongSequence(
         CABLE_HOME
     );
 
-    await wait(
-        980
-    );
+    await wait(980);
 
     await neutralClaw();
 
@@ -3826,13 +3393,9 @@ grabButton.addEventListener(
         }
 
         const toy =
-            toys[
-                currentSlot
-            ];
+            toys[currentSlot];
 
-        if (
-            !toy
-        ) {
+        if (!toy) {
             return;
         }
 
@@ -3851,47 +3414,36 @@ grabButton.addEventListener(
         try {
 
             /*
-               1. Открываем.
+               1. Открываем клешню.
             */
 
             await openClaw();
 
-            await wait(
-                90
-            );
+            await wait(90);
 
             /*
-               2. Опускаем открытой.
+               2. Опускаемся в шарики.
             */
 
             await lowerClawToToy(
                 toy
             );
 
-            await wait(
-                140
-            );
+            await wait(140);
 
             /*
-               3. Закрываем вокруг игрушки.
-               Игрушка пока не прыгает.
+               3. Закрываемся вокруг игрушки.
             */
 
             await grabToyNaturally(
                 toy
             );
 
-            /*
-               4. Проверяем.
-            */
-
             const correct =
                 toy.dataset.correct ===
                 "true";
 
-            if (
-                correct
-            ) {
+            if (correct) {
 
                 await correctSequence(
                     toy
@@ -3921,9 +3473,7 @@ prizeToy.addEventListener(
     "click",
     () => {
 
-        if (
-            !waitingForPrize
-        ) {
+        if (!waitingForPrize) {
             return;
         }
 
@@ -3960,8 +3510,7 @@ prizeToy.addEventListener(
 
         if (
             roundIndex ===
-            ROUNDS.length -
-            1
+            ROUNDS.length - 1
         ) {
 
             nextButton.style.display =
@@ -3983,8 +3532,7 @@ nextButton.addEventListener(
 
         if (
             roundIndex >=
-            ROUNDS.length -
-            1
+            ROUNDS.length - 1
         ) {
             return;
         }
@@ -3996,9 +3544,7 @@ nextButton.addEventListener(
             "show"
         );
 
-        await wait(
-            380
-        );
+        await wait(380);
 
         bigPrizeToy.src =
             "";
