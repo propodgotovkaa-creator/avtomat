@@ -455,16 +455,23 @@ button {
 
 #prizeToy {
     position: absolute;
-    left: 44%;
-    bottom: 10px;
-    width: 125px;
-    height: 108px;
+
+    /*
+       СДВИГАЕМ ИГРУШКУ ВЛЕВО,
+       ЧТОБЫ ОНА СТОЯЛА ПО ЦЕНТРУ ПОЛКИ
+       И НЕ СЪЕЗЖАЛА СПРАВА
+    */
+    left: 38%;
+
+    bottom: 12px;
+    width: 118px;
+    height: 104px;
     object-fit: contain;
     object-position: center bottom;
     opacity: 0;
 
     transform:
-        translateX(-55%)
+        translateX(-50%)
         translateY(-12px)
         scale(.72);
 
@@ -480,7 +487,7 @@ button {
     opacity: 1;
 
     transform:
-        translateX(-55%)
+        translateX(-50%)
         translateY(0)
         scale(1);
 
@@ -578,17 +585,59 @@ button {
     pointer-events: none;
 }
 
+/* =========================================================
+   FINAL WINDOW
+========================================================= */
+
 #finalText {
     display: none;
-    margin-top: 20px;
-    padding: 24px 44px;
-    border-radius: 28px;
-    background: rgba(255,255,255,.96);
+
+    width: 720px;
+    min-height: 260px;
+
+    padding: 55px 65px;
+
+    border-radius: 42px;
+
+    background: rgba(255,255,255,.98);
+
+    box-shadow:
+        0 22px 60px rgba(55,45,55,.24);
+
     color: #40506a;
-    font-size: 34px;
+
+    font-size: 48px;
+    line-height: 1.15;
     font-weight: 900;
+
     text-align: center;
+
+    align-items: center;
+    justify-content: center;
 }
+
+/*
+   В финале большая игрушка убирается,
+   а плашка становится главным окном.
+*/
+
+#bigPrizeWrap.final-mode {
+    width: 820px;
+    height: 500px;
+}
+
+#bigPrizeWrap.final-mode #bigPrizeToy {
+    display: none;
+}
+
+#bigPrizeWrap.final-mode #nextButton {
+    display: none;
+}
+
+#bigPrizeWrap.final-mode #finalText {
+    display: flex;
+}
+
 </style>
 </head>
 
@@ -777,7 +826,6 @@ const BALL_PIT_HEIGHT = 188;
 
 const ROUNDS = [
 
-    /* 1 - правильная игрушка по центру */
     {
         scheme: "scheme-s-middle.png",
         toys: [
@@ -788,7 +836,6 @@ const ROUNDS = [
         correct: 1
     },
 
-    /* 2 - правильная игрушка справа */
     {
         scheme: "scheme-s-start.png",
         toys: [
@@ -799,7 +846,6 @@ const ROUNDS = [
         correct: 2
     },
 
-    /* 3 - правильная игрушка по центру */
     {
         scheme: "scheme-s-end.png",
         toys: [
@@ -810,7 +856,7 @@ const ROUNDS = [
         correct: 1
     },
 
-    /* 4 - правильная игрушка слева */
+    /* ПРАВИЛЬНАЯ СЛЕВА */
     {
         scheme: "scheme-s-start.png",
         toys: [
@@ -821,7 +867,6 @@ const ROUNDS = [
         correct: 0
     },
 
-    /* 5 - правильная игрушка по центру */
     {
         scheme: "scheme-s-middle.png",
         toys: [
@@ -832,7 +877,7 @@ const ROUNDS = [
         correct: 1
     },
 
-    /* 6 - правильная игрушка слева */
+    /* ПРАВИЛЬНАЯ СЛЕВА */
     {
         scheme: "scheme-s-end.png",
         toys: [
@@ -843,7 +888,6 @@ const ROUNDS = [
         correct: 0
     },
 
-    /* 7 - правильная игрушка справа */
     {
         scheme: "scheme-s-middle.png",
         toys: [
@@ -854,15 +898,19 @@ const ROUNDS = [
         correct: 2
     },
 
-    /* 8 - компас заменён на автобус */
+    /*
+       ПОСЛЕДНИЙ РАУНД.
+       АВТОБУС СЛЕВА.
+       КОМПАСА НЕТ.
+    */
     {
         scheme: "scheme-s-end.png",
         toys: [
-            "toy/sunduk.png",
             "toy/avtobus.png",
+            "toy/sunduk.png",
             "toy/samolet.png"
         ],
-        correct: 1
+        correct: 0
     }
 
 ];
@@ -941,6 +989,9 @@ const taskScheme =
 
 const prizeOverlay =
     document.getElementById("prizeOverlay");
+
+const bigPrizeWrap =
+    document.getElementById("bigPrizeWrap");
 
 const bigPrizeToy =
     document.getElementById("bigPrizeToy");
@@ -2073,6 +2124,10 @@ function loadRound(index) {
         "show"
     );
 
+    bigPrizeWrap.classList.remove(
+        "final-mode"
+    );
+
     bigPrizeToy.src =
         "";
 
@@ -3112,9 +3167,6 @@ prizeToy.addEventListener(
         prizeToy.style.pointerEvents =
             "none";
 
-        bigPrizeToy.src =
-            wonToySrc;
-
         prizeToy.classList.remove(
             "show"
         );
@@ -3123,21 +3175,49 @@ prizeToy.addEventListener(
             wonToySrc
         );
 
-        prizeOverlay.classList.add(
-            "show"
-        );
+        /*
+           ПОСЛЕДНИЙ РАУНД:
+           вместо большой игрушки показываем
+           большую центральную плашку.
+        */
 
         if (
             roundIndex ===
             ROUNDS.length - 1
         ) {
 
+            bigPrizeToy.src =
+                "";
+
+            bigPrizeWrap.classList.add(
+                "final-mode"
+            );
+
             nextButton.style.display =
                 "none";
 
             finalText.style.display =
+                "flex";
+
+        } else {
+
+            bigPrizeWrap.classList.remove(
+                "final-mode"
+            );
+
+            bigPrizeToy.src =
+                wonToySrc;
+
+            nextButton.style.display =
                 "block";
+
+            finalText.style.display =
+                "none";
         }
+
+        prizeOverlay.classList.add(
+            "show"
+        );
     }
 );
 
@@ -3169,6 +3249,10 @@ nextButton.addEventListener(
 
         bigPrizeToy.src =
             "";
+
+        bigPrizeWrap.classList.remove(
+            "final-mode"
+        );
 
         roundIndex++;
 
