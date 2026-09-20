@@ -410,7 +410,7 @@ button {
 
 
 /* =========================================================
-   LEFT CLAW
+   LEFT CLAW - ЗА ИГРУШКОЙ
 ========================================================= */
 
 #clawLeft {
@@ -436,7 +436,7 @@ button {
 
 
 /* =========================================================
-   RIGHT CLAW
+   RIGHT CLAW - ПЕРЕД ИГРУШКОЙ
 ========================================================= */
 
 #clawRight {
@@ -547,7 +547,10 @@ button {
 
 
 /* =========================================================
-   SHAFT LIP
+   SHAFT EDGE
+
+   В обычном состоянии ниже игрушек.
+   Во время падения становится перед игрушкой.
 ========================================================= */
 
 #machineShaftEdge {
@@ -560,9 +563,13 @@ button {
 
     object-fit: fill;
 
-    z-index: 75;
+    z-index: 30;
 
     pointer-events: none;
+}
+
+#machineShaftEdge.drop-front {
+    z-index: 75;
 }
 
 
@@ -803,7 +810,8 @@ button {
 
     min-width: 330px;
 
-    padding: 21px 40px;
+    padding:
+        21px 40px;
 
     border: 0;
 
@@ -922,7 +930,7 @@ button {
 
         <img
             id="machineBack"
-            src="machine-back-pastel-v2.png"
+            src="machine-back-final-v3.png"
             alt=""
             draggable="false"
         >
@@ -979,9 +987,29 @@ button {
             </div>
 
 
-            <img class="toy" id="toy0" src="" alt="" draggable="false">
-            <img class="toy" id="toy1" src="" alt="" draggable="false">
-            <img class="toy" id="toy2" src="" alt="" draggable="false">
+            <img
+                class="toy"
+                id="toy0"
+                src=""
+                alt=""
+                draggable="false"
+            >
+
+            <img
+                class="toy"
+                id="toy1"
+                src=""
+                alt=""
+                draggable="false"
+            >
+
+            <img
+                class="toy"
+                id="toy2"
+                src=""
+                alt=""
+                draggable="false"
+            >
 
 
         </div>
@@ -989,7 +1017,7 @@ button {
 
         <img
             id="machineShaftEdge"
-            src="machine-shaft-lip-pastel-v2.png"
+            src="machine-shaft-lip-v4.png"
             alt=""
             draggable="false"
         >
@@ -997,7 +1025,7 @@ button {
 
         <img
             id="machineFront"
-            src="machine-front-pastel-v2.png"
+            src="machine-front-clean-v4.png"
             alt=""
             draggable="false"
         >
@@ -1199,11 +1227,14 @@ function resizeGame() {
             window.innerHeight / GAME_HEIGHT
         );
 
+
     viewport.style.width =
         GAME_WIDTH * scale + "px";
 
+
     viewport.style.height =
         GAME_HEIGHT * scale + "px";
+
 
     game.style.transform =
         `scale(${scale})`;
@@ -1224,6 +1255,9 @@ resizeGame();
 
 const machineInside =
     document.getElementById("machineInside");
+
+const machineShaftEdge =
+    document.getElementById("machineShaftEdge");
 
 const clawRig =
     document.getElementById("clawRig");
@@ -1267,10 +1301,13 @@ const finalText =
 const pouchToys =
     document.getElementById("pouchToys");
 
+
 const toys = [
+
     document.getElementById("toy0"),
     document.getElementById("toy1"),
     document.getElementById("toy2")
+
 ];
 
 
@@ -1284,9 +1321,19 @@ const SLOT_X = [
     593
 ];
 
-const DROP_RIG_X = 735;
 
-const SHAFT_DROP_CENTER_X = 822;
+/*
+   Новая позиция клешни над шахтой.
+*/
+
+const DROP_RIG_X = 700;
+
+
+/*
+   Центр отверстия шахты.
+*/
+
+const SHAFT_DROP_CENTER_X = 790;
 
 
 /* =========================================================
@@ -1294,9 +1341,13 @@ const SHAFT_DROP_CENTER_X = 822;
 ========================================================= */
 
 const CABLE_HOME = 42;
+
 const CABLE_LIFT = 52;
+
 const CABLE_DROP_APPROACH = 165;
+
 const CABLE_DROP = 205;
+
 const CABLE_WRONG_LIFT = 140;
 
 
@@ -1305,12 +1356,19 @@ const CABLE_WRONG_LIFT = 140;
 ========================================================= */
 
 let roundIndex = 0;
+
 let currentSlot = 1;
+
 let busy = false;
+
 let grabbedToy = null;
+
 let followFrame = null;
+
 let heldOffsetX = 0;
+
 let heldOffsetY = 0;
+
 let waitingForPrize = false;
 
 const collectedToys = [];
@@ -1343,6 +1401,7 @@ function setClaw(state) {
         "open",
         "closed"
     );
+
 
     clawAssembly.classList.add(
         state
@@ -1414,6 +1473,7 @@ leftButton.addEventListener(
             return;
         }
 
+
         currentSlot--;
 
         updatePosition();
@@ -1432,6 +1492,7 @@ rightButton.addEventListener(
         ) {
             return;
         }
+
 
         currentSlot++;
 
@@ -1471,7 +1532,7 @@ const toyHome = [
 
 
 /* =========================================================
-   POUCH LAYOUT
+   POUCH
 ========================================================= */
 
 const POUCH_LAYOUT = [
@@ -1556,6 +1617,7 @@ function addToyToPouch(src) {
     const index =
         collectedToys.length;
 
+
     if (
         index >=
         POUCH_LAYOUT.length
@@ -1563,13 +1625,17 @@ function addToyToPouch(src) {
         return;
     }
 
+
     collectedToys.push(src);
+
 
     const layout =
         POUCH_LAYOUT[index];
 
+
     const img =
         document.createElement("img");
+
 
     img.src = src;
 
@@ -1578,6 +1644,7 @@ function addToyToPouch(src) {
 
     img.draggable =
         false;
+
 
     img.style.left =
         `${layout.left}px`;
@@ -1597,15 +1664,19 @@ function addToyToPouch(src) {
     img.style.opacity =
         "0";
 
+
     img.style.transform =
         `translateY(-30px)
          rotate(${layout.rotate}deg)
          scale(.88)`;
 
+
     img.style.transition =
         "transform .48s cubic-bezier(.22,.8,.3,1.15), opacity .22s ease";
 
+
     pouchToys.appendChild(img);
+
 
     requestAnimationFrame(
         () => {
@@ -1615,6 +1686,7 @@ function addToyToPouch(src) {
 
                     img.style.opacity =
                         "1";
+
 
                     img.style.transform =
                         `translateY(0)
@@ -1636,37 +1708,53 @@ function loadRound(index) {
     const round =
         ROUNDS[index];
 
+
     waitingForPrize =
         false;
+
+
+    machineShaftEdge.classList.remove(
+        "drop-front"
+    );
+
 
     taskScheme.src =
         round.scheme;
 
+
     progress.textContent =
         `🧸 Раунд ${index + 1} из ${ROUNDS.length}`;
+
 
     prizeToy.classList.remove(
         "show"
     );
 
+
     prizeToy.src =
         "";
 
+
     prizeToy.style.pointerEvents =
         "none";
+
 
     prizeOverlay.classList.remove(
         "show"
     );
 
+
     bigPrizeToy.src =
         "";
+
 
     nextButton.style.display =
         "block";
 
+
     finalText.style.display =
         "none";
+
 
     toys.forEach(
         (toy, toyIndex) => {
@@ -1674,10 +1762,12 @@ function loadRound(index) {
             toy.src =
                 round.toys[toyIndex];
 
+
             toy.dataset.correct =
                 toyIndex === round.correct
                     ? "true"
                     : "false";
+
 
             toy.dataset.grab =
                 toyIndex === 0
@@ -1686,23 +1776,30 @@ function loadRound(index) {
                         ? "225"
                         : "220";
 
+
             toy.style.transition =
                 "none";
+
 
             toy.style.opacity =
                 "1";
 
+
             toy.style.top =
                 "auto";
+
 
             toy.style.left =
                 `${toyHome[toyIndex].left}px`;
 
+
             toy.style.bottom =
                 `${toyHome[toyIndex].bottom}px`;
 
+
             toy.style.transform =
                 "";
+
 
             toy.classList.remove(
                 "caught"
@@ -1710,19 +1807,24 @@ function loadRound(index) {
         }
     );
 
+
     grabbedToy =
         null;
 
+
     currentSlot =
         1;
+
 
     setCable(
         CABLE_HOME
     );
 
+
     setClaw(
         "neutral"
     );
+
 
     updatePosition();
 }
@@ -1738,13 +1840,16 @@ function getLocalRect(element) {
         machineInside
         .getBoundingClientRect();
 
+
     const rect =
         element
         .getBoundingClientRect();
 
+
     const scale =
         insideRect.width /
         INSIDE_WIDTH;
+
 
     return {
 
@@ -1782,21 +1887,27 @@ function freezeToy(toy) {
     const pos =
         getLocalRect(toy);
 
+
     toy.style.transition =
         "none";
+
 
     toy.style.left =
         `${pos.left}px`;
 
+
     toy.style.top =
         `${pos.top}px`;
+
 
     toy.style.bottom =
         "auto";
 
+
     toy.classList.add(
         "caught"
     );
+
 
     grabbedToy =
         toy;
@@ -1815,10 +1926,12 @@ function captureHeldOffset() {
         return;
     }
 
+
     const toyRect =
         getLocalRect(
             grabbedToy
         );
+
 
     const rigX =
         parseFloat(
@@ -1827,6 +1940,7 @@ function captureHeldOffset() {
             ).left
         );
 
+
     const cableLength =
         parseFloat(
             getComputedStyle(
@@ -1834,15 +1948,19 @@ function captureHeldOffset() {
             ).height
         );
 
+
     const anchorX =
         rigX + 85;
+
 
     const anchorY =
         52 + cableLength;
 
+
     heldOffsetX =
         toyRect.left -
         anchorX;
+
 
     heldOffsetY =
         toyRect.top -
@@ -1862,12 +1980,14 @@ function getHeldTarget() {
         return null;
     }
 
+
     const rigX =
         parseFloat(
             getComputedStyle(
                 clawRig
             ).left
         );
+
 
     const cableLength =
         parseFloat(
@@ -1876,11 +1996,14 @@ function getHeldTarget() {
             ).height
         );
 
+
     const anchorX =
         rigX + 85;
 
+
     const anchorY =
         52 + cableLength;
+
 
     return {
 
@@ -1907,8 +2030,10 @@ function followToy() {
         return;
     }
 
+
     const target =
         getHeldTarget();
+
 
     if (
         !target
@@ -1916,29 +2041,36 @@ function followToy() {
         return;
     }
 
+
     let currentLeft =
         parseFloat(
             grabbedToy.style.left
         );
+
 
     let currentTop =
         parseFloat(
             grabbedToy.style.top
         );
 
+
     if (
         !Number.isFinite(currentLeft)
     ) {
+
         currentLeft =
             target.left;
     }
 
+
     if (
         !Number.isFinite(currentTop)
     ) {
+
         currentTop =
             target.top;
     }
+
 
     const nextLeft =
         currentLeft +
@@ -1948,6 +2080,7 @@ function followToy() {
         ) *
         .32;
 
+
     const nextTop =
         currentTop +
         (
@@ -1956,11 +2089,14 @@ function followToy() {
         ) *
         .92;
 
+
     grabbedToy.style.left =
         `${nextLeft}px`;
 
+
     grabbedToy.style.top =
         `${nextTop}px`;
+
 
     followFrame =
         requestAnimationFrame(
@@ -1987,6 +2123,7 @@ function stopFollowingToy() {
             followFrame
         );
 
+
         followFrame =
             null;
     }
@@ -2004,30 +2141,38 @@ async function lowerClawToToy(toy) {
             toy.dataset.grab
         );
 
+
     setCable(
         grabDepth - 32
     );
+
 
     await wait(
         760
     );
 
+
     cable.style.transition =
         "height .52s cubic-bezier(.18,.72,.3,1)";
 
+
     clawAssembly.style.transition =
         "top .52s cubic-bezier(.18,.72,.3,1)";
+
 
     setCable(
         grabDepth
     );
 
+
     await wait(
         540
     );
 
+
     cable.style.transition =
         "height .92s cubic-bezier(.37,0,.18,1)";
+
 
     clawAssembly.style.transition =
         "top .92s cubic-bezier(.37,0,.18,1)";
@@ -2044,17 +2189,21 @@ async function grabToyNaturally(toy) {
         toy
     );
 
+
     setClaw(
         "closed"
     );
+
 
     await wait(
         470
     );
 
+
     await wait(
         90
     );
+
 
     captureHeldOffset();
 }
@@ -2068,13 +2217,16 @@ async function liftGrabbedToy() {
 
     startFollowingToy();
 
+
     await wait(
         32
     );
 
+
     setCable(
         CABLE_LIFT
     );
+
 
     await wait(
         1050
@@ -2091,45 +2243,58 @@ async function settleSwing(toy) {
     toy.style.transition =
         "transform .17s ease-out";
 
+
     toy.style.transform =
         "rotate(-4deg)";
+
 
     await wait(
         170
     );
 
+
     toy.style.transition =
         "transform .22s ease-in-out";
 
+
     toy.style.transform =
         "rotate(2.8deg)";
+
 
     await wait(
         220
     );
 
+
     toy.style.transition =
         "transform .20s ease-in-out";
 
+
     toy.style.transform =
         "rotate(-1.3deg)";
+
 
     await wait(
         200
     );
 
+
     toy.style.transition =
         "transform .18s ease-out";
 
+
     toy.style.transform =
         "rotate(.4deg)";
+
 
     await wait(
         180
     );
 
+
     toy.style.transform =
         "rotate(0deg)";
+
 
     await wait(
         120
@@ -2146,33 +2311,49 @@ async function moveToShaft(toy) {
     toy.style.transition =
         "transform .20s ease-out";
 
+
     toy.style.transform =
-        "rotate(-4deg)";
+        "rotate(-3deg)";
+
 
     moveRigTo(
         DROP_RIG_X
     );
 
+
     await wait(
-        470
+        480
     );
+
 
     toy.style.transition =
-        "transform .28s ease-in-out";
+        "transform .26s ease-in-out";
+
 
     toy.style.transform =
-        "rotate(2deg)";
+        "rotate(1.8deg)";
+
 
     await wait(
-        450
+        440
     );
+
 
     await wait(
-        160
+        180
     );
 
-    await settleSwing(
-        toy
+
+    toy.style.transition =
+        "transform .20s ease-out";
+
+
+    toy.style.transform =
+        "rotate(0deg)";
+
+
+    await wait(
+        180
     );
 }
 
@@ -2187,38 +2368,48 @@ async function lowerOverShaft(toy) {
         CABLE_DROP_APPROACH
     );
 
+
     await wait(
         760
     );
 
+
     cable.style.transition =
         "height .46s ease-out";
 
+
     clawAssembly.style.transition =
         "top .46s ease-out";
+
 
     setCable(
         CABLE_DROP
     );
 
+
     await wait(
         470
     );
 
+
     cable.style.transition =
         "height .92s cubic-bezier(.37,0,.18,1)";
+
 
     clawAssembly.style.transition =
         "top .92s cubic-bezier(.37,0,.18,1)";
 
+
     toy.style.transition =
         "transform .15s ease-out";
+
 
     toy.style.transform =
         "rotate(0deg)";
 
+
     await wait(
-        220
+        250
     );
 }
 
@@ -2234,103 +2425,209 @@ async function dropIntoShaft(toy) {
             toy
         );
 
+
     stopFollowingToy();
+
 
     toy.style.transition =
         "none";
 
+
     toy.style.left =
         `${before.left}px`;
+
 
     toy.style.top =
         `${before.top}px`;
 
+
     toy.style.bottom =
         "auto";
 
+
     toy.style.transform =
         "rotate(0deg)";
+
+
+    /*
+       Центр игрушки ставим точно
+       над центром шахты.
+    */
 
     const fixedLeft =
         SHAFT_DROP_CENTER_X -
         before.width / 2;
 
+
     await wait(
         30
     );
 
+
+    /*
+       Последнее движение по X
+       происходит ДО открытия клешни.
+    */
+
     toy.style.transition =
-        "left .24s cubic-bezier(.22,.65,.35,1)";
+        "left .22s cubic-bezier(.22,.65,.35,1)";
+
 
     toy.style.left =
         `${fixedLeft}px`;
 
+
     await wait(
-        260
+        240
     );
+
+
+    /*
+       X окончательно фиксирован.
+    */
 
     toy.style.transition =
         "none";
 
+
     toy.style.left =
         `${fixedLeft}px`;
+
+
+    toy.style.top =
+        `${before.top}px`;
+
+
+    await wait(
+        80
+    );
+
+
+    /*
+       Передний край шахты теперь
+       становится перед игрушкой.
+    */
+
+    machineShaftEdge.classList.add(
+        "drop-front"
+    );
+
 
     await wait(
         70
     );
 
+
+    /*
+       Отпускаем игрушку.
+    */
+
     setClaw(
         "open"
     );
 
+
     await wait(
-        210
+        230
     );
+
+
+    /*
+       ПАДЕНИЕ СТРОГО ВНИЗ.
+       LEFT здесь больше не меняется.
+    */
 
     toy.style.transition =
-        "top .20s cubic-bezier(.35,.02,.78,.30), transform .20s ease-in";
+        "top .16s cubic-bezier(.32,.02,.72,.28), transform .16s ease-in";
+
 
     toy.style.top =
-        `${before.top + 68}px`;
+        `${before.top + 42}px`;
+
 
     toy.style.transform =
-        "rotate(1deg)";
+        "rotate(.5deg)";
+
 
     await wait(
-        205
+        165
     );
+
 
     toy.style.transition =
-        "top .20s cubic-bezier(.45,.02,.88,.28), transform .20s ease-in";
+        "top .16s cubic-bezier(.38,.02,.80,.25), transform .16s ease-in";
+
 
     toy.style.top =
-        `${before.top + 150}px`;
+        `${before.top + 92}px`;
+
 
     toy.style.transform =
-        "rotate(2deg) scale(.985)";
+        "rotate(1deg) scale(.99)";
+
 
     await wait(
-        205
+        165
     );
+
 
     toy.style.transition =
-        "top .18s cubic-bezier(.55,.02,.96,.25), transform .18s ease-in";
+        "top .15s cubic-bezier(.46,.02,.88,.22), transform .15s ease-in";
+
 
     toy.style.top =
-        `${before.top + 255}px`;
+        `${before.top + 155}px`;
+
 
     toy.style.transform =
-        "rotate(3deg) scale(.96)";
+        "rotate(1.5deg) scale(.98)";
+
 
     await wait(
-        185
+        155
     );
+
+
+    toy.style.transition =
+        "top .14s cubic-bezier(.55,.02,.96,.20), transform .14s ease-in, opacity .12s ease-in";
+
+
+    toy.style.top =
+        `${before.top + 225}px`;
+
+
+    toy.style.transform =
+        "rotate(2deg) scale(.95)";
+
+
+    toy.style.opacity =
+        ".55";
+
+
+    await wait(
+        145
+    );
+
+
+    toy.style.transition =
+        "top .12s ease-in, opacity .10s ease-in";
+
+
+    toy.style.top =
+        `${before.top + 280}px`;
+
 
     toy.style.opacity =
         "0";
 
+
     await wait(
-        150
+        130
+    );
+
+
+    machineShaftEdge.classList.remove(
+        "drop-front"
     );
 }
 
@@ -2343,53 +2640,68 @@ async function correctSequence(toy) {
 
     await liftGrabbedToy();
 
+
     await settleSwing(
         toy
     );
+
 
     await moveToShaft(
         toy
     );
 
+
     await lowerOverShaft(
         toy
     );
+
 
     await dropIntoShaft(
         toy
     );
 
+
     prizeToy.src =
         toy.src;
+
 
     prizeToy.classList.add(
         "show"
     );
 
+
     prizeToy.style.pointerEvents =
         "auto";
 
+
     waitingForPrize =
         true;
+
 
     setCable(
         CABLE_HOME
     );
 
+
     await wait(
         980
     );
 
+
     currentSlot =
         1;
 
+
     updatePosition();
+
 
     await wait(
         930
     );
 
+
     await neutralClaw();
+
 
     grabbedToy =
         null;
@@ -2407,135 +2719,174 @@ async function wrongSequence(
 
     startFollowingToy();
 
+
     await wait(
         32
     );
+
 
     setCable(
         CABLE_WRONG_LIFT
     );
 
+
     await wait(
         720
     );
 
+
     toy.style.transition =
         "transform .17s ease-out";
 
+
     toy.style.transform =
         "rotate(-2deg)";
+
 
     await wait(
         150
     );
 
+
     setClaw(
         "open"
     );
+
 
     await wait(
         190
     );
 
+
     stopFollowingToy();
+
 
     const pos =
         getLocalRect(
             toy
         );
 
+
     toy.style.transition =
         "none";
+
 
     toy.style.left =
         `${pos.left}px`;
 
+
     toy.style.top =
         `${pos.top}px`;
+
 
     toy.style.bottom =
         "auto";
 
+
     await wait(
         60
     );
+
 
     const targetTop =
         INSIDE_HEIGHT -
         toyHome[index].bottom -
         toyHome[index].height;
 
+
     toy.style.transition =
         "top .43s cubic-bezier(.42,.02,.82,.35), transform .43s ease-in";
+
 
     toy.style.top =
         `${targetTop}px`;
 
+
     toy.style.transform =
         "rotate(3deg)";
+
 
     await wait(
         440
     );
 
+
     toy.style.transition =
         "transform .09s ease-out";
 
+
     toy.style.transform =
         "rotate(-1deg) scaleY(.965)";
+
 
     await wait(
         90
     );
 
+
     toy.style.transition =
         "transform .18s cubic-bezier(.2,.8,.3,1.3)";
 
+
     toy.style.transform =
         "rotate(.6deg) scaleY(1)";
+
 
     await wait(
         180
     );
 
+
     toy.style.transition =
         "transform .14s ease-out";
 
+
     toy.style.transform =
         "rotate(0deg)";
+
 
     await wait(
         150
     );
 
+
     toy.style.transition =
         "none";
+
 
     toy.style.top =
         "auto";
 
+
     toy.style.left =
         `${toyHome[index].left}px`;
+
 
     toy.style.bottom =
         `${toyHome[index].bottom}px`;
 
+
     toy.style.transform =
         "";
+
 
     toy.classList.remove(
         "caught"
     );
 
+
     setCable(
         CABLE_HOME
     );
+
 
     await wait(
         980
     );
 
+
     await neutralClaw();
+
 
     grabbedToy =
         null;
@@ -2557,14 +2908,17 @@ grabButton.addEventListener(
             return;
         }
 
+
         const toy =
             toys[currentSlot];
+
 
         if (
             !toy
         ) {
             return;
         }
+
 
         if (
             getComputedStyle(toy).opacity ===
@@ -2573,32 +2927,60 @@ grabButton.addEventListener(
             return;
         }
 
+
         busy =
             true;
 
+
         try {
 
+            /*
+               1. Открываем клешню.
+            */
+
             await openClaw();
+
 
             await wait(
                 90
             );
 
+
+            /*
+               2. Опускаем открытой.
+            */
+
             await lowerClawToToy(
                 toy
             );
+
 
             await wait(
                 140
             );
 
+
+            /*
+               3. Закрываем вокруг игрушки.
+
+               Левая лапка сзади.
+               Игрушка посередине.
+               Правая лапка спереди.
+            */
+
             await grabToyNaturally(
                 toy
             );
 
+
+            /*
+               4. Проверяем ответ.
+            */
+
             const correct =
                 toy.dataset.correct ===
                 "true";
+
 
             if (
                 correct
@@ -2639,6 +3021,7 @@ prizeToy.addEventListener(
             return;
         }
 
+
         if (
             !prizeToy
             .classList
@@ -2647,26 +3030,33 @@ prizeToy.addEventListener(
             return;
         }
 
+
         const wonToySrc =
             prizeToy.src;
+
 
         prizeToy.style.pointerEvents =
             "none";
 
+
         bigPrizeToy.src =
             wonToySrc;
+
 
         prizeToy.classList.remove(
             "show"
         );
 
+
         addToyToPouch(
             wonToySrc
         );
 
+
         prizeOverlay.classList.add(
             "show"
         );
+
 
         if (
             roundIndex ===
@@ -2675,6 +3065,7 @@ prizeToy.addEventListener(
 
             nextButton.style.display =
                 "none";
+
 
             finalText.style.display =
                 "block";
@@ -2698,25 +3089,32 @@ nextButton.addEventListener(
             return;
         }
 
+
         nextButton.disabled =
             true;
+
 
         prizeOverlay.classList.remove(
             "show"
         );
 
+
         await wait(
             380
         );
 
+
         bigPrizeToy.src =
             "";
 
+
         roundIndex++;
+
 
         loadRound(
             roundIndex
         );
+
 
         nextButton.disabled =
             false;
@@ -2740,6 +3138,7 @@ document.addEventListener(
             leftButton.click();
         }
 
+
         if (
             event.key ===
             "ArrowRight"
@@ -2747,6 +3146,7 @@ document.addEventListener(
 
             rightButton.click();
         }
+
 
         if (
             event.code ===
