@@ -163,7 +163,9 @@ button {
 
 
 /*
-   Задняя часть пакета.
+   Основное изображение пакета.
+
+   Оно остаётся сзади.
 */
 
 #bagBack {
@@ -183,22 +185,24 @@ button {
 
 
 /*
-   Игрушки располагаются
-   между двумя слоями пакета.
+   Зона с игрушками.
+
+   Теперь она находится
+   ПОВЕРХ bagBack.
 */
 
 #bagToys {
     position: absolute;
 
-    left: 55px;
-    top: 65px;
+    left: 58px;
+    top: 78px;
 
-    width: 345px;
-    height: 280px;
+    width: 340px;
+    height: 260px;
 
-    overflow: visible;
+    overflow: hidden;
 
-    z-index: 2;
+    z-index: 5;
 
     pointer-events: none;
 }
@@ -216,28 +220,93 @@ button {
 
     filter:
         drop-shadow(
-            0 4px 4px
-            rgba(60,45,55,.14)
+            0 5px 4px
+            rgba(60,45,55,.16)
         );
 }
 
 
 /*
-   Передняя прозрачная
-   стенка пакета.
+   Передняя стенка пакета.
+
+   ВАЖНО:
+   мы НЕ кладём сюда целый второй PNG,
+   потому что он перекрывал игрушки.
+
+   Вместо этого показываем только
+   нижнюю часть front PNG.
 */
+
+#bagFrontMask {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 165px;
+
+    overflow: hidden;
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
 
 #bagFront {
     position: absolute;
 
-    inset: 0;
+    left: 0;
 
-    width: 100%;
-    height: 100%;
+    /*
+       Полный PNG пакета имеет
+       высоту 390 px.
+
+       Маска начинается примерно
+       с нижней части пакета.
+    */
+
+    bottom: 0;
+
+    width: 455px;
+    height: 390px;
 
     object-fit: contain;
 
-    z-index: 3;
+    pointer-events: none;
+}
+
+
+/*
+   Дополнительная прозрачная плёнка.
+
+   Она слегка проходит поверх игрушек,
+   чтобы они не выглядели наклеенными.
+*/
+
+#bagGlass {
+    position: absolute;
+
+    left: 60px;
+    top: 105px;
+
+    width: 335px;
+    height: 215px;
+
+    border-radius:
+        20px 20px 35px 35px;
+
+    background:
+        linear-gradient(
+            105deg,
+            rgba(255,255,255,.10),
+            rgba(255,255,255,.03) 35%,
+            rgba(255,255,255,.11) 62%,
+            rgba(255,255,255,.02)
+        );
+
+    z-index: 8;
 
     pointer-events: none;
 }
@@ -277,7 +346,7 @@ button {
 
 
 /* =========================================================
-   INNER CHAMBER
+   INNER
 ========================================================= */
 
 #machineInside {
@@ -777,7 +846,7 @@ button {
 
     background: #ed5573;
 
-    color: white;
+    color: #ffffff;
 
     font-size: 30px;
     font-weight: 900;
@@ -829,6 +898,8 @@ button {
 <div id="game">
 
 
+<!-- TASK -->
+
 <div class="task">
 
     <div class="task-small">
@@ -845,6 +916,8 @@ button {
 
 </div>
 
+
+<!-- PROGRESS -->
 
 <div
     class="progress"
@@ -869,12 +942,18 @@ button {
 
     <div id="bagToys"></div>
 
-    <img
-        id="bagFront"
-        src="pouch-layer-front.png"
-        alt=""
-        draggable="false"
-    >
+    <div id="bagGlass"></div>
+
+    <div id="bagFrontMask">
+
+        <img
+            id="bagFront"
+            src="pouch-layer-front.png"
+            alt=""
+            draggable="false"
+        >
+
+    </div>
 
 </div>
 
@@ -884,7 +963,6 @@ button {
 ====================================================== -->
 
 <div id="machine">
-
 
 <img
     id="machineBack"
@@ -969,30 +1047,15 @@ button {
 >
 
 
-<button
-    id="leftButton"
-    class="control"
-></button>
-
-
-<button
-    id="rightButton"
-    class="control"
-></button>
-
-
-<button
-    id="grabButton"
-    class="control"
-></button>
+<button id="leftButton" class="control"></button>
+<button id="rightButton" class="control"></button>
+<button id="grabButton" class="control"></button>
 
 
 </div>
 
 
-<!-- =====================================================
-     BIG PRIZE
-====================================================== -->
+<!-- OVERLAY -->
 
 <div id="prizeOverlay">
 
@@ -1242,92 +1305,83 @@ const toys = [
 
 
 /* =========================================================
-   BAG
+   BAG POSITIONS
 ========================================================= */
 
 /*
-   Первые три игрушки стоят
-   практически на дне.
+   1-3 лежат у самого дна.
 
-   Следующие три немного выше.
+   4-6 немного выше.
 
-   Последние две сверху.
+   7-8 сверху.
 
-   Они специально немного
-   перекрываются.
+   Игрушки специально
+   перекрывают друг друга.
 */
 
 const BAG_POSITIONS = [
 
-    /* 1 */
     {
-        left: 18,
-        bottom: -5,
-        width: 120,
-        height: 120,
-        rotate: -10
+        left: 10,
+        bottom: 0,
+        width: 128,
+        height: 128,
+        rotate: -11
     },
 
-    /* 2 */
     {
-        left: 112,
-        bottom: -8,
+        left: 104,
+        bottom: -3,
+        width: 132,
+        height: 132,
+        rotate: 5
+    },
+
+    {
+        left: 207,
+        bottom: 1,
         width: 126,
         height: 126,
-        rotate: 4
-    },
-
-    /* 3 */
-    {
-        left: 211,
-        bottom: -4,
-        width: 120,
-        height: 120,
         rotate: 10
     },
 
-    /* 4 */
     {
-        left: 38,
+        left: 29,
         bottom: 63,
-        width: 116,
-        height: 116,
+        width: 121,
+        height: 121,
         rotate: 8
     },
 
-    /* 5 */
     {
-        left: 126,
-        bottom: 55,
-        width: 121,
-        height: 121,
-        rotate: -7
+        left: 117,
+        bottom: 57,
+        width: 126,
+        height: 126,
+        rotate: -8
     },
 
-    /* 6 */
     {
-        left: 211,
-        bottom: 67,
-        width: 114,
-        height: 114,
+        left: 210,
+        bottom: 65,
+        width: 118,
+        height: 118,
         rotate: 7
     },
 
-    /* 7 */
     {
-        left: 74,
-        bottom: 118,
-        width: 111,
-        height: 111,
-        rotate: -6
+        left: 72,
+        bottom: 115,
+        width: 116,
+        height: 116,
+        rotate: -7
     },
 
-    /* 8 */
     {
-        left: 173,
-        bottom: 121,
-        width: 112,
-        height: 112,
+        left: 171,
+        bottom: 113,
+        width: 118,
+        height: 118,
         rotate: 7
     }
 
@@ -1337,10 +1391,9 @@ const BAG_POSITIONS = [
 let collectedCount = 0;
 
 
-/*
-   Добавление выигранной игрушки
-   внутрь пакета.
-*/
+/* =========================================================
+   ADD TO BAG
+========================================================= */
 
 function addToyToBag(src) {
 
@@ -1368,12 +1421,6 @@ function addToyToBag(src) {
     bagToy.className =
         "bag-toy";
 
-
-    /*
-       Используем ТОЧНО тот же
-       файл игрушки, который
-       только что был выигран.
-    */
 
     bagToy.src =
         src;
@@ -1403,18 +1450,13 @@ function addToyToBag(src) {
         `${position.height}px`;
 
 
-    /*
-       Более новая игрушка
-       немного выше предыдущей.
-    */
-
     bagToy.style.zIndex =
         `${collectedCount + 1}`;
 
 
     /*
-       Начальное состояние
-       для лёгкого падения.
+       Сначала игрушка чуть выше,
+       потом падает на своё место.
     */
 
     bagToy.style.opacity =
@@ -1422,20 +1464,14 @@ function addToyToBag(src) {
 
 
     bagToy.style.transform =
-        `translateY(-38px)
+        `translateY(-55px)
          rotate(${position.rotate}deg)
-         scale(.92)`;
+         scale(.94)`;
 
 
     bagToy.style.transition =
-        "transform .45s cubic-bezier(.2,.8,.3,1.15), opacity .18s ease";
+        "transform .48s cubic-bezier(.2,.8,.3,1.15), opacity .16s ease";
 
-
-    /*
-       bagToys находится:
-       ПОСЛЕ bagBack
-       и ДО bagFront.
-    */
 
     bagToys.appendChild(
         bagToy
@@ -1444,10 +1480,6 @@ function addToyToBag(src) {
 
     collectedCount++;
 
-
-    /*
-       Запускаем появление.
-    */
 
     requestAnimationFrame(
         () => {
@@ -1473,7 +1505,7 @@ function addToyToBag(src) {
 
 
 /* =========================================================
-   MACHINE POSITIONS
+   POSITIONS
 ========================================================= */
 
 const SLOT_X = [
@@ -1484,8 +1516,9 @@ const SLOT_X = [
 
 
 /*
-   Эту точку сейчас не меняем.
-   Падение у тебя уже получилось.
+   Эту позицию оставляем.
+   Она относится к уже
+   исправленному падению.
 */
 
 const DROP_RIG_X =
@@ -1497,11 +1530,9 @@ const DROP_RIG_X =
 ========================================================= */
 
 const CABLE_HOME = 42;
-
 const CABLE_LIFT = 52;
 
 const CABLE_DROP_APPROACH = 170;
-
 const CABLE_DROP = 205;
 
 const CABLE_WRONG_LIFT = 145;
@@ -1522,7 +1553,6 @@ let grabbedToy = null;
 let followFrame = null;
 
 let heldOffsetX = 0;
-
 let heldOffsetY = 0;
 
 let waitingForPrize = false;
@@ -1545,7 +1575,7 @@ function wait(ms) {
 
 
 /* =========================================================
-   CLAW
+   CLAW STATE
 ========================================================= */
 
 function setClaw(state) {
@@ -1603,7 +1633,7 @@ function setCable(length) {
 
 
 /* =========================================================
-   MOVE
+   MOVE CLAW
 ========================================================= */
 
 function moveRigTo(x) {
@@ -1622,7 +1652,7 @@ function updatePosition() {
 
 
 /* =========================================================
-   BUTTONS
+   LEFT / RIGHT
 ========================================================= */
 
 leftButton.addEventListener(
@@ -1668,7 +1698,7 @@ rightButton.addEventListener(
 
 
 /* =========================================================
-   TOY HOME
+   HOME
 ========================================================= */
 
 const toyHome = [
@@ -1750,9 +1780,7 @@ function loadRound(index) {
 
 
     /*
-       ВАЖНО:
-       bagToys здесь НЕ очищаем.
-       Собранные игрушки остаются.
+       ПАКЕТ НЕ ОЧИЩАЕМ.
     */
 
 
@@ -1917,7 +1945,7 @@ function freezeToy(toy) {
 
 
 /* =========================================================
-   OFFSET
+   HELD OFFSET
 ========================================================= */
 
 function captureHeldOffset() {
@@ -2357,8 +2385,8 @@ async function moveToShaft(toy) {
 
 
     /*
-       Даём игрушке полностью
-       догнать клешню ДО падения.
+       Игрушка полностью
+       доезжает ДО отверстия.
     */
 
     await wait(
@@ -2437,15 +2465,26 @@ async function lowerOverShaft(toy) {
 
 
 /* =========================================================
-   DROP
+   DROP INTO SHAFT
 
-   LEFT НЕ МЕНЯЕТСЯ.
+   НЕ МЕНЯЕМ LEFT ВО ВРЕМЯ ПАДЕНИЯ.
 ========================================================= */
 
 async function dropIntoShaft(toy) {
 
+    /*
+       Сначала игрушка окончательно
+       становится в положение клешни.
+    */
+
     snapHeldToyToClaw();
 
+
+    /*
+       Теперь прекращаем followToy.
+       После этого никакой код
+       больше не двигает LEFT.
+    */
 
     stopFollowingToy();
 
@@ -2481,6 +2520,10 @@ async function dropIntoShaft(toy) {
     );
 
 
+    /*
+       Открываем клешню.
+    */
+
     setClaw(
         "open"
     );
@@ -2503,7 +2546,10 @@ async function dropIntoShaft(toy) {
 
 
     /*
-       Только вертикальное движение.
+       ЭТАП 1.
+
+       Только вертикально вниз.
+       LEFT не меняется.
     */
 
     toy.style.transition =
@@ -2524,8 +2570,9 @@ async function dropIntoShaft(toy) {
 
 
     /*
-       Всё ещё только TOP.
-       LEFT вообще не трогаем.
+       ЭТАП 2.
+
+       Снова только вниз.
     */
 
     toy.style.transition =
@@ -2544,6 +2591,10 @@ async function dropIntoShaft(toy) {
         300
     );
 
+
+    /*
+       Исчезает уже внутри отверстия.
+    */
 
     toy.style.opacity =
         "0";
@@ -2584,6 +2635,10 @@ async function correctSequence(toy) {
     );
 
 
+    /*
+       Маленький приз.
+    */
+
     prizeToy.src =
         toy.src;
 
@@ -2600,6 +2655,10 @@ async function correctSequence(toy) {
     waitingForPrize =
         true;
 
+
+    /*
+       Клешня возвращается.
+    */
 
     setCable(
         CABLE_HOME
@@ -2822,7 +2881,7 @@ async function wrongSequence(
 
 
 /* =========================================================
-   GRAB BUTTON
+   GRAB
 ========================================================= */
 
 grabButton.addEventListener(
@@ -2916,7 +2975,7 @@ grabButton.addEventListener(
 
 
 /* =========================================================
-   SMALL PRIZE CLICK
+   SMALL PRIZE
 ========================================================= */
 
 prizeToy.addEventListener(
@@ -2946,9 +3005,9 @@ prizeToy.addEventListener(
 
 
         /*
-           Сохраняем именно путь
-           выигранной игрушки.
-        */
+           Сохраняем выигранную
+           игрушку.
+    */
 
         const wonToySrc =
             prizeToy.getAttribute(
@@ -2971,11 +3030,11 @@ prizeToy.addEventListener(
 
 
         /*
-           На последнем раунде
-           кнопки дальше уже нет.
+           Последний раунд.
 
-           Поэтому последнюю игрушку
-           кладём в пакет здесь.
+           Кнопки "дальше" нет,
+           поэтому кладём игрушку
+           в пакет сразу.
         */
 
         if (
@@ -3000,7 +3059,7 @@ prizeToy.addEventListener(
 
 
 /* =========================================================
-   NEXT ROUND
+   NEXT
 ========================================================= */
 
 nextButton.addEventListener(
@@ -3020,9 +3079,8 @@ nextButton.addEventListener(
 
 
         /*
-           ВАЖНО:
-           сохраняем путь ДО того,
-           как очистим bigPrizeToy.
+           Получаем выигранную
+           игрушку ДО очистки.
         */
 
         const wonToySrc =
@@ -3032,8 +3090,7 @@ nextButton.addEventListener(
 
 
         /*
-           Кладём выигранную игрушку
-           в пакет.
+           Кладём её в пакет.
         */
 
         if (
@@ -3045,10 +3102,6 @@ nextButton.addEventListener(
             );
         }
 
-
-        /*
-           Теперь закрываем экран.
-        */
 
         prizeOverlay.classList.remove(
             "show"
@@ -3063,10 +3116,6 @@ nextButton.addEventListener(
         bigPrizeToy.src =
             "";
 
-
-        /*
-           Переходим дальше.
-        */
 
         roundIndex++;
 
